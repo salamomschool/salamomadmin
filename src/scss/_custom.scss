@@ -1,0 +1,19 @@
+// Here you can add other styles
+@font-face {
+  font-family: 'KhOSSiemreap';
+  src: url('./fonts/Siemreap.ttf');
+  font-weight: normal;
+}
+
+* {
+  font-family: KhOSSiemreap;
+}
+.frezze {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.border-color {
+  background-color: rgb(23, 116, 153);
+  color: rgb(255, 255, 255);
+}
