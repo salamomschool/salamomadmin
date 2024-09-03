@@ -6602,19 +6602,65 @@ export default function OctoberData() {
         return (
           <>
             <thead>
+              <tr className="frezze">
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+                <th colSpan={24} style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាសទី១</th>
+                <th colSpan={24} style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាសទី២</th>
+              </tr>
               <tr id="show_hearder" className="frezze">
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុ៤ខែ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>
-                  {dbMonths === 'firstSemesterResult' ? 'ពិន្ទុឆមាសទី១' : dbMonths === 'secondSemesterResult' ? 'ពិន្ទុឆមាសទី២' : ''}
-                </th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ផ្សេងៗ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-1</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-2</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆ្នាំ</th>
               </tr>
             </thead>
           </>
