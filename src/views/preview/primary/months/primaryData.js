@@ -97,6 +97,20 @@ export default function OctoberData() {
     '02C',
     '03C',
   ]
+  let primary_g2 = [
+    '02A',
+    '03A',
+    '02B',
+    '03B',
+    '02C',
+    '03C',
+  ]
+  //Array g1
+  let primary_g1 = [
+    '01A',
+    '01B',
+    '01C',
+  ]
   //Array g4-6
   let primary_g_p2 = [
     '04A',
@@ -693,6 +707,43 @@ export default function OctoberData() {
                     var e_moct = d[`e_${arrMonths}`];
                     var e_h_moct = d[`e_h_${arrMonths}`];
                     var pe_moct = d[`pe_${arrMonths}`];
+
+                    var k_listen_moct_s = d[`k_listen_m1semester`];
+                    var k_speak_moct_s = d[`k_speak_m1semester`];
+                    var k_reading_moct_s = d[`k_reading_m1semester`];
+                    var k_dictation_moct_s = d[`k_dictation_m1semester`];
+                    var k_writing_moct_s = d[`k_writing_m1semester`];
+                    var k_grammar_moct_s = d[`k_grammar_m1semester`];
+                    var k_homework_moct_s = d[`k_homework_m1semester`];
+                    var math_speak_moct_s = d[`math_speak_m1semester`];
+                    var math_moct_s = d[`math_m1semester`];
+                    var math_h_moct_s = d[`math_h_m1semester`];
+                    var sci_moct_s = d[`sci_m1semester`];
+                    var sci_h_moct_s = d[`sci_h_m1semester`];
+                    var soc_moct_s = d[`soc_m1semester`];
+                    var soc_h_moct_s = d[`soc_h_m1semester`];
+                    var e_moct_s = d[`e_m1semester`];
+                    var e_h_moct_s = d[`e_h_m1semester`];
+                    var pe_moct_s = d[`pe_m1semester`];
+
+                    var k_listen_moct_s2 = d[`k_listen_m2semester`];
+                    var k_speak_moct_s2 = d[`k_speak_m2semester`];
+                    var k_reading_moct_s2 = d[`k_reading_m2semester`];
+                    var k_dictation_moct_s2 = d[`k_dictation_m2semester`];
+                    var k_writing_moct_s2 = d[`k_writing_m2semester`];
+                    var k_grammar_moct_s2 = d[`k_grammar_m2semester`];
+                    var k_homework_moct_s2 = d[`k_homework_m2semester`];
+                    var math_speak_moct_s2 = d[`math_speak_m2semester`];
+                    var math_moct_s2 = d[`math_m2semester`];
+                    var math_h_moct_s2 = d[`math_h_m2semester`];
+                    var sci_moct_s2 = d[`sci_m2semester`];
+                    var sci_h_moct_s2 = d[`sci_h_m2semester`];
+                    var soc_moct_s2 = d[`soc_m2semester`];
+                    var soc_h_moct_s2 = d[`soc_h_m2semester`];
+                    var e_moct_s2 = d[`e_m2semester`];
+                    var e_h_moct_s2 = d[`e_h_m2semester`];
+                    var pe_moct_s2 = d[`pe_m2semester`];
+
                     var rank = d[`showRank_${arrMonths}`];
                     var rank_k_listen_ = d[`k_listen_${arrMonths}Rank`];
                     var rank_k_speak_ = d[`k_speak_${arrMonths}Rank`];
@@ -712,6 +763,42 @@ export default function OctoberData() {
                     var rank_e_h_ = d[`e_h_${arrMonths}Rank`];
                     var rank_pe_ = d[`pe_${arrMonths}Rank`];
 
+                    var rank_k_listen_y = d[`k_listen_m1semesterRank`];
+                    var rank_k_speak_y = d[`k_speak_m1semesterRank`];
+                    var rank_k_reading_y = d[`k_reading_m1semesterRank`];
+                    var rank_k_dictation_y = d[`k_dictation_m1semesterRank`];
+                    var rank_k_writing_y = d[`k_writing_m1semesterRank`];
+                    var rank_k_grammar_y = d[`k_grammar_m1semesterRank`];
+                    var rank_k_homework_y = d[`k_homework_m1semesterRank`];
+                    var rank_math_speak_y = d[`math_speak_m1semesterRank`];
+                    var rank_math_y = d[`math_m1semesterRank`];
+                    var rank_math_h_y = d[`math_h_m1semesterRank`];
+                    var rank_sci_y = d[`sci_m1semesterRank`];
+                    var rank_sci_h_y = d[`sci_h_m1semesterRank`];
+                    var rank_soc_y = d[`soc_m1semesterRank`];
+                    var rank_soc_h_y = d[`soc_h_m1semesterRank`];
+                    var rank_e_y = d[`e_m1semesterRank`];
+                    var rank_e_h_y = d[`e_h_m1semesterRank`];
+                    var rank_pe_y = d[`pe_m1semesterRank`];
+
+                    var rank_k_listen_y2 = d[`k_listen_m2semesterRank`];
+                    var rank_k_speak_y2 = d[`k_speak_m2semesterRank`];
+                    var rank_k_reading_y2 = d[`k_reading_m2semesterRank`];
+                    var rank_k_dictation_y2 = d[`k_dictation_m2semesterRank`];
+                    var rank_k_writing_y2 = d[`k_writing_m2semesterRank`];
+                    var rank_k_grammar_y2 = d[`k_grammar_m2semesterRank`];
+                    var rank_k_homework_y2 = d[`k_homework_m2semesterRank`];
+                    var rank_math_speak_y2 = d[`math_speak_m2semesterRank`];
+                    var rank_math_y2 = d[`math_m2semesterRank`];
+                    var rank_math_h_y2 = d[`math_h_m2semesterRank`];
+                    var rank_sci_y2 = d[`sci_m2semesterRank`];
+                    var rank_sci_h_y2 = d[`sci_h_m2semesterRank`];
+                    var rank_soc_y2 = d[`soc_m2semesterRank`];
+                    var rank_soc_h_y2 = d[`soc_h_m2semesterRank`];
+                    var rank_e_y2 = d[`e_m2semesterRank`];
+                    var rank_e_h_y2 = d[`e_h_m2semesterRank`];
+                    var rank_pe_y2 = d[`pe_m2semesterRank`];
+
                     var total_ = d[`total_${arrMonths}`];
                     var getAverage_ = d[`getAverage_${arrMonths}`];
                     var check_ = d[`check_${arrMonths}`];
@@ -722,6 +809,8 @@ export default function OctoberData() {
                     var getAverage_ALL2 = d[`getAverage_fourmonths2`];
                     var average_seme1 = d[`average_m1semester`];
                     var average_seme2 = d[`average_m2semester`];
+                    var total_average_seme1 = d[`total_all_score_m1semester`];
+                    var total_average_seme2 = d[`total_all_score_m2semester`];
 
                     var average_mnov = d[`average_mnov`];
                     var average_mdec = d[`average_mdec`];
@@ -2050,6 +2139,273 @@ export default function OctoberData() {
                         </>
                       )
                     }
+                    if (['AnnualYear'].includes(dbMonths)) {
+                      return (
+                        <>
+                          <tr key={d.id}>
+                            <td>{index + 1}</td>
+                            <td className="text-start textStart">{fullname}</td>
+                            <td>{gender}</td>
+                            <td
+                              data-keynumber3={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_reading_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext3}
+                              dangerouslySetInnerHTML={{ __html: k_reading_moct_s }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_k_reading_y }}
+                            ></td>
+                            <td
+                              data-keynumber4={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_dictation_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext4}
+                              dangerouslySetInnerHTML={{ __html: k_dictation_moct_s }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_k_dictation_y }}
+                            ></td>
+                            <td
+                              data-keynumber5={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_writing_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext5}
+                              dangerouslySetInnerHTML={{ __html: k_writing_moct_s }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_k_writing_y }}
+                            ></td>
+                            <td
+                              data-keynumber7={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`math_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext7}
+                              dangerouslySetInnerHTML={{ __html: math_moct_s }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_math_y }}
+                            ></td>
+                            <td
+                              data-keynumber9={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`sci_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext9}
+                              dangerouslySetInnerHTML={{ __html: sci_moct_s }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_sci_y }}
+                            ></td>
+                            <td
+                              data-keynumber10={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`soc_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext10}
+                              dangerouslySetInnerHTML={{ __html: soc_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_soc_ }}
+                            ></td>
+                            <td
+                              data-keynumber11={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_homework_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext11}
+                              dangerouslySetInnerHTML={{ __html: k_homework_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_k_homework_ }}
+                            ></td>
+                            <td
+                              data-keynumber12={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`sci_h_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext12}
+                              dangerouslySetInnerHTML={{ __html: sci_h_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_sci_h_ }}
+                            ></td>
+                            <td
+                              data-keynumber13={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`soc_h_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext13}
+                              dangerouslySetInnerHTML={{ __html: soc_h_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_soc_h_ }}
+                            ></td>
+                            <td
+                              data-keynumber14={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`e_h_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext14}
+                              dangerouslySetInnerHTML={{ __html: e_h_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_e_h_ }}
+                            ></td>
+                            <td
+                              data-keynumber15={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`pe_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext15}
+                              dangerouslySetInnerHTML={{ __html: pe_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_pe_ }}
+                            ></td>
+                            <td
+                              data-keynumber16={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`e_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext16}
+                              dangerouslySetInnerHTML={{ __html: e_moct }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank_e_ }}
+                            ></td>
+                            <td className="fw-bold" style={{ color: 'darkgreen' }}
+                              dangerouslySetInnerHTML={{ __html: total_all_score }}
+                            ></td>
+                            <td
+                              dangerouslySetInnerHTML={{ __html: st_average }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: rank }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: mention }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: message }}
+                            ></td>
+                          </tr>
+                        </>
+                      )
+                    }
+
                     if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
                       if (dbMonths === 'fourmonths1') {
                         return (
@@ -6599,72 +6955,143 @@ export default function OctoberData() {
 
       }
       if (['AnnualYear'].includes(dbMonths)) {
-        return (
-          <>
-            <thead>
-              <tr className="frezze">
-                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                <th colSpan={24} style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាសទី១</th>
-                <th colSpan={24} style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាសទី២</th>
-              </tr>
-              <tr id="show_hearder" className="frezze">
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-1</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-2</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆ្នាំ</th>
-              </tr>
-            </thead>
-          </>
-        )
+        if (primary_g1.includes(dbGrade)) {
+          return (
+            <>
+              <thead>
+                <tr className="frezze">
+                  <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+                  <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+                  <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+                  <th colSpan={24} style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាសទី១</th>
+                  <th colSpan={24} style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាសទី២</th>
+                </tr>
+                <tr id="show_hearder" className="frezze">
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-1</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-2</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆ្នាំ</th>
+                </tr>
+              </thead>
+            </>
+          )
+        }
+        // else {
+        //   return (
+        //     <>
+        //       <thead>
+        //         <tr className="frezze">
+        //           <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+        //           <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+        //           <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+        //           <th colSpan={24} style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាសទី១</th>
+        //           <th colSpan={24} style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាសទី២</th>
+        //         </tr>
+        //         <tr id="show_hearder" className="frezze">
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែង</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យា</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពល</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិសរ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មភ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'red' }}>ចំ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-1</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-2</th>
+        //           <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆ្នាំ</th>
+        //         </tr>
+        //       </thead>
+        //     </>
+        //   )
+
+        // }
 
       }
       if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
