@@ -4222,7 +4222,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_reading_${arrMonths}`] = data
+                                aar[`k_reading_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4242,7 +4242,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_dictation_${arrMonths}`] = data
+                                aar[`k_dictation_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4262,7 +4262,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_writing_${arrMonths}`] = data
+                                aar[`k_writing_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4282,7 +4282,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`math_${arrMonths}`] = data
+                                aar[`math_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4302,7 +4302,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`sci_${arrMonths}`] = data
+                                aar[`sci_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4322,7 +4322,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`geor_${arrMonths}`] = data
+                                aar[`geor_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4342,7 +4342,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`hist_${arrMonths}`] = data
+                                aar[`hist_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4362,7 +4362,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`moral_${arrMonths}`] = data
+                                aar[`moral_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4382,7 +4382,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`pe_${arrMonths}`] = data
+                                aar[`pe_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4402,7 +4402,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`e_${arrMonths}`] = data
+                                aar[`e_m1semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4435,7 +4435,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_reading_${arrMonths}`] = data
+                                aar[`k_reading_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4455,7 +4455,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_dictation_${arrMonths}`] = data
+                                aar[`k_dictation_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4475,7 +4475,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`k_writing_${arrMonths}`] = data
+                                aar[`k_writing_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4495,7 +4495,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`math_${arrMonths}`] = data
+                                aar[`math_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4515,7 +4515,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`sci_${arrMonths}`] = data
+                                aar[`sci_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4535,7 +4535,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`geor_${arrMonths}`] = data
+                                aar[`geor_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4555,7 +4555,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`hist_${arrMonths}`] = data
+                                aar[`hist_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4575,7 +4575,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`moral_${arrMonths}`] = data
+                                aar[`moral_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4595,7 +4595,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`pe_${arrMonths}`] = data
+                                aar[`pe_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
@@ -4615,7 +4615,7 @@ export default function OctoberData() {
                                 const setID = d.id
                                 const data = e.target.innerHTML
                                 let aar = {}
-                                aar[`e_${arrMonths}`] = data
+                                aar[`e_m2semester`] = data
                                 if (setID) {
                                   update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
                                 }
