@@ -7202,7 +7202,9 @@ const AtTimeTable = () => {
       td1.forEach(e => {
         let d = e.dataset.t;
         data_row_1.push(d)
+
       })
+
       td2.forEach(e => {
         let d = e.dataset.t;
         data_row_2.push(d)
@@ -9071,38 +9073,7 @@ const AtTimeTable = () => {
             });
 
           }
-
-        }
-        if (subs == 'E') {
-          update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
-            grade_mon_mor_t1: grade,
-            img_mon_mor_t1: imgUrl,
-            sub_mon_mor_t1: subs,
-            tname_mon_mor_t1: id,
-            nickname: user_nick,
-            permission: userType,
-            id: id,
-            t_grade: getT_grade,
-            teacher_type: getteacher_type,
-
-          });
-        }
-        if (subs == 'PE') {
-          update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
-            grade_mon_mor_t1: grade,
-            img_mon_mor_t1: imgUrl,
-            sub_mon_mor_t1: subs,
-            tname_mon_mor_t1: id,
-            nickname: user_nick,
-            permission: userType,
-            id: id,
-            t_grade: getT_grade,
-            teacher_type: getteacher_type,
-
-          });
-        }
-        if (getteacher_type === 'english') {
-          if (subs == 'Di') {
+          if (subs == 'E') {
             update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
               grade_mon_mor_t1: grade,
               img_mon_mor_t1: imgUrl,
@@ -9116,7 +9087,7 @@ const AtTimeTable = () => {
 
             });
           }
-          if (subs == 'Ac') {
+          if (subs == 'PE') {
             update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
               grade_mon_mor_t1: grade,
               img_mon_mor_t1: imgUrl,
@@ -9130,20 +9101,51 @@ const AtTimeTable = () => {
 
             });
           }
-          if (subs == 'Bi') {
-            update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
-              grade_mon_mor_t1: grade,
-              img_mon_mor_t1: imgUrl,
-              sub_mon_mor_t1: subs,
-              tname_mon_mor_t1: id,
-              nickname: user_nick,
-              permission: userType,
-              id: id,
-              t_grade: getT_grade,
-              teacher_type: getteacher_type,
+          if (getteacher_type === 'english') {
+            if (subs == 'Di') {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
+                grade_mon_mor_t1: grade,
+                img_mon_mor_t1: imgUrl,
+                sub_mon_mor_t1: subs,
+                tname_mon_mor_t1: id,
+                nickname: user_nick,
+                permission: userType,
+                id: id,
+                t_grade: getT_grade,
+                teacher_type: getteacher_type,
 
-            });
+              });
+            }
+            if (subs == 'Ac') {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
+                grade_mon_mor_t1: grade,
+                img_mon_mor_t1: imgUrl,
+                sub_mon_mor_t1: subs,
+                tname_mon_mor_t1: id,
+                nickname: user_nick,
+                permission: userType,
+                id: id,
+                t_grade: getT_grade,
+                teacher_type: getteacher_type,
+
+              });
+            }
+            if (subs == 'Bi') {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + id), {
+                grade_mon_mor_t1: grade,
+                img_mon_mor_t1: imgUrl,
+                sub_mon_mor_t1: subs,
+                tname_mon_mor_t1: id,
+                nickname: user_nick,
+                permission: userType,
+                id: id,
+                t_grade: getT_grade,
+                teacher_type: getteacher_type,
+
+              });
+            }
           }
+
         }
       }
       else if (data_cell === 'cell2') {
