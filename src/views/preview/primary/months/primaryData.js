@@ -209,6 +209,24 @@ export default function OctoberData() {
       : XLSX.writeFile(wb, fn || `លទ្ធផល/${dbGrade}/ ` + `${subMonth}.` + ("xlsx"));
   };
 
+  const SaveToWordEn = () => {
+    const content = document.getElementById("showData").innerHTML;
+    const encodedContent = encodeURIComponent(content);
+
+    const link = document.createElement("a");
+    link.href = "data:application/msword," + encodedContent;
+    link.download = "my-exported-document.doc";
+    link.click();
+  }
+  const SaveToExGen = () => {
+    const content = document.getElementById("showData").innerHTML;
+    const encodedContent = encodeURIComponent(content);
+
+    const link = document.createElement("a");
+    link.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + encodedContent;
+    link.download = "my-exported-document.xls";
+    link.click();
+  }
 
   //Conver to Khmer number for all
   function gradeKH(number) {
