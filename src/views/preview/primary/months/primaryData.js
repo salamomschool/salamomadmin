@@ -408,6 +408,43 @@ export default function OctoberData() {
         setfailFemale(l)
 
       }
+      if (['AnnualYear'].includes(dbMonths)) {
+        //Get Students numbers
+        let num = 0; //Male Total
+        let j = 0; //Total Fail std
+        let k = 0;//Male fail
+        let l = 0;//Female fail
+        data.forEach(e => {
+          let g = e.val().gender
+          let h = e.val()[`total_${arrMonths}`]
+          let i = ''
+          let n = ''
+          if (h <= 4.9) {
+            i = 'ធ្លាក់'
+            n = `ធ្លាក់${g}`
+          }
+          let m = 'ប'
+          let fa = 'ធ្លាក់'
+          if (g === m) {
+            num++
+          }
+          if (i === fa) {
+            j++
+          }
+          if (n === 'ធ្លាក់ប') {
+            k++
+          }
+          if (n === 'ធ្លាក់ស') {
+            l++
+          }
+          setdataAverage(h)
+        })
+        setmaleNum(num)
+        setfailNum(j)
+        setfailMale(k)
+        setfailFemale(l)
+
+      }
       if (['firstSemesterResult', 'secondSemesterResult'].includes(dbMonths)) {
         if (dbMonths === 'firstSemesterResult') {
           //Get Students numbers
@@ -820,7 +857,14 @@ export default function OctoberData() {
                     var total_ = d[`total_${arrMonths}`];
                     var getAverage_ = d[`getAverage_${arrMonths}`];
                     var check_ = d[`check_${arrMonths}`];
-
+                    const check_value = (e) => {
+                      let data = e.target.value
+                      let aar = {}
+                      aar[`check_${arrMonths}`] = data
+                      if (id) {
+                        update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+                      }
+                    }
                     var average_ALL = d[`average_ALL${arrMonths}`];
                     var total_ALL = d[`total_ALL${arrMonths}`];
                     var getAverage_ALL1 = d[`getAverage_fourmonths1`];
@@ -2188,8 +2232,20 @@ export default function OctoberData() {
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
                               <td style={{ color: 'blue' }}
-                                dangerouslySetInnerHTML={{ __html: check_ }}
-                              ></td>
+                              // dangerouslySetInnerHTML={{ __html: check_ }}
+                              >
+                                <select
+                                  style={{ color: 'blue' }}
+                                  className="text-center"
+                                  onChange={check_value}
+                                  value={check_}
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                </select>
+                              </td>
                             </tr>
                           </>
                         )
@@ -2672,6 +2728,8 @@ export default function OctoberData() {
                     var rank_hist_ = d[`hist_${arrMonths}Rank`];
                     var rank_moral_ = d[`moral_${arrMonths}Rank`];
                     var rank_seme = d[`showRank${arrMonths}Rank`];
+                    var rank_seme1 = d[`showRankm1semesterRank`];
+                    var rank_seme2 = d[`showRankm2semesterRank`];
 
                     var total_ = d[`total_${arrMonths}`];
                     var getAverage_ = d[`getAverage_${arrMonths}`];
@@ -2696,6 +2754,7 @@ export default function OctoberData() {
 
                     var showRank_m1semester = d[`showRank_m1semester`];
                     var showRank_m2semester = d[`showRank_m2semester`];
+                    var showRank_AnnualYear = d[`showRank_AnnualYear`];
 
                     var k_listen_moct_s = d[`k_listen_m1semester`];
                     var k_speak_moct_s = d[`k_speak_m1semester`];
@@ -4330,7 +4389,7 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: average_seme1 }}
                             ></td>
                             <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: showRank_m1semester }}
+                              dangerouslySetInnerHTML={{ __html: rank_seme1 }}
                             ></td>
                             <td style={{ color: 'red' }}
                               dangerouslySetInnerHTML={{ __html: mention_average_seme1 }}
@@ -4543,7 +4602,7 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: average_seme2 }}
                             ></td>
                             <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: showRank_m2semester }}
+                              dangerouslySetInnerHTML={{ __html: rank_seme2 }}
                             ></td>
                             <td style={{ color: 'red' }}
                               dangerouslySetInnerHTML={{ __html: mention_average_seme2 }}
@@ -4558,13 +4617,9 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: final }}
                             >
                             </td>
-                            <td>
-                              {e => {
-
-                                return (
-                                  <span>Love</span>
-                                )
-                              }}
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: showRank_AnnualYear }}
+                            >
                             </td>
                           </tr>
 
@@ -5042,6 +5097,7 @@ export default function OctoberData() {
         var average_mapma = d[`average_mapma`];
         var average_mjun = d[`average_mjun`];
         var average_mjul = d[`average_mjul`];
+        var check_ = d[`check_${arrMonths}`];
 
         if (!k_listen_moct) { k_listen_moct = 0 };
         if (!k_speak_moct) { k_speak_moct = 0 };
@@ -5472,6 +5528,48 @@ export default function OctoberData() {
               update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
             }
           }
+
+        }
+        if (['AnnualYear'].includes(dbMonths)) {
+          const semesterResultArray = [...dataStd];
+          var total = parseFloat(average_seme1) + parseFloat(average_seme2)
+          var final = parseFloat(total) / 2
+          final = final.toFixed(2)
+          let aar = {}
+          aar[`total_${arrMonths}`] = final
+          if (id) {
+            update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+          }
+
+          semesterResultArray.sort(function (a, b) { return b[`total_${arrMonths}`] - a[`total_${arrMonths}`] });
+
+          for (let i = 0; i < semesterResultArray.length; i++) {
+            let avg = semesterResultArray[i][`total_${arrMonths}`];
+            let studentsWithRank = semesterResultArray.filter(
+              (student) => student[`total_${arrMonths}`] === avg
+            );
+            for (let student of studentsWithRank) {
+              student[`total_${arrMonths}Rank`] = i + 1;
+            }
+            i += studentsWithRank.length - 1;
+          }
+          setdbPreviewPrint(semesterResultArray)
+          semesterResultArray.map((d) => {
+            let rank = d[`total_${arrMonths}Rank`]
+            let id = d.id
+            try {
+              if (id) {
+                let aar = {}
+                aar[`showRank_${arrMonths}`] = rank
+                if (id) {
+                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+                }
+              }
+            } catch (error) {
+              console.log('Error:', error);
+            }
+          })
+
 
         }
 
@@ -7619,6 +7717,7 @@ export default function OctoberData() {
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-1</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ខែ4-2</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆ្នាំ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
               </tr>
             </thead>
           </>
