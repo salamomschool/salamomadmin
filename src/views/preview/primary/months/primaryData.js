@@ -42,7 +42,7 @@ export default function OctoberData() {
   const [month, setMonth] = useState(localStorage.getItem('saveMonth') || 'default');
   const [year, setYear] = useState(localStorage.getItem('saveYear') || 'default');
   const [valeDate, setvaleDate] = useState(localStorage.getItem('valeDate') || 'default');
-
+  const [isChecked, setIsChecked] = useState(localStorage.getItem('checked_four') || 'false');
 
   useEffect(() => {
     localStorage.setItem('dbLevelPreview', dbLevel);
@@ -84,6 +84,10 @@ export default function OctoberData() {
     localStorage.setItem('dbYearsKhPreview', dbYearKh);
     setdbYearKh(localStorage.getItem('dbYearsKhPreview') || 'default')
   }, [dbYearKh]);
+  // useEffect(() => {
+  //   localStorage.setItem('checked_four', isChecked);
+  //   setIsChecked(localStorage.getItem('checked_four') || 'default')
+  // }, [isChecked]);
 
   //Array g1-3
   let primary_g_p1 = [
@@ -722,6 +726,61 @@ export default function OctoberData() {
     )
   }
 
+  const check_value = (e) => {
+    let id = e.target.dataset.id
+    let data = e.target.value
+    let aar = {}
+    aar[`check_${arrMonths}`] = data
+    if (id) {
+      try {
+        update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  const Check_btn = () => {
+    const setValue = (e) => {
+      const data = e.target.checked
+      setIsChecked(
+        localStorage.setItem('checked_four', data)
+      )
+      window.location.reload()
+    }
+    return (
+      <>
+        <div className="form-check form-switch ">
+          {
+            isChecked === "false" ?
+              <>
+                <input
+                  className="form-check-input btn"
+                  type="checkbox"
+                  onChange={setValue}
+                />
+
+              </>
+              :
+              isChecked === "true" ?
+                <>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked
+                    onChange={setValue}
+                  />
+
+                </>
+                :
+                <>
+
+                </>
+          }
+        </div>
+      </>
+    )
+  }
   //Show data in tbody of main table preview
   const ShowAllData = () => {
 
@@ -857,14 +916,6 @@ export default function OctoberData() {
                     var total_ = d[`total_${arrMonths}`];
                     var getAverage_ = d[`getAverage_${arrMonths}`];
                     var check_ = d[`check_${arrMonths}`];
-                    const check_value = (e) => {
-                      let data = e.target.value
-                      let aar = {}
-                      aar[`check_${arrMonths}`] = data
-                      if (id) {
-                        update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-                      }
-                    }
                     var average_ALL = d[`average_ALL${arrMonths}`];
                     var total_ALL = d[`total_ALL${arrMonths}`];
                     var getAverage_ALL1 = d[`getAverage_fourmonths1`];
@@ -2235,8 +2286,14 @@ export default function OctoberData() {
                               // dangerouslySetInnerHTML={{ __html: check_ }}
                               >
                                 <select
-                                  style={{ color: 'blue' }}
+                                  style={{
+                                    color: 'white',
+                                    borderColor: '#e3e3e3',
+                                    borderRadius: '5px',
+                                    backgroundColor: 'black'
+                                  }}
                                   className="text-center"
+                                  data-id={id}
                                   onChange={check_value}
                                   value={check_}
                                 >
@@ -2279,8 +2336,26 @@ export default function OctoberData() {
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
                               <td style={{ color: 'blue' }}
-                                dangerouslySetInnerHTML={{ __html: check_ }}
-                              ></td>
+                              // dangerouslySetInnerHTML={{ __html: check_ }}
+                              >
+                                <select
+                                  style={{
+                                    color: 'white',
+                                    borderColor: '#e3e3e3',
+                                    borderRadius: '5px',
+                                    backgroundColor: 'black'
+                                  }}
+                                  className="text-center"
+                                  data-id={id}
+                                  onChange={check_value}
+                                  value={check_}
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                </select>
+                              </td>
                             </tr>
                           </>
                         )
@@ -4132,8 +4207,26 @@ export default function OctoberData() {
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
                               <td style={{ color: 'blue' }}
-                                dangerouslySetInnerHTML={{ __html: check_ }}
-                              ></td>
+                              // dangerouslySetInnerHTML={{ __html: check_ }}
+                              >
+                                <select
+                                  style={{
+                                    color: 'white',
+                                    borderColor: '#e3e3e3',
+                                    borderRadius: '5px',
+                                    backgroundColor: 'black'
+                                  }}
+                                  className="text-center"
+                                  data-id={id}
+                                  onChange={check_value}
+                                  value={check_}
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                </select>
+                              </td>
                             </tr>
                           </>
                         )
@@ -4167,8 +4260,26 @@ export default function OctoberData() {
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
                               <td style={{ color: 'blue' }}
-                                dangerouslySetInnerHTML={{ __html: check_ }}
-                              ></td>
+                              // dangerouslySetInnerHTML={{ __html: check_ }}
+                              >
+                                <select
+                                  style={{
+                                    color: 'white',
+                                    borderColor: '#e3e3e3',
+                                    borderRadius: '5px',
+                                    backgroundColor: 'black'
+                                  }}
+                                  className="text-center"
+                                  data-id={id}
+                                  onChange={check_value}
+                                  value={check_}
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                </select>
+                              </td>
                             </tr>
                           </>
                         )
@@ -5099,6 +5210,7 @@ export default function OctoberData() {
         var average_mjul = d[`average_mjul`];
         var check_ = d[`check_${arrMonths}`];
 
+        if (!check_) { check_ = 0 };
         if (!k_listen_moct) { k_listen_moct = 0 };
         if (!k_speak_moct) { k_speak_moct = 0 };
         if (!k_reading_moct) { k_reading_moct = 0 };
@@ -5122,6 +5234,7 @@ export default function OctoberData() {
 
         if (!pe_moct) { pe_moct = 0 };
         if (!rank_moct) { rank_moct = 0 };
+        if (!check_) { check_ = "0.00" };
 
         if (!average_mnov) {
           average_mnov = '0.00'
@@ -5134,6 +5247,19 @@ export default function OctoberData() {
         };
         if (!average_mfeb) {
           average_mfeb = '0.00'
+        };
+
+        if (!average_mmarch) {
+          average_mmarch = '0.00'
+        };
+        if (!average_mapma) {
+          average_mapma = '0.00'
+        };
+        if (!average_mjun) {
+          average_mjun = '0.00'
+        };
+        if (!average_mjul) {
+          average_mjul = '0.00'
         };
         if (average_mnov == '0.00') {
           checkFour1 -= 1;
@@ -5148,18 +5274,6 @@ export default function OctoberData() {
           checkFour1 -= 1;
         }
 
-        if (!average_mmarch) {
-          average_mmarch = '0.00'
-        };
-        if (!average_mapma) {
-          average_mapma = '0.00'
-        };
-        if (!average_mjun) {
-          average_mjun = '0.00'
-        };
-        if (!average_mjul) {
-          average_mjul = '0.00'
-        };
         if (average_mmarch == '0.00') {
           checkFour2 -= 1;
         }
@@ -5179,9 +5293,9 @@ export default function OctoberData() {
           parseFloat(average_mdec) +
           parseFloat(average_mjan) +
           parseFloat(average_mfeb)
-
+        if (!fourtotal1) { fourtotal1 = 0 }
         fourtotal1 = fourtotal1.toFixed(2)
-        var totalFour1 = parseFloat(fourtotal1) / parseFloat(checkFour1)
+        var totalFour1 = parseFloat(fourtotal1) / parseFloat(check_)
         totalFour1 = totalFour1.toFixed(2)
 
         //Total the 4 months semester 2
@@ -5191,8 +5305,9 @@ export default function OctoberData() {
           parseFloat(average_mjun) +
           parseFloat(average_mjul)
 
+        if (!fourtotal2) { fourtotal2 = 0 }
         fourtotal2 = fourtotal2.toFixed(2)
-        var totalFour2 = parseFloat(fourtotal2) / parseFloat(checkFour2)
+        var totalFour2 = parseFloat(fourtotal2) / parseFloat(check_)
         totalFour2 = totalFour2.toFixed(2)
 
         //Total all score
@@ -5222,21 +5337,45 @@ export default function OctoberData() {
         //Push data to firebase
         if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
           if (dbMonths === 'fourmonths1') {
-            let aar = {}
-            aar[`total_${arrMonths}`] = fourtotal1
-            aar[`getAverage_${arrMonths}`] = totalFour1
-            aar[`check_${arrMonths}`] = checkFour1
-            if (id) {
-              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            if (isChecked === "true") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal1
+              aar[`getAverage_${arrMonths}`] = totalFour1
+              // aar[`check_${arrMonths}`] = checkFour1
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
+            } else if (isChecked === 'false') {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal1
+              aar[`getAverage_${arrMonths}`] = totalFour1
+              aar[`check_${arrMonths}`] = checkFour1
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
             }
           }
           if (dbMonths === 'fourmonths2') {
-            let aar = {}
-            aar[`total_${arrMonths}`] = fourtotal2
-            aar[`getAverage_${arrMonths}`] = totalFour2
-            aar[`check_${arrMonths}`] = checkFour2
-            if (id) {
-              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            if (isChecked === "true") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal2
+              aar[`getAverage_${arrMonths}`] = totalFour2
+              // aar[`check_${arrMonths}`] = checkFour2
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
+            } else if (isChecked === "false") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal2
+              aar[`getAverage_${arrMonths}`] = totalFour2
+              aar[`check_${arrMonths}`] = checkFour2
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
             }
           }
         }
@@ -5337,6 +5476,7 @@ export default function OctoberData() {
         var average_mapma = d[`average_mapma`];
         var average_mjun = d[`average_mjun`];
         var average_mjul = d[`average_mjul`];
+        var check_ = d[`check_${arrMonths}`];
 
 
         if (!k_reading_moct) { k_reading_moct = 0 };
@@ -5396,7 +5536,7 @@ export default function OctoberData() {
           parseFloat(average_mfeb)
 
         fourtotal1 = fourtotal1.toFixed(2)
-        var totalFour1 = parseFloat(fourtotal1) / parseFloat(checkFour1)
+        var totalFour1 = parseFloat(fourtotal1) / parseFloat(check_)
         totalFour1 = totalFour1.toFixed(2)
 
         //Total the 4 months semester 2
@@ -5407,7 +5547,7 @@ export default function OctoberData() {
           parseFloat(average_mjul)
 
         fourtotal2 = fourtotal2.toFixed(2)
-        var totalFour2 = parseFloat(fourtotal2) / parseFloat(checkFour2)
+        var totalFour2 = parseFloat(fourtotal2) / parseFloat(check_)
         totalFour2 = totalFour2.toFixed(2)
 
         //Total all score
@@ -5437,25 +5577,49 @@ export default function OctoberData() {
         //Push data to firebase
         if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
           if (dbMonths === 'fourmonths1') {
-            let aar = {}
-            aar[`total_${arrMonths}`] = fourtotal1
-            aar[`getAverage_${arrMonths}`] = totalFour1
-            aar[`check_${arrMonths}`] = checkFour1
-            if (id) {
-              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            if (isChecked === "true") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal1
+              aar[`getAverage_${arrMonths}`] = totalFour1
+              // aar[`check_${arrMonths}`] = checkFour1
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
+            } else if (isChecked === 'false') {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal1
+              aar[`getAverage_${arrMonths}`] = totalFour1
+              aar[`check_${arrMonths}`] = checkFour1
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
             }
           }
           if (dbMonths === 'fourmonths2') {
-            let aar = {}
-            aar[`total_${arrMonths}`] = fourtotal2
-            aar[`getAverage_${arrMonths}`] = totalFour2
-            aar[`check_${arrMonths}`] = checkFour2
-            if (id) {
-              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            if (isChecked === "true") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal2
+              aar[`getAverage_${arrMonths}`] = totalFour2
+              // aar[`check_${arrMonths}`] = checkFour2
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
+            } else if (isChecked === "false") {
+              let aar = {}
+              aar[`total_${arrMonths}`] = fourtotal2
+              aar[`getAverage_${arrMonths}`] = totalFour2
+              aar[`check_${arrMonths}`] = checkFour2
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+
             }
           }
-
         }
+
         if ([
           'October',
           'November',
@@ -7463,17 +7627,63 @@ export default function OctoberData() {
             <>
               <thead>
                 <tr id="show_hearder" className="frezze">
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិច្ឆិកា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ធ្នូ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មករា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កុម្ភៈ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តួចែក</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ល.រ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ឈ្មោះ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ភេទ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>វិច្ឆិកា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ធ្នូ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មករា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>កុម្ភៈ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ពិន្ទុសរុប</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មធ្យមភាគ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>និទ្ទេស</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>តួចែក
+                    <Check_btn />
+                  </th>
                 </tr>
               </thead>
             </>
@@ -7484,17 +7694,63 @@ export default function OctoberData() {
             <>
               <thead>
                 <tr id="show_hearder" className="frezze">
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មីនា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មេសា-ឧសភា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មិថុនា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កក្កដា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តួចែក</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ល.រ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ឈ្មោះ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ភេទ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មីនា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មេសា-ឧសភា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មិថុនា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>កក្កដា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ពិន្ទុសរុប</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មធ្យមភាគ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>និទ្ទេស</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>តួចែក
+                    <Check_btn />
+                  </th>
                 </tr>
               </thead>
             </>
@@ -7592,17 +7848,63 @@ export default function OctoberData() {
             <>
               <thead>
                 <tr id="show_hearder" className="frezze">
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិច្ឆិកា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ធ្នូ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មករា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កុម្ភៈ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តួចែក</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ល.រ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ឈ្មោះ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ភេទ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>វិច្ឆិកា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ធ្នូ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មករា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>កុម្ភៈ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ពិន្ទុសរុប</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មធ្យមភាគ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>និទ្ទេស</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>តួចែក
+                    <Check_btn />
+                  </th>
                 </tr>
               </thead>
             </>
@@ -7613,17 +7915,63 @@ export default function OctoberData() {
             <>
               <thead>
                 <tr id="show_hearder" className="frezze">
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មីនា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មេសា-ឧសភា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មិថុនា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កក្កដា</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តួចែក</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ល.រ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ឈ្មោះ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ភេទ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មីនា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មេសា-ឧសភា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មិថុនា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>កក្កដា</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>ពិន្ទុសរុប</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>មធ្យមភាគ</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>និទ្ទេស</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
+                  }}>តួចែក
+                    <Check_btn />
+                  </th>
                 </tr>
               </thead>
             </>
