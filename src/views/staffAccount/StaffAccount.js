@@ -25,6 +25,7 @@ const MonthScore = () => {
   const user_subs = useRef(null);
   const user_teacher_year = useRef(null);
   const [myId, setmyId] = useState('')
+  const [name, setname] = useState('')
 
   const BtnUpdate = useRef('')
   const BtnPush = useRef('')
@@ -96,7 +97,7 @@ const MonthScore = () => {
         const imageUrl = event.target.dataset.image;
         selectedLabelInput.value = label;
         imageUrlInput.value = imageUrl;
-        setmyId(label)
+        setname(label)
         user_url.current.value = imageUrl
         dropdownContent.classList.remove('show');
       }
@@ -167,6 +168,7 @@ const MonthScore = () => {
     const getUrl = e.currentTarget.dataset.pictureurl
     const getRole = e.currentTarget.dataset.role
     const getSubs = e.currentTarget.dataset.subs
+    const getname = e.currentTarget.dataset.name
     const getYear = e.currentTarget.dataset.teacheryear
 
     user_username.current.value = getUsername
@@ -176,6 +178,7 @@ const MonthScore = () => {
     user_subs.current.value = getSubs
     user_teacher_year.current.value = getYear
     setmyId(getId)
+    setname(getname)
     BtnPush.current.style.display = 'none'
     BtnUpdate.current.style.display = 'inline-block'
     BtnDelete.current.style.display = 'inline-block'
@@ -191,7 +194,15 @@ const MonthScore = () => {
     user_role.current.value = null
     user_subs.current.value = null
     user_teacher_year.current.value = null
-    setmyId('')
+    setname('')
+    const number = dataArray.length
+    console.log(number);
+    if (number == null) {
+      setmyId(0)
+    } else {
+      setmyId(number+1)
+    }
+
     setTimeout(() => {
       //Auto password
       function generateRandomString() {
@@ -233,6 +244,7 @@ const MonthScore = () => {
 
       set(ref(db, `/SalaMOM/users/` + myId), {
         id: myId,
+        fullname: name,
         user_username: user_username.current.value,
         user_password: user_password.current.value,
         user_url: user_url.current.value,
@@ -247,6 +259,7 @@ const MonthScore = () => {
       user_subs.current.value = null
       user_teacher_year.current.value = null
       setmyId('')
+      setname('')
 
     } else {
       Swal.fire({
@@ -271,6 +284,7 @@ const MonthScore = () => {
 
       update(ref(db, `/SalaMOM/users/` + myId), {
         id: myId,
+        fullname: name,
         user_username: user_username.current.value,
         user_password: user_password.current.value,
         user_url: user_url.current.value,
@@ -285,6 +299,7 @@ const MonthScore = () => {
       user_subs.current.value = null
       user_teacher_year.current.value = null
       setmyId('')
+      setname('')
     } else {
       Swal.fire({
         text: "ព័ត៍មានមិនត្រឹមត្រូវ!",
@@ -311,6 +326,7 @@ const MonthScore = () => {
       user_role.current.value = null
       user_subs.current.value = null
       user_teacher_year.current.value = null
+      setmyId('')
       setmyId('')
       BtnPush.current.style.display = 'inline-block'
       BtnUpdate.current.style.display = 'none'
@@ -459,6 +475,7 @@ const MonthScore = () => {
                         data-bs-toggle="modal"
                         data-bs-target="#AddNewSub"
                         data-fullname={d.user_username}
+                        data-name={d.fullname}
                         data-password={d.user_password}
                         data-role={d.user_role}
                         data-subs={d.user_subs}
@@ -467,7 +484,7 @@ const MonthScore = () => {
                         data-staffid={d.id}
                       >
                         <img className="me-2" style={{ width: "40px" }} src={d.user_url} alt="image"></img>
-                        {d.id}</td>
+                        {d.fullname}</td>
                       <td className="text-center">{d.user_username}</td>
                       <td className="text-center">{d.user_password}</td>
                       <td className="text-center">{d.user_role}</td>
@@ -478,7 +495,26 @@ const MonthScore = () => {
                         onBlur={setSubject}
                         dangerouslySetInnerHTML={{ __html: d.user_subs }}
                       ></td>
-                      <td className="text-center">{d.user_teacher_year}</td>
+                      <td className="text-center">
+                        <select className="text-center"
+                          onChange={e => {
+                            const data = e.target.options[e.target.selectedIndex].value;
+                            const id = d.id;
+                            if (id) {
+                              update(ref(db, `/SalaMOM/users/` + id), {
+                                user_teacher_year: data,
+                              });
+                            }
+                          }}
+                        value={d.user_teacher_year}
+                        >
+                          <option value="">ជ្រើសរើសឆ្នាំសិក្សា
+                          </option>
+                          {dataYear.map((d, index) => (
+                            <option value={d.yearEn}>{d.yearKh}</option>
+                          ))}
+                      </select>
+                      </td>
                     </CTableRow>
                   ))}
                 </CTableBody>
@@ -509,6 +545,13 @@ const MonthScore = () => {
                         <input className="form-control" type="text"
                           value={myId}
                           onInput={e => { setmyId(e.target.value) }}
+                          placeholder="ID"
+                        />
+
+                        <input className="form-control" type="text"
+                          value={name}
+                          placeholder="Username"
+                          onInput={e => { setname(e.target.value) }}
                           onkeyup="this.value = this.value.toLowerCase()"
                           name="user[username]" id="user_teacher_id" />
                         <input className="form-control" type="hidden"
