@@ -200,7 +200,7 @@ const MonthScore = () => {
     if (number == null) {
       setmyId(0)
     } else {
-      setmyId(number+1)
+      setmyId(number)
     }
 
     setTimeout(() => {
