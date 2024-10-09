@@ -205,13 +205,82 @@ export default function OctoberData() {
   const arrMonths = arrayMonths(dbMonths)
 
   //Save File to Excel
-  const exportToExcel = (type, fn, dl) => {
+  const exportToExcel2 = (type, fn, dl) => {
     var elt = document.getElementById("showData");
     var wb = XLSX.utils.table_to_book(elt, { sheet: `${dbGrade}-${subMonth} ` });
     return dl
       ? XLSX.write(wb, { bookType: type, bookSST: true, type: "base64" })
       : XLSX.writeFile(wb, fn || `លទ្ធផល/${dbGrade}/ ` + `${subMonth}.` + ("xlsx"));
   };
+  const exportToExcel4 = () => {
+    const content = document.getElementById("show_data_result").innerHTML;
+    const encodedContent = encodeURIComponent(content);
+
+    const link = document.createElement("a");
+    link.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + encodedContent;
+    // link.download = "my-exported-document.xls";
+    link.download = `លទ្ធផល/${dbGrade}/ ` + `${subMonth}.xls`;
+    link.click();
+  }
+  const exportToExcel5 = () => {
+    const content = document.getElementById("showData").innerHTML;
+    const encodedContent = encodeURIComponent(content);
+
+    const link = document.createElement("a");
+    link.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + encodedContent;
+    link.download = "my-exported-document.xlsx";
+    link.click();
+  }
+  const exportToExcel = () => {
+    const content = document.getElementById("allData").innerHTML;
+    const encodedContent = encodeURIComponent(content);
+
+    const link = document.createElement("a");
+    link.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + btoa(unescape(encodeURIComponent(content)));
+    link.download = `លទ្ធផល/${dbGrade}/ ` + `${subMonth}.xls`;
+    link.click();
+  }
+  const exportToExcel6 = () => {
+    // Get the table data
+    const table = document.getElementById("showData");
+    const workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+    // Apply styles to the cells
+    const sheet = workbook.Sheets["Sheet1"];
+    for (let cell in sheet) {
+      if (sheet[cell].t) { // Check if the cell is not a special property
+        // Example: Apply a background color to all cells
+        sheet[cell].s = {
+          fill: {
+            fgColor: { rgb: "FFFF00" } // Yellow background
+          }
+        };
+      }
+    }
+
+    // Create a binary string representation of the workbook
+    const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+
+    // Convert the binary string to a Blob
+    const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+    // Create a link element and trigger the download
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "my-exported-document.xlsx";
+    link.click();
+  };
+
+  // Helper function to convert a string to an ArrayBuffer
+  const s2ab = (s) => {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) {
+      view[i] = s.charCodeAt(i) & 0xFF;
+    }
+    return buf;
+  };
+
 
   const SaveToWordEn = () => {
     const content = document.getElementById("showData").innerHTML;
@@ -8129,12 +8198,14 @@ export default function OctoberData() {
         <ControlerContent />
         <ShowPassFail />
         <GetRankSemester />
-        <table className="table table-bordered table-hover" id="showData">
-          <HeaderTable />
-          <tbody id="show_data_result" className="new_account">
-            <ShowAllData />
-          </tbody>
-        </table>
+        <div id="allData">
+          <table className="table table-bordered table-hover" id="showData">
+            <HeaderTable />
+            <tbody id="show_data_result" className="new_account">
+              <ShowAllData />
+            </tbody>
+          </table>
+        </div>
         {dataAverage ?
           (<>
             <div style={{ display: 'none' }}>
