@@ -10,6 +10,9 @@ import { cilArrowBottom, cilArrowThickBottom, cilDataTransferDown, cilPen, cilPl
 import { CButton, CModal, CModalBody, CModalFooter, CTable, CTableBody, CTableDataCell, CTableHead, CTableRow } from "@coreui/react";
 import { Container, Row, Col, FormControl } from 'react-bootstrap';
 import PrimaryData from "./months/primaryData";
+import SecondaryData from "./months/secandaryData";
+import HighSchoolData from "./months/highschool";
+
 
 const PreviewPrimary = () => {
   const db = getDatabase();
@@ -87,7 +90,6 @@ const PreviewPrimary = () => {
     {
       dataAllGrades.map((d) => {
         all_grade.push(d.clEn)
-
       })
     }
 
@@ -99,7 +101,15 @@ const PreviewPrimary = () => {
     <>
       <div class="table-fixed-top-left"
         style={{ overflowX: 'auto', padding: '15px', height: '35rem' }}>
-        <PrimaryData />
+        {dbLevel === 'បឋមសិក្សា' ?
+          <PrimaryData /> :
+          dbLevel === 'អនុវិទ្យាល័យ' ?
+            <SecondaryData /> :
+            dbLevel === 'វិទ្យាល័យ' ?
+              <HighSchoolData /> :
+              ''
+
+        }
       </div>
     </>
   )
