@@ -945,6 +945,7 @@ export default function OctoberData() {
                     var rank_e_ = d[`e_${arrMonths}Rank`];
                     var rank_e_h_ = d[`e_h_${arrMonths}Rank`];
                     var rank_pe_ = d[`pe_${arrMonths}Rank`];
+                    var rank_seme = d[`showRank${arrMonths}Rank`];
 
                     var rank_k_listen_y = d[`k_listen_m1semesterRank`];
                     var rank_k_speak_y = d[`k_speak_m1semesterRank`];
@@ -2309,7 +2310,7 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: st_average }}
                             ></td>
                             <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank }}
+                              dangerouslySetInnerHTML={{ __html: rank_seme }}
                             ></td>
                             <td style={{ color: 'red' }}
                               dangerouslySetInnerHTML={{ __html: mention }}
@@ -2874,7 +2875,6 @@ export default function OctoberData() {
                     var rank_seme = d[`showRank${arrMonths}Rank`];
                     var rank_seme1 = d[`showRankm1semesterRank`];
                     var rank_seme2 = d[`showRankm2semesterRank`];
-
                     var total_ = d[`total_${arrMonths}`];
                     var getAverage_ = d[`getAverage_${arrMonths}`];
                     var check_ = d[`check_${arrMonths}`];
@@ -6414,7 +6414,35 @@ export default function OctoberData() {
           }
         }
       }, [dbSemester])
-
+      useEffect(() => {
+        if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+          dbSemester.sort(function (a, b) { return b[`total_all_score_${arrMonths}`] - a[`total_all_score_${arrMonths}`] });
+          for (let i = 0; i < dbSemester.length; i++) {
+            let avg = dbSemester[i][`total_all_score_${arrMonths}`];
+            let studentsWithRank = dbSemester.filter(
+              (student) => student[`total_all_score_${arrMonths}`] === avg
+            );
+            for (let student of studentsWithRank) {
+              student[`total_all_score_${arrMonths}Rank`] = i + 1;
+            }
+            i += studentsWithRank.length - 1;
+          }
+          {
+            dbSemester.map((d) => {
+              var id = d.id
+              var rank = d[`total_all_score_${arrMonths}Rank`]
+              if (!rank) {
+                rank = '0.00'
+              }
+              let aar = {}
+              aar[`showRank${arrMonths}Rank`] = rank
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+            })
+          }
+        }
+      }, [dbSemester])
 
     }
     if (primary_g_p2.includes(dbGrade)) {
