@@ -868,6 +868,9 @@ export default function SecondaryData() {
                     var rank_moct = d[`rank_${arrMonths}`];
 
                     var k_moct = d[`k_${arrMonths}`];
+                    var k_dic_moct = d[`k_dic_${arrMonths}`];
+                    var k_wri_moct = d[`k_wri_${arrMonths}`];
+
                     var math_moct = d[`math_${arrMonths}`];
                     var hist_moct = d[`hist_${arrMonths}`];
                     var ict_moct = d[`ict_${arrMonths}`];
@@ -881,9 +884,13 @@ export default function SecondaryData() {
                     var hom_moct = d[`hom_${arrMonths}`];
                     var eco_moct = d[`eco_${arrMonths}`];
                     var bio_moct = d[`bio_${arrMonths}`];
+                    var av_seme_result1 = d[`average_result${arrMonths}se1`];
+                    var av_seme_result2 = d[`average_result${arrMonths}se2`];
 
                     var rank = d[`showRank_${arrMonths}`];
                     var rank_k_ = d[`k_${arrMonths}Rank`];
+                    var rank_k_dic_ = d[`k_dic_${arrMonths}Rank`];
+                    var rank_k_wri_ = d[`k_wri_${arrMonths}Rank`];
                     var rank_math_ = d[`math_${arrMonths}Rank`];
                     var rank_hist_ = d[`hist_${arrMonths}Rank`];
                     var rank_ict_ = d[`ict_${arrMonths}Rank`];
@@ -898,6 +905,10 @@ export default function SecondaryData() {
                     var rank_e_ = d[`e_${arrMonths}Rank`];
                     var rank_pe_ = d[`pe_${arrMonths}Rank`];
                     var rank_seme = d[`showRank${arrMonths}Rank`];
+                    var rank_fourmonths1 = d[`getAverage_fourmonths1Rank`];
+                    var rank_fourmonths2 = d[`getAverage_fourmonths2Rank`];
+                    var av_seme_result1_rank = d[`average_result${arrMonths}se1Rank`];
+                    var av_seme_result2_rank = d[`average_result${arrMonths}se2Rank`];
 
                     var k_listen_moct_s = d[`k_listen_m1semester`];
                     var k_speak_moct_s = d[`k_speak_m1semester`];
@@ -996,8 +1007,12 @@ export default function SecondaryData() {
 
                     var showRank_m1semester = d[`showRank_m1semester`];
                     var showRank_m2semester = d[`showRank_m2semester`];
+                    if (!av_seme_result1) { av_seme_result1 = 0 };
+                    if (!av_seme_result2) { av_seme_result2 = 0 };
 
                     if (!k_moct) { k_moct = 0 };
+                    if (!k_dic_moct) { k_dic_moct = 0 };
+                    if (!k_wri_moct) { k_wri_moct = 0 };
                     if (!hist_moct) { hist_moct = 0 };
                     if (!ict_moct) { ict_moct = 0 };
                     if (!mo_moct) { mo_moct = 0 };
@@ -1030,6 +1045,8 @@ export default function SecondaryData() {
                     //Total all score
                     var total_all_score =
                       parseFloat(k_moct) +
+                      parseFloat(k_dic_moct) +
+                      parseFloat(k_wri_moct) +
                       parseFloat(math_moct) +
                       parseFloat(hist_moct) +
                       parseFloat(ict_moct) +
@@ -1072,6 +1089,17 @@ export default function SecondaryData() {
                     } else if (my >= 40) {
                       mention_four = "ល្អ";
                     }
+                    let mention_four1 = '';
+                    var my = parseFloat(getAverage_ALL1);
+                    if (my < 25) {
+                      mention_four1 = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_four1 = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_four1 = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_four1 = "ល្អ";
+                    }
                     let mention_seme = '';
                     var my = parseFloat(average_ALL);
                     if (my < 25) {
@@ -1083,6 +1111,17 @@ export default function SecondaryData() {
                     } else if (my >= 40) {
                       mention_seme = "ល្អ";
                     }
+                    let mention_seme_result1 = '';
+                    var my = parseFloat(av_seme_result1);
+                    if (my < 25) {
+                      mention_seme_result1 = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_seme_result1 = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_seme_result1 = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_seme_result1 = "ល្អ";
+                    }
 
                     //Pass or Fail
                     let message = '';
@@ -1091,6 +1130,14 @@ export default function SecondaryData() {
                       message = 'ធ្លាក់'
                     } else if (num >= 25) {
                       message = 'ជាប់'
+                    }
+                    //Pass or Fail
+                    let messageR1 = '';
+                    var num = parseFloat(av_seme_result1)
+                    if (num < 25) {
+                      messageR1 = 'ធ្លាក់'
+                    } else if (num >= 25) {
+                      messageR1 = 'ជាប់'
                     }
                     //Click cell to selected text
                     const clickText = (e) => {
@@ -1953,291 +2000,698 @@ export default function SecondaryData() {
                       }
                     }
                     if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
-                      return (
-                        <>
-                          <tr key={d.id}>
-                            <td>{index + 1}</td>
-                            <td className="text-start textStart">{fullname}</td>
-                            <td>{gender}</td>
-                            <td
-                              data-keynumber={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`k_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext}
-                              dangerouslySetInnerHTML={{ __html: k_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_k_ }}
-                            ></td>
-                            <td
-                              data-keynumber2={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`mo_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext2}
-                              dangerouslySetInnerHTML={{ __html: mo_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_mo_ }}
-                            ></td>
-                            <td
-                              data-keynumber3={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`hist_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext3}
-                              dangerouslySetInnerHTML={{ __html: hist_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_hist_ }}
-                            ></td>
-                            <td
-                              data-keynumber4={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`geor_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext4}
-                              dangerouslySetInnerHTML={{ __html: geor_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_geor_ }}
-                            ></td>
-                            <td
-                              data-keynumber5={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`math_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext5}
-                              dangerouslySetInnerHTML={{ __html: math_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_math_ }}
-                            ></td>
-                            <td
-                              data-keynumber6={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`phy_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext6}
-                              dangerouslySetInnerHTML={{ __html: phy_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_phy_ }}
-                            ></td>
-                            <td
-                              data-keynumber7={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`chem_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext7}
-                              dangerouslySetInnerHTML={{ __html: chem_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_chem_ }}
-                            ></td>
-                            <td
-                              data-keynumber8={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`bio_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext8}
-                              dangerouslySetInnerHTML={{ __html: bio_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_bio_ }}
-                            ></td>
-                            <td
-                              data-keynumber9={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`earth_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext9}
-                              dangerouslySetInnerHTML={{ __html: earth_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_earth_ }}
-                            ></td>
-                            <td
-                              data-keynumber10={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`e_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext10}
-                              dangerouslySetInnerHTML={{ __html: e_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_e_ }}
-                            ></td>
-                            <td
-                              data-keynumber11={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`ict_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext11}
-                              dangerouslySetInnerHTML={{ __html: ict_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_ict_ }}
-                            ></td>
-                            <td
-                              data-keynumber12={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`hom_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext12}
-                              dangerouslySetInnerHTML={{ __html: hom_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_hom_ }}
-                            ></td>
-                            <td
-                              data-keynumber13={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`pe_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext13}
-                              dangerouslySetInnerHTML={{ __html: pe_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_pe_ }}
-                            ></td>
+                      if (dbMonths === 'firstSemester') {
+                        return (
+                          <>
+                            <tr key={d.id}>
+                              <td>{index + 1}</td>
+                              <td className="text-start textStart">{fullname}</td>
+                              <td>{gender}</td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_ }}
+                              ></td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_dic_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_dic_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_dic_ }}
+                              ></td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_wri_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_wri_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_wri_ }}
+                              ></td>
+                              <td
+                                data-keynumber2={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`mo_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext2}
+                                dangerouslySetInnerHTML={{ __html: mo_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_mo_ }}
+                              ></td>
+                              <td
+                                data-keynumber3={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`hist_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext3}
+                                dangerouslySetInnerHTML={{ __html: hist_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_hist_ }}
+                              ></td>
+                              <td
+                                data-keynumber4={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`geor_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext4}
+                                dangerouslySetInnerHTML={{ __html: geor_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_geor_ }}
+                              ></td>
+                              <td
+                                data-keynumber5={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`math_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext5}
+                                dangerouslySetInnerHTML={{ __html: math_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_math_ }}
+                              ></td>
+                              <td
+                                data-keynumber6={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`phy_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext6}
+                                dangerouslySetInnerHTML={{ __html: phy_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_phy_ }}
+                              ></td>
+                              <td
+                                data-keynumber7={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`chem_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext7}
+                                dangerouslySetInnerHTML={{ __html: chem_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_chem_ }}
+                              ></td>
+                              <td
+                                data-keynumber8={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`bio_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext8}
+                                dangerouslySetInnerHTML={{ __html: bio_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_bio_ }}
+                              ></td>
+                              <td
+                                data-keynumber9={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`earth_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext9}
+                                dangerouslySetInnerHTML={{ __html: earth_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_earth_ }}
+                              ></td>
+                              <td
+                                data-keynumber10={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`e_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext10}
+                                dangerouslySetInnerHTML={{ __html: e_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_e_ }}
+                              ></td>
+                              <td
+                                data-keynumber11={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`ict_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext11}
+                                dangerouslySetInnerHTML={{ __html: ict_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_ict_ }}
+                              ></td>
+                              <td
+                                data-keynumber12={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`hom_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext12}
+                                dangerouslySetInnerHTML={{ __html: hom_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_hom_ }}
+                              ></td>
+                              <td
+                                data-keynumber13={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`pe_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext13}
+                                dangerouslySetInnerHTML={{ __html: pe_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_pe_ }}
+                              ></td>
 
-                            <td className="fw-bold" style={{ color: 'darkgreen' }}
-                              dangerouslySetInnerHTML={{ __html: total_all_score }}
-                            ></td>
-                            <td
-                              dangerouslySetInnerHTML={{ __html: st_average }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_seme }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: mention }}
-                            ></td>
-                            <td style={{ color: 'blue' }}
-                              dangerouslySetInnerHTML={{ __html: message }}
-                            ></td>
-                          </tr>
-                        </>
-                      )
+                              <td className="fw-bold" style={{ color: 'darkgreen' }}
+                                dangerouslySetInnerHTML={{ __html: total_all_score }}
+                              ></td>
+                              <td
+                                dangerouslySetInnerHTML={{ __html: st_average }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_seme }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_ALL1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_fourmonths1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_four1 }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result1_rank }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_seme_result1 }}
+                              ></td>
+                              <td style={{ color: 'blue' }}
+                                dangerouslySetInnerHTML={{ __html: messageR1 }}
+                              ></td>
+                            </tr>
+                          </>
+                        )
+
+                      }
+                      if (dbMonths === 'secondSemester') {
+                        return (
+                          <>
+                            <tr key={d.id}>
+                              <td>{index + 1}</td>
+                              <td className="text-start textStart">{fullname}</td>
+                              <td>{gender}</td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_ }}
+                              ></td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_dic_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_dic_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_dic_ }}
+                              ></td>
+                              <td
+                                data-keynumber={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`k_wri_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext}
+                                dangerouslySetInnerHTML={{ __html: k_wri_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_k_wri_ }}
+                              ></td>
+                              <td
+                                data-keynumber2={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`mo_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext2}
+                                dangerouslySetInnerHTML={{ __html: mo_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_mo_ }}
+                              ></td>
+                              <td
+                                data-keynumber3={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`hist_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext3}
+                                dangerouslySetInnerHTML={{ __html: hist_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_hist_ }}
+                              ></td>
+                              <td
+                                data-keynumber4={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`geor_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext4}
+                                dangerouslySetInnerHTML={{ __html: geor_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_geor_ }}
+                              ></td>
+                              <td
+                                data-keynumber5={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`math_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext5}
+                                dangerouslySetInnerHTML={{ __html: math_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_math_ }}
+                              ></td>
+                              <td
+                                data-keynumber6={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`phy_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext6}
+                                dangerouslySetInnerHTML={{ __html: phy_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_phy_ }}
+                              ></td>
+                              <td
+                                data-keynumber7={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`chem_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext7}
+                                dangerouslySetInnerHTML={{ __html: chem_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_chem_ }}
+                              ></td>
+                              <td
+                                data-keynumber8={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`bio_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext8}
+                                dangerouslySetInnerHTML={{ __html: bio_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_bio_ }}
+                              ></td>
+                              <td
+                                data-keynumber9={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`earth_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext9}
+                                dangerouslySetInnerHTML={{ __html: earth_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_earth_ }}
+                              ></td>
+                              <td
+                                data-keynumber10={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`e_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext10}
+                                dangerouslySetInnerHTML={{ __html: e_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_e_ }}
+                              ></td>
+                              <td
+                                data-keynumber11={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`ict_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext11}
+                                dangerouslySetInnerHTML={{ __html: ict_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_ict_ }}
+                              ></td>
+                              <td
+                                data-keynumber12={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`hom_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext12}
+                                dangerouslySetInnerHTML={{ __html: hom_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_hom_ }}
+                              ></td>
+                              <td
+                                data-keynumber13={index + 1}
+                                contentEditable
+                                suppressContentEditableWarning
+                                onBlur={(e) => {
+                                  const setID = d.id
+                                  const data = e.target.innerHTML
+                                  let aar = {}
+                                  aar[`pe_${arrMonths}`] = data
+                                  if (setID) {
+                                    update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                  }
+                                }}
+                                onClick={clickText}
+                                onKeyDown={keyNext13}
+                                dangerouslySetInnerHTML={{ __html: pe_moct }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_pe_ }}
+                              ></td>
+
+                              <td className="fw-bold" style={{ color: 'darkgreen' }}
+                                dangerouslySetInnerHTML={{ __html: total_all_score }}
+                              ></td>
+                              <td
+                                dangerouslySetInnerHTML={{ __html: st_average }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_seme }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_ALL1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_fourmonths1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_four1 }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result1 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result1_rank }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_seme_result1 }}
+                              ></td>
+                              <td style={{ color: 'blue' }}
+                                dangerouslySetInnerHTML={{ __html: messageR1 }}
+                              ></td>
+                            </tr>
+                          </>
+                        )
+
+                      }
                     }
 
                     if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
@@ -2266,10 +2720,13 @@ export default function SecondaryData() {
                               <td
                                 dangerouslySetInnerHTML={{ __html: getAverage_ }}
                               ></td>
-                              <td style={{ color: 'red' }}
+                              <td style={{ color: 'red', verticalAlign: 'middle' }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_fourmonths }}
+                              ></td>
+                              <td style={{ color: 'red', verticalAlign: 'middle' }}
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
-                              <td style={{ color: 'blue' }}
+                              <td style={{ color: 'blue', verticalAlign: 'middle' }}
                               // dangerouslySetInnerHTML={{ __html: check_ }}
                               >
                                 <select
@@ -2319,10 +2776,13 @@ export default function SecondaryData() {
                               <td
                                 dangerouslySetInnerHTML={{ __html: getAverage_ }}
                               ></td>
-                              <td style={{ color: 'red' }}
+                              <td style={{ color: 'red', verticalAlign: 'middle' }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_fourmonths }}
+                              ></td>
+                              <td style={{ color: 'red', verticalAlign: 'middle' }}
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
                               ></td>
-                              <td style={{ color: 'blue' }}
+                              <td style={{ color: 'blue', verticalAlign: 'middle' }}
                               // dangerouslySetInnerHTML={{ __html: check_ }}
                               >
                                 <select
@@ -2382,6 +2842,40 @@ export default function SecondaryData() {
                               onClick={clickText}
                               onKeyDown={keyNext}
                               dangerouslySetInnerHTML={{ __html: k_moct }}
+                            ></td>
+                            <td
+                              data-keynumber={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_dic${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext}
+                              dangerouslySetInnerHTML={{ __html: k_dic_moct }}
+                            ></td>
+                            <td
+                              data-keynumber={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_wri${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext}
+                              dangerouslySetInnerHTML={{ __html: k_wri_moct }}
                             ></td>
                             <td
                               data-keynumber2={index + 1}
@@ -2721,7 +3215,26 @@ export default function SecondaryData() {
         var average = d[`average_${arrMonths}`];
         var rank_moct = d[`rank_${arrMonths}`];
 
+        // var k_moct = d[`k_${arrMonths}`];
+        // var k_dic_moct = d[`k_dic${arrMonths}`];
+        // var k_wri_moct = d[`k_wri${arrMonths}`];
+        // var math_moct = d[`math_${arrMonths}`];
+        // var hist_moct = d[`hist_${arrMonths}`];
+        // var ict_moct = d[`ict_${arrMonths}`];
+        // var mo_moct = d[`mo_${arrMonths}`];
+        // var e_moct = d[`e_${arrMonths}`];
+        // var pe_moct = d[`pe_${arrMonths}`];
+        // var earth_moct = d[`earth_${arrMonths}`];
+        // var geor_moct = d[`geor_${arrMonths}`];
+        // var phy_moct = d[`phy_${arrMonths}`];
+        // var chem_moct = d[`chem_${arrMonths}`];
+        // var hom_moct = d[`hom_${arrMonths}`];
+        // var eco_moct = d[`eco_${arrMonths}`];
+        // var bio_moct = d[`bio_${arrMonths}`];
         var k_moct = d[`k_${arrMonths}`];
+        var k_dic_moct = d[`k_dic_${arrMonths}`];
+        var k_wri_moct = d[`k_wri_${arrMonths}`];
+
         var math_moct = d[`math_${arrMonths}`];
         var hist_moct = d[`hist_${arrMonths}`];
         var ict_moct = d[`ict_${arrMonths}`];
@@ -2735,6 +3248,8 @@ export default function SecondaryData() {
         var hom_moct = d[`hom_${arrMonths}`];
         var eco_moct = d[`eco_${arrMonths}`];
         var bio_moct = d[`bio_${arrMonths}`];
+        var av_seme_result1 = d[`average_result${arrMonths}se1`];
+        var av_seme_result2 = d[`average_result${arrMonths}se2`];
 
         let checkFour1 = 4;
         var average_mnov = d[`average_mnov`];
@@ -2743,6 +3258,7 @@ export default function SecondaryData() {
         var average_mfeb = d[`average_mfeb`];
         var average_seme1 = d[`average_m1semester`];
         var average_seme2 = d[`average_m2semester`];
+        var average_four1 = d[`getAverage_fourmonths1`];
 
         let checkFour2 = 4;
         var average_mmarch = d[`average_mmarch`];
@@ -2751,9 +3267,18 @@ export default function SecondaryData() {
         var average_mjul = d[`average_mjul`];
         var check_ = d[`check_${arrMonths}`];
 
+        var getAverage_ALL1 = d[`getAverage_fourmonths1`];
+        var getAverage_ALL2 = d[`getAverage_fourmonths2`];
+
         if (!check_) { check_ = 0 };
+        if (!getAverage_ALL1) { getAverage_ALL1 = 0 };
+        if (!getAverage_ALL2) { getAverage_ALL2 = 0 };
+        if (!av_seme_result1) { av_seme_result1 = 0 };
+        if (!av_seme_result2) { av_seme_result2 = 0 };
 
         if (!k_moct) { k_moct = 0 };
+        if (!k_dic_moct) { k_dic_moct = 0 };
+        if (!k_wri_moct) { k_wri_moct = 0 };
         if (!hist_moct) { hist_moct = 0 };
         if (!ict_moct) { ict_moct = 0 };
         if (!mo_moct) { mo_moct = 0 };
@@ -2851,6 +3376,8 @@ export default function SecondaryData() {
         //Total all score
         var total_all_score =
           parseFloat(k_moct) +
+          parseFloat(k_dic_moct) +
+          parseFloat(k_wri_moct) +
           parseFloat(math_moct) +
           parseFloat(hist_moct) +
           parseFloat(ict_moct) +
@@ -2869,9 +3396,20 @@ export default function SecondaryData() {
         var st_average =
           parseFloat(total_all_score) / dbDivi;
         st_average = st_average.toFixed(2);
+        //Total 1st semester result
+        var tsr1 = (parseFloat(st_average) + parseFloat(getAverage_ALL1)) / 2;
+        tsr1 = tsr1.toFixed(2);
+        var tsr2 = (parseFloat(st_average) + parseFloat(getAverage_ALL2)) / 2;
+        tsr2 = tsr2.toFixed(2);
 
+        if (!tsr1) {
+          tsr1 = '0.00';
+        }
+        if (!tsr2) {
+          tsr2 = '0.00';
+        }
         //Push data to firebase
-        if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
+        if (['fourmonths1', 'fourmonths2', 'firstSemester', 'secondSemester'].includes(dbMonths)) {
           if (dbMonths === 'fourmonths1') {
             if (isChecked === "true") {
               let aar = {}
@@ -2934,11 +3472,23 @@ export default function SecondaryData() {
           }
         }
         if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
-          let aar = {}
-          aar[`average_${arrMonths}`] = st_average
-          aar[`total_all_score_${arrMonths}`] = total_all_score
-          if (id) {
-            update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+          if (dbMonths === 'firstSemester') {
+            let aar = {}
+            aar[`average_${arrMonths}`] = st_average
+            aar[`total_all_score_${arrMonths}`] = total_all_score
+            aar[`average_result${arrMonths}se1`] = tsr1
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+          if (dbMonths === 'secondSemester') {
+            let aar = {}
+            aar[`average_${arrMonths}`] = st_average
+            aar[`total_all_score_${arrMonths}`] = total_all_score
+            aar[`average_result${arrMonths}se2`] = tsr2
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
           }
 
         }
@@ -3087,6 +3637,95 @@ export default function SecondaryData() {
     const dbSemester = [...dataStd]
     if (primary_g_p1.includes(dbGrade)) {
       useEffect(() => {
+        if (['firstSemester', 'secondSemester', 'fourmonths1', 'fourmonths2'].includes(dbMonths)) {
+          dbSemester.sort(function (a, b) { return b[`getAverage_${arrMonths}`] - a[`getAverage_${arrMonths}`] });
+          for (let i = 0; i < dbSemester.length; i++) {
+            let avg = dbSemester[i][`getAverage_${arrMonths}`];
+            let studentsWithRank = dbSemester.filter(
+              (student) => student[`getAverage_${arrMonths}`] === avg
+            );
+            for (let student of studentsWithRank) {
+              student[`getAverage_${arrMonths}Rank`] = i + 1;
+            }
+            i += studentsWithRank.length - 1;
+          }
+          {
+            dbSemester.map((d) => {
+              var id = d.id
+              var rank = d[`getAverage_${arrMonths}Rank`]
+              if (!rank) {
+                rank = '0.00'
+              }
+              let aar = {}
+              aar[`getAverage_${arrMonths}Rank`] = rank
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+            })
+          }
+        }
+      }, [dbSemester])
+      useEffect(() => {
+        if (['firstSemester', 'secondSemester', 'fourmonths1', 'fourmonths2'].includes(dbMonths)) {
+          if (dbMonths === 'firstSemester') {
+            dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
+            for (let i = 0; i < dbSemester.length; i++) {
+              let avg = dbSemester[i][`average_result${arrMonths}se1`];
+              let studentsWithRank = dbSemester.filter(
+                (student) => student[`average_result${arrMonths}se1`] === avg
+              );
+              for (let student of studentsWithRank) {
+                student[`average_result${arrMonths}se1Rank`] = i + 1;
+              }
+              i += studentsWithRank.length - 1;
+            }
+            {
+              dbSemester.map((d) => {
+                var id = d.id
+                var rank = d[`average_result${arrMonths}se1Rank`]
+                if (!rank) {
+                  rank = '0.00'
+                }
+                let aar = {}
+                aar[`average_result${arrMonths}se1Rank`] = rank
+                if (id) {
+                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+                }
+              })
+            }
+
+          }
+          if (dbMonths === 'secondSemester') {
+            dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se2`] - a[`average_result${arrMonths}se2`] });
+            for (let i = 0; i < dbSemester.length; i++) {
+              let avg = dbSemester[i][`average_result${arrMonths}se2`];
+              let studentsWithRank = dbSemester.filter(
+                (student) => student[`average_result${arrMonths}se2`] === avg
+              );
+              for (let student of studentsWithRank) {
+                student[`average_result${arrMonths}se2Rank`] = i + 1;
+              }
+              i += studentsWithRank.length - 1;
+            }
+            {
+              dbSemester.map((d) => {
+                var id = d.id
+                var rank = d[`average_result${arrMonths}se2Rank`]
+                if (!rank) {
+                  rank = '0.00'
+                }
+                let aar = {}
+                aar[`average_result${arrMonths}se2Rank`] = rank
+                if (id) {
+                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+                }
+              })
+            }
+
+          }
+        }
+      }, [dbSemester])
+      useEffect(() => {
         if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
           dbSemester.sort(function (a, b) { return b[`k_${arrMonths}`] - a[`k_${arrMonths}`] });
           for (let i = 0; i < dbSemester.length; i++) {
@@ -3108,6 +3747,64 @@ export default function SecondaryData() {
               }
               let aar = {}
               aar[`k_${arrMonths}Rank`] = rank
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+            })
+          }
+        }
+      }, [dbSemester])
+      useEffect(() => {
+        if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+          dbSemester.sort(function (a, b) { return b[`k_dic_${arrMonths}`] - a[`k_dic_${arrMonths}`] });
+          for (let i = 0; i < dbSemester.length; i++) {
+            let avg = dbSemester[i][`k_dic_${arrMonths}`];
+            let studentsWithRank = dbSemester.filter(
+              (student) => student[`k_dic_${arrMonths}`] === avg
+            );
+            for (let student of studentsWithRank) {
+              student[`k_dic_${arrMonths}Rank`] = i + 1;
+            }
+            i += studentsWithRank.length - 1;
+          }
+          {
+            dbSemester.map((d) => {
+              var id = d.id
+              var rank = d[`k_dic_${arrMonths}Rank`]
+              if (!rank) {
+                rank = '0.00'
+              }
+              let aar = {}
+              aar[`k_dic_${arrMonths}Rank`] = rank
+              if (id) {
+                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+              }
+            })
+          }
+        }
+      }, [dbSemester])
+      useEffect(() => {
+        if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+          dbSemester.sort(function (a, b) { return b[`k_wri_${arrMonths}`] - a[`k_wri_${arrMonths}`] });
+          for (let i = 0; i < dbSemester.length; i++) {
+            let avg = dbSemester[i][`k_wri_${arrMonths}`];
+            let studentsWithRank = dbSemester.filter(
+              (student) => student[`k_wri_${arrMonths}`] === avg
+            );
+            for (let student of studentsWithRank) {
+              student[`k_wri_${arrMonths}Rank`] = i + 1;
+            }
+            i += studentsWithRank.length - 1;
+          }
+          {
+            dbSemester.map((d) => {
+              var id = d.id
+              var rank = d[`k_wri_${arrMonths}Rank`]
+              if (!rank) {
+                rank = '0.00'
+              }
+              let aar = {}
+              aar[`k_wri_${arrMonths}Rank`] = rank
               if (id) {
                 update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
               }
@@ -4055,48 +4752,110 @@ export default function SecondaryData() {
   const HeaderTable = () => {
     if (primary_g_p1.includes(dbGrade)) {
       if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
-        return (
-          <>
-            <thead>
-              <tr id="show_hearder" className="frezze">
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភាសាខ្មែរ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សីលធម៌</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវត្តិវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិតវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>រូបវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គីមីវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ជីវវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ផែនដីវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់គ្លេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កុំព្យូទ័រ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គេហវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
-              </tr>
-            </thead>
-          </>
-        )
+        if (dbMonths === 'firstSemester') {
+          return (
+            <>
+              <thead>
+                <tr id="show_hearder" className="frezze">
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភាសាខ្មែរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរសេរតាមអាន</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែងសេចក្តី</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សីលធម៌</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវត្តិវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិតវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>រូបវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គីមីវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ជីវវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ផែនដីវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់គ្លេស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កុំព្យូទ័រ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គេហវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ម.ភាគ ៤ ខែ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆមាសទី១</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                </tr>
+              </thead>
+            </>
+          )
+
+        }
+        if (dbMonths === 'secondSemester') {
+          return (
+            <>
+              <thead>
+                <tr id="show_hearder" className="frezze">
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភាសាខ្មែរ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរសេរតាមអាន</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែងសេចក្តី</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សីលធម៌</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវត្តិវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិតវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>រូបវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គីមីវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ជីវវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ផែនដីវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់គ្លេស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កុំព្យូទ័រ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គេហវិទ្យា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
+                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                </tr>
+              </thead>
+            </>
+          )
+
+        }
 
       }
       if (['firstSemesterResult', 'secondSemesterResult'].includes(dbMonths)) {
@@ -4298,6 +5057,11 @@ export default function SecondaryData() {
                     backgroundColor: '#f5f0ae',
                     color: 'black',
                     verticalAlign: 'middle'
+                  }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
                   }}>និទ្ទេស</th>
                   <th style={{
                     backgroundColor: '#f5f0ae',
@@ -4365,6 +5129,11 @@ export default function SecondaryData() {
                     backgroundColor: '#f5f0ae',
                     color: 'black',
                     verticalAlign: 'middle'
+                  }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{
+                    backgroundColor: '#f5f0ae',
+                    color: 'black',
+                    verticalAlign: 'middle'
                   }}>និទ្ទេស</th>
                   <th style={{
                     backgroundColor: '#f5f0ae',
@@ -4399,6 +5168,8 @@ export default function SecondaryData() {
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភាសាខ្មែរ</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរសេរតាមអាន</th>
+                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែងសេចក្តី</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សីលធម៌</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រវត្តិវិទ្យា</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភូមិវិទ្យា</th>
