@@ -28,6 +28,7 @@ const AtTimeTable = () => {
   const [dataEn3, setdataEn3] = useState([])
   const [Title, setTitle] = useState([])
   const [mainTimeTable, setmainTimeTable] = useState([])
+  const [allMainDataTable, setallMainDataTable] = useState([])
   const [gradeTitle, setgradeTitle] = useState([])
   const [TitleEn, setTitleEn] = useState([])
   const [gradeTitleEn, setgradeTitleEn] = useState([])
@@ -96,7 +97,7 @@ const AtTimeTable = () => {
     onValue(mainTimeTable, (data) => {
       const dataSet = data.val();
       setmainTimeTable(dataSet)
-      // setmainTimeTable(dataSet ? Object.values(dataSet) : []); // Convert object to array
+      setallMainDataTable(dataSet ? Object.values(dataSet) : []); // Convert object to array
     })
     onValue(mainDatabase, (data) => {
       data.forEach(d => {
@@ -7136,6 +7137,194 @@ const AtTimeTable = () => {
 
   }
   const ShowData = (da) => {
+
+    ///Array to check the same teacher's name
+    const arrPrimary = mainTimeTable.បឋមសិក្សា;
+    const arrSecondary = mainTimeTable.វិទ្យាល័យ;
+    const arrHighSchool = mainTimeTable.អនុវិទ្យាល័យ;
+    const allGrade = [arrPrimary, arrSecondary, arrHighSchool];
+    allGrade.forEach((grade) => {
+      if (grade) { // Check if 'grade' is defined
+        Object.keys(grade).forEach((classKey) => {
+          //Monday
+          if (grade[classKey] && grade[classKey].tname_mon_mor_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_mor_t1;
+            data_row_1.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_mor_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_mor_t2;
+            data_row_2.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_mor_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_mor_t3;
+            data_row_3.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_mor_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_mor_t4;
+            data_row_4.push(name)
+          }
+
+          if (grade[classKey] && grade[classKey].tname_mon_aft_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_aft_t1;
+            data_row_5.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_aft_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_aft_t2;
+            data_row_6.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_aft_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_aft_t3;
+            data_row_7.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_mon_aft_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_mon_aft_t4;
+            data_row_8.push(name)
+          }
+
+          //Tuesday
+          if (grade[classKey] && grade[classKey].tname_tue_mor_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_mor_t1;
+            data_row_9.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_mor_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_mor_t2;
+            data_row_10.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_mor_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_mor_t3;
+            data_row_11.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_mor_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_mor_t4;
+            data_row_12.push(name)
+          }
+
+          if (grade[classKey] && grade[classKey].tname_tue_aft_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_aft_t1;
+            data_row_13.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_aft_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_aft_t2;
+            data_row_14.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_aft_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_aft_t3;
+            data_row_15.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_tue_aft_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_tue_aft_t4;
+            data_row_16.push(name)
+          }
+
+          //Wednesday
+          if (grade[classKey] && grade[classKey].tname_wed_mor_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_mor_t1;
+            data_row_17.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_mor_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_mor_t2;
+            data_row_18.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_mor_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_mor_t3;
+            data_row_19.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_mor_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_mor_t4;
+            data_row_20.push(name)
+          }
+
+          if (grade[classKey] && grade[classKey].tname_wed_aft_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_aft_t1;
+            data_row_21.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_aft_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_aft_t2;
+            data_row_22.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_aft_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_aft_t3;
+            data_row_23.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_wed_aft_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_wed_aft_t4;
+            data_row_24.push(name)
+          }
+
+          //Thursday
+          if (grade[classKey] && grade[classKey].tname_thu_mor_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_mor_t1;
+            data_row_25.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_mor_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_mor_t2;
+            data_row_26.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_mor_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_mor_t3;
+            data_row_27.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_mor_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_mor_t4;
+            data_row_28.push(name)
+          }
+
+          if (grade[classKey] && grade[classKey].tname_thu_aft_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_aft_t1;
+            data_row_29.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_aft_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_aft_t2;
+            data_row_30.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_aft_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_aft_t3;
+            data_row_31.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_thu_aft_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_thu_aft_t4;
+            data_row_32.push(name)
+          }
+
+          //Friday
+          if (grade[classKey] && grade[classKey].tname_fri_mor_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_mor_t1;
+            data_row_33.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_mor_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_mor_t2;
+            data_row_34.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_mor_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_mor_t3;
+            data_row_35.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_mor_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_mor_t4;
+            data_row_36.push(name)
+          }
+
+          if (grade[classKey] && grade[classKey].tname_fri_aft_t1 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_aft_t1;
+            data_row_37.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_aft_t2 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_aft_t2;
+            data_row_38.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_aft_t3 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_aft_t3;
+            data_row_39.push(name)
+          }
+          if (grade[classKey] && grade[classKey].tname_fri_aft_t4 !== undefined) { // Check if 'classKey' and 'clEn' exist
+            const name = grade[classKey].tname_fri_aft_t4;
+            data_row_40.push(name)
+          }
+
+
+        });
+      }
+    });
     setTimeout(() => {
       //Select username and img url
       const dropdownContent = document.querySelector('.dropdown-content');
@@ -7199,168 +7388,168 @@ const AtTimeTable = () => {
       const td38 = uu.querySelectorAll('.tr38');
       const td39 = uu.querySelectorAll('.tr39');
       const td40 = uu.querySelectorAll('.tr40');
-      td1.forEach(e => {
-        let d = e.dataset.t;
-        data_row_1.push(d)
+      // td1.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_1.push(d)
 
-      })
+      // })
 
-      td2.forEach(e => {
-        let d = e.dataset.t;
-        data_row_2.push(d)
-      })
-      td3.forEach(e => {
-        let d = e.dataset.t;
-        data_row_3.push(d)
-      })
-      td4.forEach(e => {
-        let d = e.dataset.t;
-        data_row_4.push(d)
-      })
-      td5.forEach(e => {
-        let d = e.dataset.t;
-        data_row_5.push(d)
-      })
-      td6.forEach(e => {
-        let d = e.dataset.t;
-        data_row_6.push(d)
-      })
-      td7.forEach(e => {
-        let d = e.dataset.t;
-        data_row_7.push(d)
-      })
-      td8.forEach(e => {
-        let d = e.dataset.t;
-        data_row_8.push(d)
-      })
-      td9.forEach(e => {
-        let d = e.dataset.t;
-        data_row_9.push(d)
-      })
-      td10.forEach(e => {
-        let d = e.dataset.t;
-        data_row_10.push(d)
-      })
-      td11.forEach(e => {
-        let d = e.dataset.t;
-        data_row_11.push(d)
-      })
-      td12.forEach(e => {
-        let d = e.dataset.t;
-        data_row_12.push(d)
-      })
-      td13.forEach(e => {
-        let d = e.dataset.t;
-        data_row_13.push(d)
-      })
-      td14.forEach(e => {
-        let d = e.dataset.t;
-        data_row_14.push(d)
-      })
-      td15.forEach(e => {
-        let d = e.dataset.t;
-        data_row_15.push(d)
-      })
-      td16.forEach(e => {
-        let d = e.dataset.t;
-        data_row_16.push(d)
-      })
-      td17.forEach(e => {
-        let d = e.dataset.t;
-        data_row_17.push(d)
-      })
-      td18.forEach(e => {
-        let d = e.dataset.t;
-        data_row_18.push(d)
-      })
-      td19.forEach(e => {
-        let d = e.dataset.t;
-        data_row_19.push(d)
-      })
-      td20.forEach(e => {
-        let d = e.dataset.t;
-        data_row_20.push(d)
-      })
-      td21.forEach(e => {
-        let d = e.dataset.t;
-        data_row_21.push(d)
-      })
-      td22.forEach(e => {
-        let d = e.dataset.t;
-        data_row_22.push(d)
-      })
-      td23.forEach(e => {
-        let d = e.dataset.t;
-        data_row_23.push(d)
-      })
-      td24.forEach(e => {
-        let d = e.dataset.t;
-        data_row_24.push(d)
-      })
-      td25.forEach(e => {
-        let d = e.dataset.t;
-        data_row_25.push(d)
-      })
-      td26.forEach(e => {
-        let d = e.dataset.t;
-        data_row_26.push(d)
-      })
-      td27.forEach(e => {
-        let d = e.dataset.t;
-        data_row_27.push(d)
-      })
-      td28.forEach(e => {
-        let d = e.dataset.t;
-        data_row_28.push(d)
-      })
-      td29.forEach(e => {
-        let d = e.dataset.t;
-        data_row_29.push(d)
-      })
-      td30.forEach(e => {
-        let d = e.dataset.t;
-        data_row_30.push(d)
-      })
-      td31.forEach(e => {
-        let d = e.dataset.t;
-        data_row_31.push(d)
-      })
-      td32.forEach(e => {
-        let d = e.dataset.t;
-        data_row_32.push(d)
-      })
-      td33.forEach(e => {
-        let d = e.dataset.t;
-        data_row_33.push(d)
-      })
-      td34.forEach(e => {
-        let d = e.dataset.t;
-        data_row_34.push(d)
-      })
-      td35.forEach(e => {
-        let d = e.dataset.t;
-        data_row_35.push(d)
-      })
-      td36.forEach(e => {
-        let d = e.dataset.t;
-        data_row_36.push(d)
-      })
-      td37.forEach(e => {
-        let d = e.dataset.t;
-        data_row_37.push(d)
-      })
-      td38.forEach(e => {
-        let d = e.dataset.t;
-        data_row_38.push(d)
-      })
-      td39.forEach(e => {
-        let d = e.dataset.t;
-        data_row_39.push(d)
-      })
-      td40.forEach(e => {
-        let d = e.dataset.t;
-        data_row_40.push(d)
-      })
+      // td2.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_2.push(d)
+      // })
+      // td3.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_3.push(d)
+      // })
+      // td4.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_4.push(d)
+      // })
+      // td5.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_5.push(d)
+      // })
+      // td6.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_6.push(d)
+      // })
+      // td7.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_7.push(d)
+      // })
+      // td8.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_8.push(d)
+      // })
+      // td9.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_9.push(d)
+      // })
+      // td10.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_10.push(d)
+      // })
+      // td11.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_11.push(d)
+      // })
+      // td12.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_12.push(d)
+      // })
+      // td13.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_13.push(d)
+      // })
+      // td14.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_14.push(d)
+      // })
+      // td15.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_15.push(d)
+      // })
+      // td16.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_16.push(d)
+      // })
+      // td17.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_17.push(d)
+      // })
+      // td18.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_18.push(d)
+      // })
+      // td19.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_19.push(d)
+      // })
+      // td20.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_20.push(d)
+      // })
+      // td21.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_21.push(d)
+      // })
+      // td22.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_22.push(d)
+      // })
+      // td23.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_23.push(d)
+      // })
+      // td24.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_24.push(d)
+      // })
+      // td25.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_25.push(d)
+      // })
+      // td26.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_26.push(d)
+      // })
+      // td27.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_27.push(d)
+      // })
+      // td28.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_28.push(d)
+      // })
+      // td29.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_29.push(d)
+      // })
+      // td30.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_30.push(d)
+      // })
+      // td31.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_31.push(d)
+      // })
+      // td32.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_32.push(d)
+      // })
+      // td33.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_33.push(d)
+      // })
+      // td34.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_34.push(d)
+      // })
+      // td35.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_35.push(d)
+      // })
+      // td36.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_36.push(d)
+      // })
+      // td37.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_37.push(d)
+      // })
+      // td38.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_38.push(d)
+      // })
+      // td39.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_39.push(d)
+      // })
+      // td40.forEach(e => {
+      //   let d = e.dataset.t;
+      //   data_row_40.push(d)
+      // })
     }, 1000);
 
     const selectData = (e) => {
