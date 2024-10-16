@@ -4849,7 +4849,23 @@ export default function SecondaryData() {
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                  <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>ម.ភាគ ២ខែ</th>
+                  <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#AEF5E9FF', color: 'black' }}>ម.ភាគ ប្រចាំឆមាសទី២</th>
+                  <th style={{ backgroundColor: '#AEF5E9FF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#AEF5E9FF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>ម.ភាគ ឆមាសទី១</th>
+                  <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>ម.ភាគ ៤ខែ</th>
+                  <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>ម.ភាគ ប្រចាំឆមាសទី២</th>
+                  <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#F3AEF5FF', color: 'black' }}>ម.ភាគ ប្រចាំឆ្នាំ</th>
+                  <th style={{ backgroundColor: '#F3AEF5FF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#F3AEF5FF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#F3AEF5FF', color: 'black' }}>លទ្ធផល</th>
                 </tr>
               </thead>
             </>
@@ -5099,22 +5115,13 @@ export default function SecondaryData() {
                     backgroundColor: '#f5f0ae',
                     color: 'black',
                     verticalAlign: 'middle'
-                  }}>មីនា</th>
-                  <th style={{
-                    backgroundColor: '#f5f0ae',
-                    color: 'black',
-                    verticalAlign: 'middle'
                   }}>មេសា-ឧសភា</th>
                   <th style={{
                     backgroundColor: '#f5f0ae',
                     color: 'black',
                     verticalAlign: 'middle'
                   }}>មិថុនា</th>
-                  <th style={{
-                    backgroundColor: '#f5f0ae',
-                    color: 'black',
-                    verticalAlign: 'middle'
-                  }}>កក្កដា</th>
+                  
                   <th style={{
                     backgroundColor: '#f5f0ae',
                     color: 'black',
