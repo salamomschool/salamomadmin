@@ -865,6 +865,8 @@ export default function SecondaryData() {
                     var user_grade = d.user_grade;
                     var gender = d.gender;
                     var average = d[`average_${arrMonths}`];
+                    var average_seme_1 = d[`average_m1semester`];
+                    var average_seme_2 = d[`average_m2semester`];
                     var rank_moct = d[`rank_${arrMonths}`];
 
                     var k_moct = d[`k_${arrMonths}`];
@@ -884,8 +886,10 @@ export default function SecondaryData() {
                     var hom_moct = d[`hom_${arrMonths}`];
                     var eco_moct = d[`eco_${arrMonths}`];
                     var bio_moct = d[`bio_${arrMonths}`];
-                    var av_seme_result1 = d[`average_result${arrMonths}se1`];
-                    var av_seme_result2 = d[`average_result${arrMonths}se2`];
+                    var av_seme_result1 = d[`average_resultm1semester`];
+                    var av_seme_result2 = d[`average_resultm2semester`];
+                    var av_year = d[`average_year`];
+                    var av_yearRank = d[`average_yearRank`];
 
                     var rank = d[`showRank_${arrMonths}`];
                     var rank_k_ = d[`k_${arrMonths}Rank`];
@@ -907,8 +911,8 @@ export default function SecondaryData() {
                     var rank_seme = d[`showRank${arrMonths}Rank`];
                     var rank_fourmonths1 = d[`getAverage_fourmonths1Rank`];
                     var rank_fourmonths2 = d[`getAverage_fourmonths2Rank`];
-                    var av_seme_result1_rank = d[`average_result${arrMonths}se1Rank`];
-                    var av_seme_result2_rank = d[`average_result${arrMonths}se2Rank`];
+                    var av_seme_result1_rank = d[`average_resultm1semesterRank`];
+                    var av_seme_result2_rank = d[`average_resultm2semesterRank`];
 
                     var k_listen_moct_s = d[`k_listen_m1semester`];
                     var k_speak_moct_s = d[`k_speak_m1semester`];
@@ -990,6 +994,8 @@ export default function SecondaryData() {
                     var total_ALL = d[`total_ALL${arrMonths}`];
                     var getAverage_ALL1 = d[`getAverage_fourmonths1`];
                     var getAverage_ALL2 = d[`getAverage_fourmonths2`];
+                    var getAverage_ALL1Rank = d[`getAverage_fourmonths1Rank`];
+                    var getAverage_ALL2Rank = d[`getAverage_fourmonths2Rank`];
                     var average_seme1 = d[`average_m1semester`];
                     var average_seme2 = d[`average_m2semester`];
                     var total_average_seme1 = d[`total_all_score_m1semester`];
@@ -1008,8 +1014,18 @@ export default function SecondaryData() {
                     var showRank_m1semester = d[`showRank_m1semester`];
                     var showRank_m2semester = d[`showRank_m2semester`];
                     if (!av_seme_result1) { av_seme_result1 = 0 };
+                    if (!getAverage_ALL1) { getAverage_ALL1 = 0 };
+                    if (!getAverage_ALL2) { getAverage_ALL2 = 0 };
                     if (!av_seme_result2) { av_seme_result2 = 0 };
-
+                    if (av_seme_result1 === 'NaN') {
+                      av_seme_result1 = '0.00';
+                    }
+                    if (getAverage_ALL1 === 'NaN') {
+                      getAverage_ALL1 = '0.00';
+                    }
+                    if (getAverage_ALL2 === 'NaN') {
+                      getAverage_ALL2 = '0.00';
+                    }
                     if (!k_moct) { k_moct = 0 };
                     if (!k_dic_moct) { k_dic_moct = 0 };
                     if (!k_wri_moct) { k_wri_moct = 0 };
@@ -1065,8 +1081,22 @@ export default function SecondaryData() {
                     var st_average =
                       parseFloat(total_all_score) / dbDivi;
                     st_average = st_average.toFixed(2);
+                    if (st_average === 'NaN') {
+                      st_average = 0;
+                    }
 
                     //Mention average
+                    let mention_year = '';
+                    var my = parseFloat(av_year);
+                    if (my < 25) {
+                      mention_year = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_year = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_year = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_year = "ល្អ";
+                    }
                     let mention = '';
                     var my = parseFloat(average);
                     if (my < 25) {
@@ -1100,6 +1130,17 @@ export default function SecondaryData() {
                     } else if (my >= 40) {
                       mention_four1 = "ល្អ";
                     }
+                    let mention_four2 = '';
+                    var my = parseFloat(getAverage_ALL2);
+                    if (my < 25) {
+                      mention_four2 = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_four2 = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_four2 = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_four2 = "ល្អ";
+                    }
                     let mention_seme = '';
                     var my = parseFloat(average_ALL);
                     if (my < 25) {
@@ -1111,6 +1152,17 @@ export default function SecondaryData() {
                     } else if (my >= 40) {
                       mention_seme = "ល្អ";
                     }
+                    let mention_seme1 = '';
+                    var my = parseFloat(getAverage_ALL1);
+                    if (my < 25) {
+                      mention_seme1 = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_seme1 = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_seme1 = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_seme1 = "ល្អ";
+                    }
                     let mention_seme_result1 = '';
                     var my = parseFloat(av_seme_result1);
                     if (my < 25) {
@@ -1121,6 +1173,17 @@ export default function SecondaryData() {
                       mention_seme_result1 = "ល្អបង្គួរ";
                     } else if (my >= 40) {
                       mention_seme_result1 = "ល្អ";
+                    }
+                    let mention_seme_result2 = '';
+                    var my = parseFloat(av_seme_result2);
+                    if (my < 25) {
+                      mention_seme_result2 = "ខ្សោយ"
+                    } else if (my < 32.5) {
+                      mention_seme_result2 = "មធ្យម"
+                    } else if (my < 40) {
+                      mention_seme_result2 = "ល្អបង្គួរ";
+                    } else if (my >= 40) {
+                      mention_seme_result2 = "ល្អ";
                     }
 
                     //Pass or Fail
@@ -1138,6 +1201,13 @@ export default function SecondaryData() {
                       messageR1 = 'ធ្លាក់'
                     } else if (num >= 25) {
                       messageR1 = 'ជាប់'
+                    }
+                    let messageYear = '';
+                    var num = parseFloat(av_year)
+                    if (num < 25) {
+                      messageYear = 'ធ្លាក់'
+                    } else if (num >= 25) {
+                      messageYear = 'ជាប់'
                     }
                     //Click cell to selected text
                     const clickText = (e) => {
@@ -2667,6 +2737,27 @@ export default function SecondaryData() {
                                 dangerouslySetInnerHTML={{ __html: mention }}
                               ></td>
                               <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_ALL2 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: rank_fourmonths2 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_four2 }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result2 }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: av_seme_result2_rank }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_seme_result2 }}
+                              ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: average_seme_1 }}
+                              ></td>
+                              <td style={{ color: 'black' }}
                                 dangerouslySetInnerHTML={{ __html: getAverage_ALL1 }}
                               ></td>
                               <td style={{ color: 'red' }}
@@ -2684,8 +2775,18 @@ export default function SecondaryData() {
                               <td style={{ color: 'red' }}
                                 dangerouslySetInnerHTML={{ __html: mention_seme_result1 }}
                               ></td>
+                              <td style={{ color: 'black' }}
+                                dangerouslySetInnerHTML={{ __html: av_year }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: av_yearRank }}
+                              ></td>
+                              <td style={{ color: 'red' }}
+                                dangerouslySetInnerHTML={{ __html: mention_year }}
+                              ></td>
+
                               <td style={{ color: 'blue' }}
-                                dangerouslySetInnerHTML={{ __html: messageR1 }}
+                                dangerouslySetInnerHTML={{ __html: messageYear }}
                               ></td>
                             </tr>
                           </>
@@ -2721,7 +2822,7 @@ export default function SecondaryData() {
                                 dangerouslySetInnerHTML={{ __html: getAverage_ }}
                               ></td>
                               <td style={{ color: 'red', verticalAlign: 'middle' }}
-                                dangerouslySetInnerHTML={{ __html: getAverage_fourmonths }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_ALL1Rank }}
                               ></td>
                               <td style={{ color: 'red', verticalAlign: 'middle' }}
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
@@ -2759,16 +2860,10 @@ export default function SecondaryData() {
                               <td className="text-start textStart">{fullname}</td>
                               <td>{gender}</td>
                               <td
-                                dangerouslySetInnerHTML={{ __html: average_mmarch }}
-                              ></td>
-                              <td
                                 dangerouslySetInnerHTML={{ __html: average_mapma }}
                               ></td>
                               <td
                                 dangerouslySetInnerHTML={{ __html: average_mjun }}
-                              ></td>
-                              <td
-                                dangerouslySetInnerHTML={{ __html: average_mjul }}
                               ></td>
                               <td className="fw-bold" style={{ color: 'darkgreen' }}
                                 dangerouslySetInnerHTML={{ __html: total_ }}
@@ -2777,7 +2872,7 @@ export default function SecondaryData() {
                                 dangerouslySetInnerHTML={{ __html: getAverage_ }}
                               ></td>
                               <td style={{ color: 'red', verticalAlign: 'middle' }}
-                                dangerouslySetInnerHTML={{ __html: getAverage_fourmonths }}
+                                dangerouslySetInnerHTML={{ __html: getAverage_ALL2Rank }}
                               ></td>
                               <td style={{ color: 'red', verticalAlign: 'middle' }}
                                 dangerouslySetInnerHTML={{ __html: mention_four }}
@@ -3248,8 +3343,8 @@ export default function SecondaryData() {
         var hom_moct = d[`hom_${arrMonths}`];
         var eco_moct = d[`eco_${arrMonths}`];
         var bio_moct = d[`bio_${arrMonths}`];
-        var av_seme_result1 = d[`average_result${arrMonths}se1`];
-        var av_seme_result2 = d[`average_result${arrMonths}se2`];
+        var av_seme_result1 = d[`average_resultm1semester`];
+        var av_seme_result2 = d[`average_resultm2semester`];
 
         let checkFour1 = 4;
         var average_mnov = d[`average_mnov`];
@@ -3260,7 +3355,7 @@ export default function SecondaryData() {
         var average_seme2 = d[`average_m2semester`];
         var average_four1 = d[`getAverage_fourmonths1`];
 
-        let checkFour2 = 4;
+        let checkFour2 = 2;
         var average_mmarch = d[`average_mmarch`];
         var average_mapma = d[`average_mapma`];
         var average_mjun = d[`average_mjun`];
@@ -3270,33 +3365,33 @@ export default function SecondaryData() {
         var getAverage_ALL1 = d[`getAverage_fourmonths1`];
         var getAverage_ALL2 = d[`getAverage_fourmonths2`];
 
-        if (!check_) { check_ = 0 };
-        if (!getAverage_ALL1) { getAverage_ALL1 = 0 };
-        if (!getAverage_ALL2) { getAverage_ALL2 = 0 };
-        if (!av_seme_result1) { av_seme_result1 = 0 };
-        if (!av_seme_result2) { av_seme_result2 = 0 };
+        if (!check_) { check_ = '0' };
+        if (!getAverage_ALL1) { getAverage_ALL1 = '0' };
+        if (!getAverage_ALL2) { getAverage_ALL2 = '0' };
+        if (!av_seme_result1) { av_seme_result1 = '0' };
+        if (!av_seme_result2) { av_seme_result2 = '0' };
 
-        if (!k_moct) { k_moct = 0 };
-        if (!k_dic_moct) { k_dic_moct = 0 };
-        if (!k_wri_moct) { k_wri_moct = 0 };
-        if (!hist_moct) { hist_moct = 0 };
-        if (!ict_moct) { ict_moct = 0 };
-        if (!mo_moct) { mo_moct = 0 };
-        if (!earth_moct) { earth_moct = 0 };
-        if (!geor_moct) { geor_moct = 0 };
-        if (!phy_moct) { phy_moct = 0 };
-        if (!chem_moct) { chem_moct = 0 };
-        if (!hom_moct) { hom_moct = 0 };
-        if (!eco_moct) { eco_moct = 0 };
-        if (!bio_moct) { bio_moct = 0 };
+        if (!k_moct) { k_moct = '0' };
+        if (!k_dic_moct) { k_dic_moct = '0' };
+        if (!k_wri_moct) { k_wri_moct = '0' };
+        if (!hist_moct) { hist_moct = '0' };
+        if (!ict_moct) { ict_moct = '0' };
+        if (!mo_moct) { mo_moct = '0' };
+        if (!earth_moct) { earth_moct = '0' };
+        if (!geor_moct) { geor_moct = '0' };
+        if (!phy_moct) { phy_moct = '0' };
+        if (!chem_moct) { chem_moct = '0' };
+        if (!hom_moct) { hom_moct = '0' };
+        if (!eco_moct) { eco_moct = '0' };
+        if (!bio_moct) { bio_moct = '0' };
 
-        if (!math_moct) { math_moct = 0 };
+        if (!math_moct) { math_moct = '0' };
 
-        if (!e_moct) { e_moct = 0 };
+        if (!e_moct) { e_moct = '0' };
 
-        if (!pe_moct) { pe_moct = 0 };
+        if (!pe_moct) { pe_moct = '0' };
 
-        if (!rank_moct) { rank_moct = 0 };
+        if (!rank_moct) { rank_moct = '0' };
         if (!check_) { check_ = "0.00" };
 
         if (!average_mnov) {
@@ -3337,16 +3432,10 @@ export default function SecondaryData() {
           checkFour1 -= 1;
         }
 
-        if (average_mmarch == '0.00') {
-          checkFour2 -= 1;
-        }
         if (average_mapma == '0.00') {
           checkFour2 -= 1;
         }
         if (average_mjun == '0.00') {
-          checkFour2 -= 1;
-        }
-        if (average_mjul == '0.00') {
           checkFour2 -= 1;
         }
 
@@ -3357,21 +3446,34 @@ export default function SecondaryData() {
           parseFloat(average_mjan) +
           parseFloat(average_mfeb)
         if (!fourtotal1) { fourtotal1 = 0 }
+        if (fourtotal1 === 'NaN') {
+          fourtotal1 = 0;
+        }
+
         fourtotal1 = fourtotal1.toFixed(2)
         var totalFour1 = parseFloat(fourtotal1) / parseFloat(check_)
         totalFour1 = totalFour1.toFixed(2)
+        if (totalFour1 === 'NaN') {
+          totalFour1 = 0;
+        }
 
         //Total the 4 months semester 2
         var fourtotal2 =
-          parseFloat(average_mmarch) +
           parseFloat(average_mapma) +
-          parseFloat(average_mjun) +
-          parseFloat(average_mjul)
+          parseFloat(average_mjun);
 
         if (!fourtotal2) { fourtotal2 = 0 }
+        if (fourtotal2 === 'NaN') {
+          fourtotal2 = 0;
+        }
+
         fourtotal2 = fourtotal2.toFixed(2)
         var totalFour2 = parseFloat(fourtotal2) / parseFloat(check_)
         totalFour2 = totalFour2.toFixed(2)
+        if (totalFour2 === 'NaN') {
+          totalFour2 = 0;
+        }
+
 
         //Total all score
         var total_all_score =
@@ -3396,12 +3498,38 @@ export default function SecondaryData() {
         var st_average =
           parseFloat(total_all_score) / dbDivi;
         st_average = st_average.toFixed(2);
+        if (st_average === 'NaN') {
+          st_average = 0;
+        }
+
         //Total 1st semester result
         var tsr1 = (parseFloat(st_average) + parseFloat(getAverage_ALL1)) / 2;
         tsr1 = tsr1.toFixed(2);
+        if (tsr1 === 'NaN') {
+          tsr1 = 0;
+        }
         var tsr2 = (parseFloat(st_average) + parseFloat(getAverage_ALL2)) / 2;
         tsr2 = tsr2.toFixed(2);
+        if (tsr2 === 'NaN') {
+          tsr2 = 0;
+        }
+        if (dbMonths === 'secondSemester') {
+          var av_year = (parseFloat(av_seme_result1) + parseFloat(av_seme_result2)) / 2;
+          av_year = av_year.toFixed(2);
+          if (av_year === 'NaN') {
+            av_year = '0.00';
+          }
+          try {
+            let aar = {}
+            aar[`average_year`] = av_year;
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          } catch (error) {
+            console.log(error);
 
+          }
+        }
         if (!tsr1) {
           tsr1 = '0.00';
         }
@@ -3409,9 +3537,11 @@ export default function SecondaryData() {
           tsr2 = '0.00';
         }
         //Push data to firebase
-        if (['fourmonths1', 'fourmonths2', 'firstSemester', 'secondSemester'].includes(dbMonths)) {
+        if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
           if (dbMonths === 'fourmonths1') {
             if (isChecked === "true") {
+              console.log('ok');
+
               let aar = {}
               aar[`total_${arrMonths}`] = fourtotal1
               aar[`getAverage_${arrMonths}`] = totalFour1
@@ -3476,7 +3606,7 @@ export default function SecondaryData() {
             let aar = {}
             aar[`average_${arrMonths}`] = st_average
             aar[`total_all_score_${arrMonths}`] = total_all_score
-            aar[`average_result${arrMonths}se1`] = tsr1
+            aar[`average_result${arrMonths}`] = tsr1
             if (id) {
               update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
             }
@@ -3485,7 +3615,7 @@ export default function SecondaryData() {
             let aar = {}
             aar[`average_${arrMonths}`] = st_average
             aar[`total_all_score_${arrMonths}`] = total_all_score
-            aar[`average_result${arrMonths}se2`] = tsr2
+            aar[`average_result${arrMonths}`] = tsr2
             if (id) {
               update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
             }
@@ -3566,6 +3696,99 @@ export default function SecondaryData() {
       })
 
     }
+    if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+      dbPreviewData.sort(function (a, b) { return b[`average_result${arrMonths}`] - a[`average_result${arrMonths}`] });
+
+      for (let i = 0; i < dbPreviewData.length; i++) {
+        let avg = dbPreviewData[i][`average_result${arrMonths}`];
+        let studentsWithRank = dbPreviewData.filter(
+          (student) => student[`average_result${arrMonths}`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`average_result${arrMonths}Rank`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      setdbPreviewPrint(dbPreviewData)
+      dbPreviewData.map((d) => {
+        let rank = d[`average_result${arrMonths}Rank`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`average_result${arrMonths}Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+    }
+    if (['secondSemester'].includes(dbMonths)) {
+      dbPreviewData.sort(function (a, b) { return b[`average_year`] - a[`average_year`] });
+
+      for (let i = 0; i < dbPreviewData.length; i++) {
+        let avg = dbPreviewData[i][`average_year`];
+        let studentsWithRank = dbPreviewData.filter(
+          (student) => student[`average_year`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`average_yearRank`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      setdbPreviewPrint(dbPreviewData)
+      dbPreviewData.map((d) => {
+        let rank = d[`average_yearRank`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`average_yearRank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+    }
+    if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
+        dbPreviewData.sort(function (a, b) { return b[`getAverage_${arrMonths}`] - a[`getAverage_${arrMonths}`] });
+        for (let i = 0; i < dbPreviewData.length; i++) {
+          let avg = dbPreviewData[i][`getAverage_${arrMonths}`];
+          let studentsWithRank = dbPreviewData.filter(
+            (student) => student[`getAverage_${arrMonths}`] === avg
+          );
+          for (let student of studentsWithRank) {
+            student[`getAverage_${arrMonths}Rank`] = i + 1;
+          }
+          i += studentsWithRank.length - 1;
+        }
+        {
+          dbPreviewData.map((d) => {
+            var id = d.id
+            var rank = d[`getAverage_${arrMonths}Rank`]
+            if (!rank) {
+              rank = '0.00'
+            }
+            let aar = {}
+            aar[`getAverage_${arrMonths}Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          })
+        }
+      }
     if (['firstSemesterResult', 'secondSemesterResult'].includes(dbMonths)) {
       const semesterResultArray = [...dataStd];
       if (dbMonths === 'firstSemesterResult') {
@@ -3636,95 +3859,124 @@ export default function SecondaryData() {
   const GetRankSemester = () => {
     const dbSemester = [...dataStd]
     if (primary_g_p1.includes(dbGrade)) {
-      useEffect(() => {
-        if (['firstSemester', 'secondSemester', 'fourmonths1', 'fourmonths2'].includes(dbMonths)) {
-          dbSemester.sort(function (a, b) { return b[`getAverage_${arrMonths}`] - a[`getAverage_${arrMonths}`] });
-          for (let i = 0; i < dbSemester.length; i++) {
-            let avg = dbSemester[i][`getAverage_${arrMonths}`];
-            let studentsWithRank = dbSemester.filter(
-              (student) => student[`getAverage_${arrMonths}`] === avg
-            );
-            for (let student of studentsWithRank) {
-              student[`getAverage_${arrMonths}Rank`] = i + 1;
-            }
-            i += studentsWithRank.length - 1;
-          }
-          {
-            dbSemester.map((d) => {
-              var id = d.id
-              var rank = d[`getAverage_${arrMonths}Rank`]
-              if (!rank) {
-                rank = '0.00'
-              }
-              let aar = {}
-              aar[`getAverage_${arrMonths}Rank`] = rank
-              if (id) {
-                update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-              }
-            })
-          }
-        }
-      }, [dbSemester])
-      useEffect(() => {
-        if (['firstSemester', 'secondSemester', 'fourmonths1', 'fourmonths2'].includes(dbMonths)) {
-          if (dbMonths === 'firstSemester') {
-            dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
-            for (let i = 0; i < dbSemester.length; i++) {
-              let avg = dbSemester[i][`average_result${arrMonths}se1`];
-              let studentsWithRank = dbSemester.filter(
-                (student) => student[`average_result${arrMonths}se1`] === avg
-              );
-              for (let student of studentsWithRank) {
-                student[`average_result${arrMonths}se1Rank`] = i + 1;
-              }
-              i += studentsWithRank.length - 1;
-            }
-            {
-              dbSemester.map((d) => {
-                var id = d.id
-                var rank = d[`average_result${arrMonths}se1Rank`]
-                if (!rank) {
-                  rank = '0.00'
-                }
-                let aar = {}
-                aar[`average_result${arrMonths}se1Rank`] = rank
-                if (id) {
-                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-                }
-              })
-            }
+      // useEffect(() => {
+      //   if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
+      //     dbSemester.sort(function (a, b) { return b[`getAverage_${arrMonths}`] - a[`getAverage_${arrMonths}`] });
+      //     for (let i = 0; i < dbSemester.length; i++) {
+      //       let avg = dbSemester[i][`getAverage_${arrMonths}`];
+      //       let studentsWithRank = dbSemester.filter(
+      //         (student) => student[`getAverage_${arrMonths}`] === avg
+      //       );
+      //       for (let student of studentsWithRank) {
+      //         student[`getAverage_${arrMonths}Rank`] = i + 1;
+      //       }
+      //       i += studentsWithRank.length - 1;
+      //     }
+      //     {
+      //       dbSemester.map((d) => {
+      //         var id = d.id
+      //         var rank = d[`getAverage_${arrMonths}Rank`]
+      //         if (!rank) {
+      //           rank = '0.00'
+      //         }
+      //         let aar = {}
+      //         aar[`getAverage_${arrMonths}Rank`] = rank
+      //         if (id) {
+      //           update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+      //         }
+      //       })
+      //     }
+      //   }
+      // }, [dbSemester])
+      // useEffect(() => {
+      //   if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+      //     if (dbMonths === 'firstSemester') {
+      //       dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
+      //       for (let i = 0; i < dbSemester.length; i++) {
+      //         let avg = dbSemester[i][`average_result${arrMonths}se1`];
+      //         let studentsWithRank = dbSemester.filter(
+      //           (student) => student[`average_result${arrMonths}se1`] === avg
+      //         );
+      //         for (let student of studentsWithRank) {
+      //           student[`average_result${arrMonths}se1Rank`] = i + 1;
+      //         }
+      //         i += studentsWithRank.length - 1;
+      //       }
+      //       {
+      //         dbSemester.map((d) => {
+      //           var id = d.id
+      //           var rank = d[`average_result${arrMonths}se1Rank`]
+      //           if (!rank) {
+      //             rank = '0.00'
+      //           }
+      //           let aar = {}
+      //           aar[`average_result${arrMonths}se1Rank`] = rank
+      //           if (id) {
+      //             update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+      //           }
+      //         })
+      //       }
 
-          }
-          if (dbMonths === 'secondSemester') {
-            dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se2`] - a[`average_result${arrMonths}se2`] });
-            for (let i = 0; i < dbSemester.length; i++) {
-              let avg = dbSemester[i][`average_result${arrMonths}se2`];
-              let studentsWithRank = dbSemester.filter(
-                (student) => student[`average_result${arrMonths}se2`] === avg
-              );
-              for (let student of studentsWithRank) {
-                student[`average_result${arrMonths}se2Rank`] = i + 1;
-              }
-              i += studentsWithRank.length - 1;
-            }
-            {
-              dbSemester.map((d) => {
-                var id = d.id
-                var rank = d[`average_result${arrMonths}se2Rank`]
-                if (!rank) {
-                  rank = '0.00'
-                }
-                let aar = {}
-                aar[`average_result${arrMonths}se2Rank`] = rank
-                if (id) {
-                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-                }
-              })
-            }
+      //     }
+      //     if (dbMonths === 'secondSemester') {
+      //       dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se2`] - a[`average_result${arrMonths}se2`] });
+      //       for (let i = 0; i < dbSemester.length; i++) {
+      //         let avg = dbSemester[i][`average_result${arrMonths}se2`];
+      //         let studentsWithRank = dbSemester.filter(
+      //           (student) => student[`average_result${arrMonths}se2`] === avg
+      //         );
+      //         for (let student of studentsWithRank) {
+      //           student[`average_result${arrMonths}se2Rank`] = i + 1;
+      //         }
+      //         i += studentsWithRank.length - 1;
+      //       }
+      //       {
+      //         dbSemester.map((d) => {
+      //           var id = d.id
+      //           var rank = d[`average_result${arrMonths}se2Rank`]
+      //           if (!rank) {
+      //             rank = '0.00'
+      //           }
+      //           let aar = {}
+      //           aar[`average_result${arrMonths}se2Rank`] = rank
+      //           if (id) {
+      //             update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+      //           }
+      //         })
+      //       }
 
-          }
-        }
-      }, [dbSemester])
+      //     }
+      //   }
+      // }, [dbSemester])
+      // useEffect(() => {
+      //   if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
+      //     dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
+      //     for (let i = 0; i < dbSemester.length; i++) {
+      //       let avg = dbSemester[i][`average_result${arrMonths}se1`];
+      //       let studentsWithRank = dbSemester.filter(
+      //         (student) => student[`average_result${arrMonths}se1`] === avg
+      //       );
+      //       for (let student of studentsWithRank) {
+      //         student[`average_result${arrMonths}se1Rank`] = i + 1;
+      //       }
+      //       i += studentsWithRank.length - 1;
+      //     }
+      //     {
+      //       dbSemester.map((d) => {
+      //         var id = d.id
+      //         var rank = d[`average_result${arrMonths}se1Rank`]
+      //         if (!rank) {
+      //           rank = '0.00'
+      //         }
+      //         let aar = {}
+      //         aar[`k_${arrMonths}Rank`] = rank
+      //         if (id) {
+      //           update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+      //         }
+      //       })
+      //     }
+      //   }
+      // }, [dbSemester])
       useEffect(() => {
         if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
           dbSemester.sort(function (a, b) { return b[`k_${arrMonths}`] - a[`k_${arrMonths}`] });
@@ -4218,6 +4470,8 @@ export default function SecondaryData() {
           }
         }
       }, [dbSemester])
+
+
     }
   }
 
@@ -4790,17 +5044,17 @@ export default function SecondaryData() {
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ម.ភាគ ៤ ខែ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទេ្ទស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ប្រចាំឆមាសទី១</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទេ្ទស</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>ពិន្ទុសរុប</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>មធ្យមភាគ</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>និទ្ទេស</th>
+                  <th style={{ backgroundColor: '#AEF5C0FF', color: 'black' }}>ម.ភាគ ៤ ខែ</th>
+                  <th style={{ backgroundColor: '#AEF5C0FF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#AEF5C0FF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#F5AEEFFF', color: 'black' }}>ប្រចាំឆមាសទី១</th>
+                  <th style={{ backgroundColor: '#F5AEEFFF', color: 'black' }}>ចំ</th>
+                  <th style={{ backgroundColor: '#F5AEEFFF', color: 'black' }}>និទេ្ទស</th>
+                  <th style={{ backgroundColor: '#F5AEEFFF', color: 'black' }}>លទ្ធផល</th>
                 </tr>
               </thead>
             </>
@@ -4845,10 +5099,10 @@ export default function SecondaryData() {
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
                   <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                  <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>ពិន្ទុសរុប</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>មធ្យមភាគ</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                  <th style={{ backgroundColor: '#B3AEF5FF', color: 'black' }}>និទ្ទេស</th>
                   <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>ម.ភាគ ២ខែ</th>
                   <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>ចំ</th>
                   <th style={{ backgroundColor: '#B4F5AEFF', color: 'black' }}>និទេ្ទស</th>
@@ -4859,7 +5113,7 @@ export default function SecondaryData() {
                   <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>ម.ភាគ ៤ខែ</th>
                   <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>ចំ</th>
                   <th style={{ backgroundColor: '#F5AEAEFF', color: 'black' }}>និទេ្ទស</th>
-                  <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>ម.ភាគ ប្រចាំឆមាសទី២</th>
+                  <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>ម.ភាគ ប្រចាំឆមាសទី១</th>
                   <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>ចំ</th>
                   <th style={{ backgroundColor: '#C3AEF5FF', color: 'black' }}>និទេ្ទស</th>
                   <th style={{ backgroundColor: '#F3AEF5FF', color: 'black' }}>ម.ភាគ ប្រចាំឆ្នាំ</th>
@@ -5121,7 +5375,7 @@ export default function SecondaryData() {
                     color: 'black',
                     verticalAlign: 'middle'
                   }}>មិថុនា</th>
-                  
+
                   <th style={{
                     backgroundColor: '#f5f0ae',
                     color: 'black',

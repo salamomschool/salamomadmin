@@ -66,25 +66,47 @@ const MonthScore = () => {
       { value: `វិទ្យាល័យ`, label: 'វិទ្យាល័យ' },
     ];
 
-    const month = [
-      { value: ``, label: 'ជ្រើសរើសខែ' },
-      { value: `October`, label: 'តុលា' },
-      { value: `November`, label: 'វិច្ឆិកា' },
-      { value: `December`, label: 'ធ្នូ' },
-      { value: `January`, label: 'មករា' },
-      { value: `February`, label: 'កុម្ភៈ' },
-      { value: `March`, label: 'មីនា' },
-      { value: `AprilMay`, label: 'មេសា-ឧសភា' },
-      { value: `June`, label: 'មិថុនា' },
-      { value: `July`, label: 'កក្កដា' },
-      { value: `firstSemester`, label: 'ឆមាសទី១' },
-      { value: `secondSemester`, label: 'ឆមាសទី២' },
-      { value: `firstSemesterResult`, label: 'ប្រចាំឆមាសទី១' },
-      { value: `secondSemesterResult`, label: 'ប្រចាំឆមាសទី២' },
-      { value: `fourmonths1`, label: 'ពិន្ទុ៤ខែឆមាសទី១' },
-      { value: `fourmonths2`, label: 'ពិន្ទុ៤ខែឆមាសទី២' },
-      { value: `AnnualYear`, label: 'ប្រចាំឆ្នាំ' },
-    ];
+    let month = [];
+
+    if (dbLevel === 'អនុវិទ្យាល័យ' || dbLevel === 'វិទ្យាល័យ') {
+      month = [
+        { value: '', label: 'ជ្រើសរើសខែ' },
+        { value: 'October', label: 'តុលា' },
+        { value: 'November', label: 'វិច្ឆិកា' },
+        { value: 'December', label: 'ធ្នូ' },
+        { value: 'January', label: 'មករា' },
+        { value: 'February', label: 'កុម្ភៈ' },
+        { value: 'March', label: 'មីនា' },
+        { value: 'AprilMay', label: 'មេសា-ឧសភា' },
+        { value: 'June', label: 'មិថុនា' },
+        { value: 'July', label: 'កក្កដា' },
+        { value: 'firstSemester', label: 'ឆមាសទី១' },
+        { value: 'secondSemester', label: 'ឆមាសទី២' },
+        { value: 'fourmonths1', label: 'ពិន្ទុ៤ខែឆមាសទី១' },
+        { value: 'fourmonths2', label: 'ពិន្ទុ២ខែឆមាសទី២' },
+      ];
+    } else {
+      month = [
+        { value: '', label: 'ជ្រើសរើសខែ' },
+        { value: 'October', label: 'តុលា' },
+        { value: 'November', label: 'វិច្ឆិកា' },
+        { value: 'December', label: 'ធ្នូ' },
+        { value: 'January', label: 'មករា' },
+        { value: 'February', label: 'កុម្ភៈ' },
+        { value: 'March', label: 'មីនា' },
+        { value: 'AprilMay', label: 'មេសា-ឧសភា' },
+        { value: 'June', label: 'មិថុនា' },
+        { value: 'July', label: 'កក្កដា' },
+        { value: 'firstSemester', label: 'ឆមាសទី១' },
+        { value: 'secondSemester', label: 'ឆមាសទី២' },
+        { value: 'firstSemesterResult', label: 'ប្រចាំឆមាសទី១' },
+        { value: 'secondSemesterResult', label: 'ប្រចាំឆមាសទី២' },
+        { value: 'fourmonths1', label: 'ពិន្ទុ៤ខែឆមាសទី១' },
+        { value: 'fourmonths2', label: 'ពិន្ទុ៤ខែឆមាសទី២' },
+        { value: 'AnnualYear', label: 'ប្រចាំឆ្នាំ' },
+      ];
+    }
+
     const divis = [
       { value: ``, label: 'ជ្រើសរើសតួចែក' },
       { value: `1`, label: '1' },
@@ -95,14 +117,17 @@ const MonthScore = () => {
       { value: `6`, label: '6' },
       { value: `7`, label: '7' },
       { value: `8`, label: '8' },
+      { value: `8.4`, label: '8.4' },
       { value: `9`, label: '9' },
       { value: `10`, label: '10' },
       { value: `11`, label: '11' },
       { value: `12`, label: '12' },
+      { value: `12.5`, label: '12.5' },
       { value: `13`, label: '13' },
       { value: `14`, label: '14' },
       { value: `15`, label: '15' },
       { value: `16`, label: '16' },
+      { value: `16.5`, label: '16.5' },
       { value: `17`, label: '17' },
       { value: `18`, label: '18' },
       { value: `19`, label: '19' },
