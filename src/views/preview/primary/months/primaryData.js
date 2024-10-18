@@ -1062,11 +1062,18 @@ export default function OctoberData() {
                       parseFloat(e_h_moct) +
                       parseFloat(pe_moct);
                     if (!total_all_score) { total_all_score = "00" }
+
+                    if (total_all_score === 'NaN') {
+                      total_all_score = 0;
+                    }
+
                     //មធ្យមភាគ
                     var st_average =
                       parseFloat(total_all_score) / dbDivi;
                     st_average = st_average.toFixed(2);
-
+                    if (st_average === 'NaN') {
+                      st_average = 0;
+                    }
                     //Mention average
                     let mention = '';
                     var my = parseFloat(average);
@@ -2124,26 +2131,6 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: rank_math_ }}
                             ></td>
                             <td
-                              data-keynumber8={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`math_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext8}
-                              dangerouslySetInnerHTML={{ __html: math_h_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_math_h_ }}
-                            ></td>
-                            <td
                               data-keynumber9={index + 1}
                               contentEditable
                               suppressContentEditableWarning
@@ -2182,86 +2169,6 @@ export default function OctoberData() {
                             ></td>
                             <td style={{ color: 'red' }}
                               dangerouslySetInnerHTML={{ __html: rank_soc_ }}
-                            ></td>
-                            <td
-                              data-keynumber11={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`k_homework_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext11}
-                              dangerouslySetInnerHTML={{ __html: k_homework_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_k_homework_ }}
-                            ></td>
-                            <td
-                              data-keynumber12={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`sci_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext12}
-                              dangerouslySetInnerHTML={{ __html: sci_h_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_sci_h_ }}
-                            ></td>
-                            <td
-                              data-keynumber13={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`soc_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext13}
-                              dangerouslySetInnerHTML={{ __html: soc_h_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_soc_h_ }}
-                            ></td>
-                            <td
-                              data-keynumber14={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`e_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext14}
-                              dangerouslySetInnerHTML={{ __html: e_h_moct }}
-                            ></td>
-                            <td style={{ color: 'red' }}
-                              dangerouslySetInnerHTML={{ __html: rank_e_h_ }}
                             ></td>
                             <td
                               data-keynumber15={index + 1}
@@ -2535,6 +2442,23 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: k_writing_moct }}
                             ></td>
                             <td
+                              data-keynumber11={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`k_homework_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext11}
+                              dangerouslySetInnerHTML={{ __html: k_homework_moct }}
+                            ></td>
+                            <td
                               data-keynumber6={index + 1}
                               contentEditable
                               suppressContentEditableWarning
@@ -2603,6 +2527,24 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: sci_moct }}
                             ></td>
                             <td
+                              data-keynumber12={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`sci_h_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext12}
+                              dangerouslySetInnerHTML={{ __html: sci_h_moct }}
+                            ></td>
+
+                            <td
                               data-keynumber10={index + 1}
                               contentEditable
                               suppressContentEditableWarning
@@ -2620,40 +2562,6 @@ export default function OctoberData() {
                               dangerouslySetInnerHTML={{ __html: soc_moct }}
                             ></td>
                             <td
-                              data-keynumber11={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`k_homework_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext11}
-                              dangerouslySetInnerHTML={{ __html: k_homework_moct }}
-                            ></td>
-                            <td
-                              data-keynumber12={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`sci_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext12}
-                              dangerouslySetInnerHTML={{ __html: sci_h_moct }}
-                            ></td>
-                            <td
                               data-keynumber13={index + 1}
                               contentEditable
                               suppressContentEditableWarning
@@ -2669,23 +2577,6 @@ export default function OctoberData() {
                               onClick={clickText}
                               onKeyDown={keyNext13}
                               dangerouslySetInnerHTML={{ __html: soc_h_moct }}
-                            ></td>
-                            <td
-                              data-keynumber14={index + 1}
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) => {
-                                const setID = d.id
-                                const data = e.target.innerHTML
-                                let aar = {}
-                                aar[`e_h_${arrMonths}`] = data
-                                if (setID) {
-                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
-                                }
-                              }}
-                              onClick={clickText}
-                              onKeyDown={keyNext14}
-                              dangerouslySetInnerHTML={{ __html: e_h_moct }}
                             ></td>
                             <td
                               data-keynumber15={index + 1}
@@ -2720,6 +2611,24 @@ export default function OctoberData() {
                               onClick={clickText}
                               onKeyDown={keyNext16}
                               dangerouslySetInnerHTML={{ __html: e_moct }}
+                            ></td>
+
+                            <td
+                              data-keynumber14={index + 1}
+                              contentEditable
+                              suppressContentEditableWarning
+                              onBlur={(e) => {
+                                const setID = d.id
+                                const data = e.target.innerHTML
+                                let aar = {}
+                                aar[`e_h_${arrMonths}`] = data
+                                if (setID) {
+                                  update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + setID), aar);
+                                }
+                              }}
+                              onClick={clickText}
+                              onKeyDown={keyNext14}
+                              dangerouslySetInnerHTML={{ __html: e_h_moct }}
                             ></td>
                             <td className="fw-bold" style={{ color: 'darkgreen' }}
                               dangerouslySetInnerHTML={{ __html: total_all_score }}
@@ -3041,11 +2950,17 @@ export default function OctoberData() {
                       parseFloat(e_h_moct) +
                       parseFloat(pe_moct);
                     if (!total_all_score) { total_all_score = "00" }
+                    if (total_all_score === 'NaN') {
+                      total_all_score = 0;
+                    }
 
                     //មធ្យមភាគ
                     var st_average =
                       parseFloat(total_all_score) / dbDivi;
                     st_average = st_average.toFixed(2);
+                    if (st_average === 'NaN') {
+                      st_average = 0;
+                    }
 
                     var total_all_scoreSeme =
                       parseFloat(geor_moct) +
@@ -3059,15 +2974,27 @@ export default function OctoberData() {
                       parseFloat(e_moct) +
                       parseFloat(pe_moct);
                     if (!total_all_scoreSeme) { total_all_scoreSeme = "00" }
+                    if (total_all_scoreSeme === 'NaN') {
+                      total_all_scoreSeme = 0;
+                    }
 
                     //មធ្យមភាគ
                     var st_averageSeme =
                       parseFloat(total_all_scoreSeme) / parseFloat(10);
                     st_averageSeme = st_averageSeme.toFixed(2);
+                    if (st_averageSeme === 'NaN') {
+                      st_averageSeme = 0;
+                    }
 
                     var total = parseFloat(average_seme1) + parseFloat(average_seme2)
+                    if (total === 'NaN') {
+                      total = 0;
+                    }
                     var final = parseFloat(total) / 2
                     final = final.toFixed(2)
+                    if (final === 'NaN') {
+                      final = 0;
+                    }
 
                     //Mention average
                     let mention = '';
@@ -5363,9 +5290,16 @@ export default function OctoberData() {
           parseFloat(average_mjan) +
           parseFloat(average_mfeb)
         if (!fourtotal1) { fourtotal1 = 0 }
+        if (fourtotal1 === 'NaN') {
+          fourtotal1 = 0;
+        }
+
         fourtotal1 = fourtotal1.toFixed(2)
         var totalFour1 = parseFloat(fourtotal1) / parseFloat(check_)
         totalFour1 = totalFour1.toFixed(2)
+        if (totalFour1 === 'NaN') {
+          totalFour1 = 0;
+        }
 
         //Total the 4 months semester 2
         var fourtotal2 =
@@ -5375,9 +5309,16 @@ export default function OctoberData() {
           parseFloat(average_mjul)
 
         if (!fourtotal2) { fourtotal2 = 0 }
+        if (fourtotal2 === 'NaN') {
+          fourtotal2 = 0;
+        }
+
         fourtotal2 = fourtotal2.toFixed(2)
         var totalFour2 = parseFloat(fourtotal2) / parseFloat(check_)
         totalFour2 = totalFour2.toFixed(2)
+        if (totalFour2 === 'NaN') {
+          totalFour2 = 0;
+        }
 
         //Total all score
         var total_all_score =
@@ -5398,10 +5339,17 @@ export default function OctoberData() {
           parseFloat(e_h_moct) +
           parseFloat(pe_moct);
         if (!total_all_score) { total_all_score = "00" }
+        if (total_all_score === 'NaN') {
+          total_all_score = 0;
+        }
+
         //មធ្យមភាគ
         var st_average =
           parseFloat(total_all_score) / dbDivi;
         st_average = st_average.toFixed(2);
+        if (st_average === 'NaN') {
+          st_average = '0.00';
+        }
 
         //Push data to firebase
         if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
@@ -5602,7 +5550,10 @@ export default function OctoberData() {
           parseFloat(average_mnov) +
           parseFloat(average_mdec) +
           parseFloat(average_mjan) +
-          parseFloat(average_mfeb)
+          parseFloat(average_mfeb);
+        if (fourtotal1 === 'NaN') {
+          fourtotal1 = 0;
+        }
 
         fourtotal1 = fourtotal1.toFixed(2)
         var totalFour1 = parseFloat(fourtotal1) / parseFloat(check_)
@@ -5613,7 +5564,10 @@ export default function OctoberData() {
           parseFloat(average_mmarch) +
           parseFloat(average_mapma) +
           parseFloat(average_mjun) +
-          parseFloat(average_mjul)
+          parseFloat(average_mjul);
+        if (fourtotal2 === 'NaN') {
+          fourtotal2 = 0;
+        }
 
         fourtotal2 = fourtotal2.toFixed(2)
         var totalFour2 = parseFloat(fourtotal2) / parseFloat(check_)
@@ -5638,11 +5592,18 @@ export default function OctoberData() {
           parseFloat(e_h_moct) +
           parseFloat(pe_moct);
         if (!total_all_score) { total_all_score = "00" }
+        if (total_all_score === 'NaN') {
+          total_all_score = 0;
+        }
 
         //មធ្យមភាគ
         var st_average =
           parseFloat(total_all_score) / dbDivi;
         st_average = st_average.toFixed(2);
+        if (st_average === 'NaN') {
+          st_average = '0.00';
+        }
+
         //Push data to firebase
         if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
           if (dbMonths === 'fourmonths1') {
@@ -7512,43 +7473,33 @@ export default function OctoberData() {
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ការស្តាប់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ការនិយាយ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំណាន</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរសេរតាមអាន</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែងសេចក្តី</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គ.ផ្ទាល់មាត់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិតវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គ.កិច្ចការផ្ទះ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យាសាស្ត្រ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សិក្សាសង្គម</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(ខ្មែរ)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(វិទ្យា)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(សិក្សា)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(អង់គ្លេស)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់គ្លេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ការស្តាប់</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ការនិយាយ</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>អំណាន</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>សរសេរតាមអាន</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>តែងសេចក្តី</th>
+                <th style={{ backgroundColor: '#AEB3F5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>គ.ផ្ទាល់មាត់</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>គណិតវិទ្យា</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEF5DDFF', color: 'black' }}>វិទ្យាសាស្ត្រ</th>
+                <th style={{ backgroundColor: '#AEF5DDFF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#BDAEF5FF', color: 'black' }}>សិក្សាសង្គម</th>
+                <th style={{ backgroundColor: '#BDAEF5FF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5AECFFF', color: 'black' }}>កីឡា</th>
+                <th style={{ backgroundColor: '#F5AECFFF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#AEF5BAFF', color: 'black' }}>អង់គ្លេស</th>
+                <th style={{ backgroundColor: '#AEF5BAFF', color: 'black' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5AEF5FF', color: 'black' }}>ពិន្ទុសរុប</th>
+                <th style={{ backgroundColor: '#F5AEF5FF', color: 'black' }}>មធ្យមភាគ</th>
+                <th style={{ backgroundColor: '#F5AEF5FF', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                <th style={{ backgroundColor: '#F5AEF5FF', color: 'black' }}>និទ្ទេស</th>
+                <th style={{ backgroundColor: '#F5AEF5FF', color: 'black' }}>លទ្ធផល</th>
               </tr>
             </thead>
           </>
@@ -7873,27 +7824,27 @@ export default function OctoberData() {
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
                 <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ការស្តាប់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ការនិយាយ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អំណាន</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សរសេរតាមអាន</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>តែងសេចក្តី</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គ.ផ្ទាល់មាត់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គណិតវិទ្យា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>គ.កិច្ចការផ្ទះ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>វិទ្យាសាស្ត្រ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>សិក្សាសង្គម</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(ខ្មែរ)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(វិទ្យា)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(សិក្សា)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កិ.(អង់គ្លេស)</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>កីឡា</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>អង់គ្លេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ពិន្ទុសរុប</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>មធ្យមភាគ</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ចំណាត់ថ្នាក់</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>និទ្ទេស</th>
-                <th style={{ backgroundColor: '#f5f0ae', color: 'black' }}>លទ្ធផល</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>ការស្តាប់</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>ការនិយាយ</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>អំណាន</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>សរសេរតាមអាន</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>តែងសេចក្តី</th>
+                <th style={{ backgroundColor: '#D6F5AEFF', color: 'black' }}>កិ.(ខ្មែរ)</th>
+                <th style={{ backgroundColor: '#AEC1F5FF', color: 'black' }}>គ.ផ្ទាល់មាត់</th>
+                <th style={{ backgroundColor: '#AEC1F5FF', color: 'black' }}>គណិតវិទ្យា</th>
+                <th style={{ backgroundColor: '#AEC1F5FF', color: 'black' }}>គ.កិច្ចការផ្ទះ</th>
+                <th style={{ backgroundColor: '#F5B9AEFF', color: 'black' }}>វិទ្យាសាស្ត្រ</th>
+                <th style={{ backgroundColor: '#F5B9AEFF', color: 'black' }}>កិ.(វិទ្យា)</th>
+                <th style={{ backgroundColor: '#F5CEAEFF', color: 'black' }}>សិក្សាសង្គម</th>
+                <th style={{ backgroundColor: '#F5CEAEFF', color: 'black' }}>កិ.(សិក្សា)</th>
+                <th style={{ backgroundColor: '#F5AEECFF', color: 'black' }}>កីឡា</th>
+                <th style={{ backgroundColor: '#AEF5C3FF', color: 'black' }}>អង់គ្លេស</th>
+                <th style={{ backgroundColor: '#AEF5C3FF', color: 'black' }}>កិ.(អង់គ្លេស)</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>ពិន្ទុសរុប</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>មធ្យមភាគ</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>ចំណាត់ថ្នាក់</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>និទ្ទេស</th>
+                <th style={{ backgroundColor: '#F5AEC3FF', color: 'black' }}>លទ្ធផល</th>
               </tr>
             </thead>
           </>
