@@ -642,20 +642,49 @@ export default function OctoberData() {
         setfailFemale(l)
 
       }
+      let dataAllGrades = dataSet ? Object.values(dataSet) : []; // Convert object to array
+      // dataAllGrades.sort(function (a, b) { return b.fullname - a.fullname });
 
-      setdataStd(dataSet ? Object.values(dataSet) : []); // Convert object to array
+      dataAllGrades.sort((a, b) => {
+        if (a.fullname < b.fullname) return -1;
+        if (a.fullname > b.fullname) return 1;
+        return 0;
+      });
+
+      setdataStd(dataAllGrades); // Convert object to array
+
 
     })
 
     //Database Grades
+    // onValue(dbAllGrade, (data) => {
+    //   const dataSet = data.val();
+    //   data.forEach(e => {
+    //     let en = e.val().clEn
+    //     setgetGrade(en)
+    //   })
+    //   setdataAllGrades(dataSet ? Object.values(dataSet) : []); // Convert object to array
+    // })
+
     onValue(dbAllGrade, (data) => {
       const dataSet = data.val();
+      let dataAllGrades = dataSet ? Object.values(dataSet) : []; // Convert object to array
       data.forEach(e => {
         let en = e.val().clEn
         setgetGrade(en)
       })
-      setdataAllGrades(dataSet ? Object.values(dataSet) : []); // Convert object to array
-    })
+      // Sort the array by fullname
+      dataAllGrades.sort(function (a, b) { return b.fullname - a.fullname});
+
+      // dataAllGrades.sort((a, b) => {
+      //   if (a.fullname < b.fullname) return -1;
+      //   if (a.fullname > b.fullname) return 1;
+      //   return 0;
+      // });
+
+      setdataAllGrades(dataAllGrades);
+    });
+
 
   }, [])
 

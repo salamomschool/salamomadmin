@@ -17,6 +17,7 @@ const OfficeTimeTableView = React.lazy(() => import('./views/officeTimeTable/Off
 const TimeTableAugust = React.lazy(() => import('./views/timetableaugust/TimeTableAugust'))
 const OfficeTimeTableAugust = React.lazy(() => import('./views/officeTimeTableAugust/OfficeTimeTableAugust'))
 const OfficeTimeTableAugustView = React.lazy(() => import('./views/officeTimeTableAugust/OfficeTimeTableAugust'))
+const AdmireList = React.lazy(() => import('./views/admire/admire'))
 const RecordScore = React.lazy(() => import('./views/recordscore/RecordScore'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -84,6 +85,7 @@ const routes = [
   { path: '/OfficeTimeTable', name: 'កាលវិភាគបង្រៀន', element: OfficeTimeTable },
   { path: '/TimeTableAugust', name: 'កាលវិភាគខែសីហា', element: TimeTableAugust },
   { path: '/OfficeTimeTableAugust', name: 'កាលវិភាគខែសីហា', element: OfficeTimeTableAugust },
+  { path: '/AdmireList', name: 'បញ្ជីឈ្មោះប័ណ្ណសរសើរ', element: AdmireList },
   { path: '/OfficeTimeTableView', name: 'កាលវិភាគបង្រៀន', element: OfficeTimeTableView },
   { path: '/OfficeTimeTableAugustView', name: 'កាលវិភាគខែសីហា', element: OfficeTimeTableAugustView },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },

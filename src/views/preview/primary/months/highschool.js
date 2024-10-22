@@ -634,8 +634,17 @@ export default function HighSchoolData() {
         setfailFemale(l)
 
       }
+      let dataAllGrades = dataSet ? Object.values(dataSet) : []; // Convert object to array
+      // dataAllGrades.sort(function (a, b) { return b.fullname - a.fullname });
 
-      setdataStd(dataSet ? Object.values(dataSet) : []); // Convert object to array
+      dataAllGrades.sort((a, b) => {
+        if (a.fullname < b.fullname) return -1;
+        if (a.fullname > b.fullname) return 1;
+        return 0;
+      });
+
+      setdataStd(dataAllGrades); // Convert object to array
+
 
     })
 

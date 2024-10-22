@@ -122,6 +122,58 @@
   }
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td,
+tr,
+tbody {
+  text-align: center;
+}
+
+.myTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.myTable th,
+td {
+  /* padding: 8px; */
+  text-align: center;
+  border: 1px solid #000000;
+}
+
+.myTbody {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.myTbody td,
+td {
+  /* padding: 8px; */
+  text-align: center;
+  border: 1px solid #000000;
+}
+
+.myFooter {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.myFooter th,
+td {
+  /* padding: 8px; */
+  text-align: center;
+  border: 1px solid #00000000;
+}
+
+.text-start {
+  text-align: left;
+}
+
 .container-award {
   position: absolute;
   width: 70vw;
@@ -147,7 +199,13 @@
 
 .textStart {
   text-align: start;
-  
+
+}
+
+.text-started td:nth-child(2) {
+  text-align: left;
+  padding: 5px;
+
 }
 
 /* table thead th:nth-child(3),  */

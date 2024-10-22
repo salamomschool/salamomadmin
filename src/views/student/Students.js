@@ -67,6 +67,7 @@ const Students = () => {
   users.map((data, index) => {
     const ii = data.rank_moct
     numberArray.push(ii)
+
   })
 
   ///Simple Khmer Date
@@ -786,6 +787,7 @@ const Students = () => {
       let grade = dbGade.replace(/^0+/, '')
       let newId = grade + result
       setid(newId)
+
     }
 
   }

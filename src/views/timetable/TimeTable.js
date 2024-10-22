@@ -171,6 +171,7 @@ const AtTimeTable = () => {
 
 
         }, 1000);
+
         if (t_type === 'english') {
           setTimeout(() => {
             const EntdElements1 = document.querySelectorAll(`.` + `${id}` + 'time1En');
@@ -209,7 +210,7 @@ const AtTimeTable = () => {
               }
             });
             if (EntdElements1) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
                 total_time1: Encount1,
                 teacher_type: t_type,
                 permission: permission,
@@ -218,7 +219,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements2) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
                 total_time2: Encount2,
                 teacher_type: t_type,
                 permission: permission,
@@ -228,7 +229,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements3) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
                 total_time3: Encount3,
                 teacher_type: t_type,
                 permission: permission,
@@ -238,7 +239,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements4) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
                 total_time4: Encount4,
                 teacher_type: t_type,
                 permission: permission,
@@ -248,7 +249,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements5) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
                 total_time5: Encount5,
                 teacher_type: t_type,
                 permission: permission,
@@ -257,8 +258,6 @@ const AtTimeTable = () => {
 
               });
             }
-
-
           }, 1000);
         }
 

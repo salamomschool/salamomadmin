@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilAddressBook,
   cilBell,
   cilCalculator,
   cilCalendar,
@@ -64,6 +65,13 @@ const _nav = [
     to: '/OfficeTimeTableAugustView',
     icon: <CIcon icon={cilCalendar} customClassName="nav-icon" />,
   },
+  {
+    component: CNavItem,
+    name: 'បញ្ជីឈ្មោះប័ណ្ណសរសើរ',
+    to: '/AdmireList',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />,
+  },
+
   {
     component: CNavItem,
     name: 'របាយការណ៍ពិន្ទុ',
