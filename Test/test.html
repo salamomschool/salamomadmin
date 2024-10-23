@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>លទ្ធផល-${numKh}(${lettersKh}) ${subMonth}</title>
+
+    <style>
+        @media print {
+            @media print {
+                @page {
+                    size: A4;
+                    margin-top: 3mm;
+                    margin-right: 4mm;
+                    margin-bottom: 3mm;
+                    margin-left: 4mm;
+                    transform: scale(0.1);
+                    transform-origin: 0 0;
+                }
+            }
+
+            @font-face {
+                font-family: "KhOSSiemreap";
+                src: url("https://res.cloudinary.com/salamomschool/raw/upload/v1710682946/fonts/01a09003da4063952afa7734f4f393af.ttf");
+                font-weight: normal
+            }
+
+            @font-face {
+                font-family: "kh moul";
+                src: url("https://res.cloudinary.com/salamomschool/raw/upload/v1711085952/fonts/kh%20moul.TTF");
+                font-weight: normal
+            }
+
+            * {
+                font-family: KhOSSiemreap
+            }
+
+            .pavachana {
+                font-family: kh moul
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th,
+            td,
+            tr,
+            tbody {
+                text-align: center;
+            }
+
+            .myTable {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .myTable th,
+            td {
+                /* padding: 8px; */
+                text-align: center;
+                border: 1px solid #000000;
+            }
+
+            .myTbody {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .myTbody td,
+            td {
+                /* padding: 8px; */
+                text-align: center;
+                border: 1px solid #000000;
+            }
+
+            .myFooter {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .myFooter th,
+            td {
+                /* padding: 8px; */
+                text-align: center;
+                border: 1px solid #00000000;
+            }
+
+            .text-start {
+                text-align: left;
+            }
+
+            #show_data_print td:nth-child(2) {
+                text-align: left;
+                width: 10vh;
+                padding: 20dvh;
+            }
+
+            .head_table {
+                font-size: 1.5vw;
+                line-height: 1;
+                padding: 20dvh;
+            }
+
+            .container-principal-sign {
+                position: relative;
+                top: -15%;
+
+            }
+
+            .sign-imag {
+                position: absolute;
+                display: block;
+                width: 30vw;
+                height: auto;
+            }
+
+            .place-sign {
+                position: absolute;
+                display: block;
+                width: 30vw;
+                height: auto;
+                left: 10vw;
+            }
+
+            .overlay-text {
+                position: absolute;
+                /* Positions the text on top of the image */
+                top: 0%;
+                margin-top: 1.8vw;
+                left: 50%;
+                font-weight: bold;
+                transform: translate(-50%, -50%);
+                /* Centers the text within the image */
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            .headSize {
+                font-size: 1.5vw;
+                line-height: 1.5
+            }
+
+            .headSizeFooter {
+                font-size: 1.5vw;
+                line-height: 1.5
+            }
+
+            .line_limit {
+                width: 28vh;
+            }
+
+            .al {
+                width: 45vh;
+            }
+
+            .line_limit2 {
+                width: 25vh;
+            }
+
+            .table-show {
+                padding: 10px;
+            }
+
+            .text-started td:nth-child(2) {
+                text-align: left;
+                padding: 5px;
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="allContain">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th class="pavachana">ព្រះរាជាណាចក្រកម្ពុជា</th>
+                    </tr>
+                    <tr>
+                        <th class="text-start">ការិយាល័យអប់រំយុវជន និងកីឡានៃរដ្ឋបាលខណ្ឌសែនសុខ</th>
+                        <th></th>
+                        <th class="pavachana">ជាតិ សាសនា ព្រះមហាក្សត្រ</th>
+                    </tr>
+                    <tr>
+                        <th class="text-start line_limit">បឋមសិក្សា សាលាមុំ</th>
+                        <th></th>
+                        <th><img src="https://res.cloudinary.com/salamomschool/image/upload/v1711107157/fonts/takteng.png.png"
+                                style="width: 10vh;" alt="image"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-start"></th>
+                        <th class="line_limit2">គ្រូត្រួតពិនិត្យសិស្សដែឡត្រូវទទួលរង្វាន់: ថ្នាក់ទី ៥ក</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="text-start"></th>
+                        <th>ផ្នែក..........................(សប្តាហ៍ទី.....)</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+    <div>
+        <table class="myTable">
+            <thead>
+                <tr>
+                    <th>N0</th>
+                    <th>Name</th>
+                    <th>Sex</th>
+                </tr>
+            </thead>
+            <tbody class="myTbody text-started">
+                <tr>
+                    <td>01</td>
+                    <td>Dara</td>
+                    <td>M</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="allContain">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-start al">វិន័យ បទបញ្ជាផ្ទៃក្នុង: <span id="name1">ហុិន ធារី</span></th>
+                        <th>ភ្នំពេញថ្ងៃទី......... ខែ...........ឆ្នាំ ២០......</th>
+                    </tr>
+                    <tr>
+                        <th class="text-start">សីលធម៌: <span id="name2">ហុិន ធារី</span></th>
+                        <th>គ្រូទទួលបន្ទុក</th>
+                    </tr>
+                    <tr>
+                        <th class="text-start">ខិតខំរៀនសូត្រ: <span id="name3">ហុិន ធារី</span></th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+
+    <script>
+        var name1 = localStorage.getItem('tname1');
+        var name2 = localStorage.getItem('tname2');
+        var name3 = localStorage.getItem('tname3');
+        document.getElementById("name1").innerHTML = name1;
+        document.getElementById("name2").innerHTML = name2;
+        document.getElementById("name3").innerHTML = name3;
+
+    </script>
+</body>
+
+</html>

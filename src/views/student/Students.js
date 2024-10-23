@@ -6,18 +6,25 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import Form from 'react-bootstrap/Form';
 import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowCircleTop, cilArrowThickBottom, cilPeople, cilPlus, cilSearch, cilTrash } from "@coreui/icons";
+import { cilArrowBottom, cilArrowCircleBottom, cilArrowCircleTop, cilArrowThickBottom, cilPeople, cilPlus, cilSave, cilSearch, cilTrash } from "@coreui/icons";
 import { Modal, Button } from 'react-bootstrap';
 import View1Award from "./Rank1";
 import moment from "moment/moment";
 import momentkh from "@thyrith/momentkh"
 import GetId from "src/views/student/GetID.js";
+import { saveAs } from 'file-saver';
 var lettt = momentkh(moment)
 var today = lettt()
 
 const Students = () => {
   //Array set
   const [users, setUsers] = useState([]);
+  const [usersGrade, setUsersGrade] = useState([]);
+  const [usersYear, setUsersYear] = useState([]);
+  const [dataStoreAll, setdataStoreAll] = useState([]);
+  const [dataStorePrimary, setdataStorePrimary] = useState([]);
+  const [dataStoreSecondary, setdataStoreSecondary] = useState([]);
+  const [dataStoreHigh, setdataStoreHigh] = useState([]);
   const [lastId, setlastId] = useState('');
   GetId(users)
   const result = GetId(users)
@@ -25,13 +32,16 @@ const Students = () => {
   const [dropStd, setdropStd] = useState([]);
   const [dbeGetYear, setdbeGetYear] = useState([]);
   const [sleGrade, setsleGrade] = useState([]);
-
+  const [selectedFile, setSelectedFile] = useState(null);
   //Value set
   const [dbGade, setdbGrade] = useState(localStorage.getItem('school_grade_st') || 'default');
   const [mydbYear, setmydbYear] = useState(localStorage.getItem('school_year_st') || 'default');
   const [mydbLevel, setmydbLevel] = useState(localStorage.getItem('school_level_st') || 'default');
   const [upgradeYear, setupgradeYear] = useState(localStorage.getItem('upgradeYear') || 'default')
+  const [upgradeYearBackup, setupgradeYearBackup] = useState(localStorage.getItem('upgradeYearBackup') || 'default')
+  const [typeBackup, settypeBackup] = useState(localStorage.getItem('typeBackup') || 'default')
   const [upgradeGrade, setupgradeGrade] = useState(localStorage.getItem('upgradeGrade') || 'default')
+  const [upgradeGradeBackup, setupgradeGradeBackup] = useState(localStorage.getItem('upgradeGradeBackup') || 'default')
   const [dropYear, setdropYear] = useState(localStorage.getItem('dropYear') || 'default')
   const [dropGrade, setdropGrade] = useState(localStorage.getItem('dropGrade') || 'default')
   const [restoreYear, setrestoreYear] = useState(localStorage.getItem('restoreYear') || 'default')
@@ -60,8 +70,14 @@ const Students = () => {
 
   const dbPrimary = ref(db, `/SalaMOM/tools/class/${mydbLevel}`);
   const getStd = ref(db, `/SalaMOM/classes/${mydbYear}/${dbGade.replace(/^0+/, '')}/`);
+  const getStdYears = ref(db, `/SalaMOM/classes/${mydbYear}/`);
   const getDropStd = ref(db, `/SalaMOM/classes/dropstd/${mydbYear}/${dbGade.replace(/^0+/, '')}`);
+  const backupOne = ref(db, `/SalaMOM/classes/`);
+  const backupTwo = ref(db, `/SalaMOM/classes/បឋមសិក្សា`);
+  const backupThree = ref(db, `/SalaMOM/classes/អនុវិទ្យាល័យ`);
+  const backupFour = ref(db, `/SalaMOM/classes/វិទ្យាល័យ`);
   // const [modifiedArray, setModifiedArray] = useState(dbGade.map((item) => item.replace(/^0+/, '')));
+
   let numberArray = []
 
   users.map((data, index) => {
@@ -175,9 +191,34 @@ const Students = () => {
 
     onValue(getStd, (data) => {
       const dataSet = data.val();
+      setUsersGrade(dataSet);
       setUsers(dataSet ? Object.values(dataSet) : []); // Convert object to array
     })
+    onValue(getStdYears, (data) => {
+      const dataSet = data.val();
+      setUsersYear(dataSet);
+
+    })
+    onValue(backupOne, (data) => {
+      const dataSet = data.val();
+      setdataStoreAll(dataSet); // Convert object to array
+    })
+    onValue(backupTwo, (data) => {
+      const dataSet = data.val();
+      setdataStorePrimary(dataSet); // Convert object to array
+    })
+    onValue(backupThree, (data) => {
+      const dataSet = data.val();
+      setdataStoreSecondary(dataSet); // Convert object to array
+    })
+    onValue(backupFour, (data) => {
+      const dataSet = data.val();
+      setdataStoreHigh(dataSet); // Convert object to array
+    })
+
+
   }, []);
+
   useEffect(() => {
     let elementCounts = {};
     for (let num of numberArray) {
@@ -264,6 +305,14 @@ const Students = () => {
     setupgradeYear(localStorage.getItem('upgradeYear') || 'default')
   }, [upgradeYear]);
   useEffect(() => {
+    localStorage.setItem('typeBackup', typeBackup);
+    settypeBackup(localStorage.getItem('typeBackup') || 'default')
+  }, [typeBackup]);
+  useEffect(() => {
+    localStorage.setItem('upgradeYearBackup', upgradeYearBackup);
+    setupgradeYearBackup(localStorage.getItem('upgradeYearBackup') || 'default')
+  }, [upgradeYearBackup]);
+  useEffect(() => {
     localStorage.setItem('upgradeGrade', upgradeGrade);
     setupgradeGrade(localStorage.getItem('upgradeGrade') || 'default')
   }, [upgradeGrade]);
@@ -291,6 +340,94 @@ const Students = () => {
     localStorage.setItem('awarPrintDate', awarPrintDate);
     setawarPrintDate(localStorage.getItem('awarPrintDate') || 'default')
   }, [awarPrintDate]);
+
+  //Save data to json file
+  const currentDate = new Date().toLocaleDateString('en-GB');
+  const saveDataAll = () => {
+    if (typeBackup === 'typeAll') {
+      const blob = new Blob([JSON.stringify(dataStoreAll, null, 2)], { type: 'application/json' });
+      saveAs(blob, `all_datas_ទាំងអស់_${currentDate}.json`);
+    }
+    if (typeBackup === 'typeGrades') {
+      const blob = new Blob([JSON.stringify(usersGrade, null, 2)], { type: 'application/json' });
+      saveAs(blob, `data_${mydbYear}_${mydbLevel}_${dbGade}_តាមថ្នាក់_${currentDate}.json`);
+    }
+    if (typeBackup === 'typeYears') {
+      const blob = new Blob([JSON.stringify(usersYear, null, 2)], { type: 'application/json' });
+      saveAs(blob, `data_${mydbYear}_តាមឆ្នាំ_${currentDate}.json`);
+    }
+  };
+
+  //Restore data
+  const uploadFileToFirebase = () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const jsonData = JSON.parse(event.target.result);
+      Swal.fire({
+        title: "តើអ្នកប្រាកដឬ? សូមត្រួពិនិត្យទិន្ន័យឲ្យបានច្បាស់មុននិងបញ្ចូល!!",
+        showCancelButton: true,
+        confirmButtonText: "Restore",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (typeBackup) {
+            if (typeBackup === 'typeAll') {
+              const backupRef = ref(db, `/SalaMOM/classes/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+            if (typeBackup === 'typeGrades') {
+              const backupRef = ref(db, `/SalaMOM/classes/${mydbYear}/${dbGade.replace(/^0+/, '')}/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+            if (typeBackup === 'typeYears') {
+              const backupRef = ref(db, `/SalaMOM/classes/${mydbYear}/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+
+            Swal.fire({
+              text: "ព័ត៍មានបានបញ្ចូលត្រឹមត្រូវ!",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2200,
+            });
+          }
+        }
+      });
+
+
+
+    };
+    reader.readAsText(selectedFile);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+
   //Set value for year
   const SelectYear = () => {
     const handleYear = (event) => {
@@ -3894,7 +4031,7 @@ line-height: 0;
                 </button>
                 <button data-bs-toggle="modal" data-bs-target="#importModal"
                   style={{
-                    color: "black",
+                    color: "darkblue",
                     fontWeight: 'bold'
                   }}
                   type="button" id="importStd" className="btn btn-warning btn-sm me-2">
@@ -3908,6 +4045,15 @@ line-height: 0;
                   }}
                   type="button"
                   className="btn btn-info btn-sm me-2"><CIcon icon={cilArrowCircleTop} /> Upgrade</button>
+                <button
+                  data-bs-toggle="modal" data-bs-target="#add_student_backup"
+                  id="getDataBackup"
+                  style={{
+                    color: "darkblue",
+                    fontWeight: 'bold'
+                  }}
+                  type="button"
+                  className="btn btn-warning btn-sm me-2"><CIcon icon={cilSave} /> Backup</button>
                 {/* <DropStd /> */}
                 <MyComponent />
                 <GoodStd />
@@ -4804,6 +4950,113 @@ line-height: 0;
                 </div>
 
                 <div className="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal fade" id="add_student_backup" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-xl">
+              <div className="modal-content">
+                <div className="modal-header text-center">
+                  <select className="text-center"
+                    value={typeBackup}
+                    onChange={e => {
+                      localStorage.setItem('typeBackup', e.target.value)
+                      settypeBackup(e.target.value)
+                    }}
+                    style={{
+                      color: "#23074d",
+                      lineHeight: "1",
+                      borderRight: "0",
+                      borderLeft: "0",
+                      borderTop: "0",
+                      borderBottom: "2px solid #005AA7",
+                      fontWeight: "bold",
+                      background: "transparent",
+                      width: "6rem"
+                    }}
+                    id="sle_grade">
+                    <option>ជ្រើសរើសប្រភេទ</option>
+                    <option value={'typeAll'}>ទាំងអស់</option>
+                    <option value={'typeYears'}>តាមឆ្នាំ</option>
+                    <option value={'typeGrades'}>តាមថ្នាក់</option>
+
+                  </select>
+                  <select
+                    disabled
+                    className="text-center"
+                    value={upgradeYearBackup}
+                    onChange={e => {
+                      localStorage.setItem('upgradeYearBackup', e.target.value)
+                      setupgradeYearBackup(e.target.value)
+                    }}
+                    style={{
+                      color: '#23074d',
+                      lineHeight: '1',
+                      borderRight: "0",
+                      borderLeft: "0",
+                      borderTop: "0",
+                      borderBottom: "2px solid #005AA7",
+                      fontWeight: "bold",
+                      background: "transparent",
+                      display: 'none'
+                    }}
+                    id="sle_year">
+                    <option>ឆ្នាំសិក្សា</option>
+                    {dbeGetYear.map((option) => (
+                      <option key={option.yearEn} value={option.yearEn}>
+                        {option.yearKh}
+                      </option>
+                    ))}
+                  </select>
+                  <select className="text-center"
+                    disabled
+                    value={upgradeGradeBackup}
+                    onChange={e => {
+                      localStorage.setItem('upgradeGradeBackup', e.target.value)
+                      setupgradeGradeBackup(e.target.value)
+                    }}
+                    style={{
+                      color: "#23074d",
+                      lineHeight: "1",
+                      borderRight: "0",
+                      borderLeft: "0",
+                      borderTop: "0",
+                      borderBottom: "2px solid #005AA7",
+                      fontWeight: "bold",
+                      background: "transparent",
+                      width: "6rem",
+                      display: 'none'
+                    }}
+                    id="sle_grade">
+                    <option>ថ្នាក់ទី</option>
+                    {sleGrade.map((option) => (
+                      <option key={option.clEn} value={option.clEn}>
+                        {option.clKh}
+                      </option>
+                    ))}
+                  </select>
+
+                </div>
+                <div className="modal-body">
+                  <label for="formFile" class="form-label">សូមជ្រើសរើសទិន្ន័យជា (.json)</label>
+                  <input class="form-control" type="file" accept=".json" onChange={handleFileChange} />
+                </div>
+                <div className="modal-footer">
+                  <button id="btnUpgrade"
+                    style={{
+                      color: 'white'
+                    }}
+                    onClick={saveDataAll}
+                    className="btn btn-success btn-rounded btn-fw btn-sm">Backup</button>
+                  <button id="btnUpgrade"
+                    style={{
+                      color: 'darkblue'
+                    }}
+                    onClick={uploadFileToFirebase}
+                    className="btn btn-warning btn-rounded btn-fw btn-sm">Restore</button>
                 </div>
               </div>
             </div>

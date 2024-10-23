@@ -6,14 +6,19 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import Form from 'react-bootstrap/Form';
 import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowThickBottom, cilDataTransferDown, cilPlus, cilSearch, cilUser } from "@coreui/icons";
+import { cilArrowBottom, cilArrowThickBottom, cilDataTransferDown, cilPlus, cilSave, cilSearch, cilUser } from "@coreui/icons";
 import { createPopper } from '@popperjs/core';
+import { saveAs } from 'file-saver';
+
 const Teachers = () => {
   //Array set
   const [dbGetStaffs, setdbGetStaffs] = useState([]);
+  const [dbGetStaffsBackup, setdbGetStaffsBackup] = useState([]);
   const [levelPrimary, setlevelPrimary] = useState('');
   const [levelSecondary, setlevelSecondary] = useState('');
   const [levelKinder, setlevelKinder] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+
   //Btn set
   const btnAdd = useRef('');
   const btnUp = useRef('');
@@ -28,6 +33,7 @@ const Teachers = () => {
 
     onValue(dbStaffs, (data) => {
       const dataSet = data.val();
+      setdbGetStaffsBackup(dataSet);
       const sortedJobs = Object.values(dataSet).sort((a, b) => {
         return a.teacher_level.localeCompare(b.teacher_level);
       });
@@ -116,6 +122,50 @@ const Teachers = () => {
 
   }, 250);
 
+  //Save data to json file
+  const currentDate = new Date().toLocaleDateString('en-GB');
+  const saveDataAll = () => {
+    const blob = new Blob([JSON.stringify(dbGetStaffsBackup, null, 2)], { type: 'application/json' });
+    saveAs(blob, `${currentDate}_បញ្ជីព័ត៌មានផ្ទាល់ខ្លួនបុគ្គលិក.json`);
+  };
+
+  //Restore data
+  const uploadFileToFirebase = () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const jsonData = JSON.parse(event.target.result);
+      Swal.fire({
+        title: "តើអ្នកប្រាកដឬ? សូមត្រួពិនិត្យទិន្ន័យឲ្យបានច្បាស់មុននិងបញ្ចូល!!",
+        showCancelButton: true,
+        confirmButtonText: "Restore",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const backupRef = ref(db, `/SalaMOM/staffs/`);
+          set(backupRef, jsonData)
+            .then(() => {
+              console.log('Data uploaded successfully');
+            })
+            .catch((error) => {
+              console.error('Error uploading data:', error);
+            });
+        }
+      });
+
+
+
+    };
+    reader.readAsText(selectedFile);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
 
   const [user_id, setuser_id] = useState('');
   const [fullname, setfullname] = useState('');
@@ -1032,6 +1082,7 @@ const Teachers = () => {
 
 
   return (
+    <>
     <div className="row">
       <div className="col-12 grid-margin">
         <div className="card card-primary card-outline">
@@ -1040,7 +1091,7 @@ const Teachers = () => {
             <p className="card-description">
             </p>
             <div className="text-end">
-              <button id="addNew" type="button" className="btn btn-success btn-sm"
+              <button id="addNew" type="button" className="btn btn-success btn-sm me-2"
                 onClick={AddNew}
                 style={{ color: "white" }}
                 data-bs-toggle="modal" data-bs-target="#add_staffs">
@@ -1049,9 +1100,19 @@ const Teachers = () => {
 
               <button data-bs-toggle="modal" data-bs-target="#importModal" type="button"
                 style={{ color: "white" }}
-                id="importStd" className="btn btn-warning btn-sm">
+                id="importStd" className="btn btn-warning btn-sm me-2">
                 <CIcon icon={cilArrowBottom} /> Import
-              </button>
+                </button>
+                <button
+                  data-bs-toggle="modal" data-bs-target="#add_student_backup"
+                  id="getDataBackup"
+                  style={{
+                    color: "white",
+                    fontWeight: 'bold'
+                  }}
+                  type="button"
+                  className="btn btn-primary btn-sm me-2"><CIcon icon={cilSave} /> Backup</button>
+
             </div>
             <div className="input-group" style={{ padding: '15px' }}>
               <div className="input-group-prepend hover-cursor" id="navbar-search-icon">
@@ -2465,8 +2526,36 @@ const Teachers = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <div className="modal fade" id="add_student_backup" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header text-center">
+            </div>
+            <div className="modal-body">
+              <label for="formFile" class="form-label">សូមជ្រើសរើសទិន្ន័យជា (.json)</label>
+              <input class="form-control" type="file" accept=".json" onChange={handleFileChange} />
+            </div>
+            <div className="modal-footer">
+              <button id="btnUpgrade"
+                style={{
+                  color: 'white'
+                }}
+                onClick={saveDataAll}
+                className="btn btn-success btn-rounded btn-fw btn-sm">Backup</button>
+              <button id="btnUpgrade"
+                style={{
+                  color: 'darkblue'
+                }}
+                onClick={uploadFileToFirebase}
+                className="btn btn-warning btn-rounded btn-fw btn-sm">Restore</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+    </>
   )
 }
 

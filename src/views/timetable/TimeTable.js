@@ -210,7 +210,7 @@ const AtTimeTable = () => {
               }
             });
             if (EntdElements1) {
-              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
                 total_time1: Encount1,
                 teacher_type: t_type,
                 permission: permission,
@@ -219,7 +219,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements2) {
-              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
                 total_time2: Encount2,
                 teacher_type: t_type,
                 permission: permission,
@@ -229,7 +229,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements3) {
-              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
                 total_time3: Encount3,
                 teacher_type: t_type,
                 permission: permission,
@@ -239,7 +239,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements4) {
-              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
                 total_time4: Encount4,
                 teacher_type: t_type,
                 permission: permission,
@@ -249,7 +249,7 @@ const AtTimeTable = () => {
               });
             }
             if (EntdElements5) {
-              update(ref(db, `/SalaMOM/tools/timeTable/by_english/` + name), {
+              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
                 total_time5: Encount5,
                 teacher_type: t_type,
                 permission: permission,
@@ -5458,7 +5458,7 @@ const AtTimeTable = () => {
                       </h4>
                       <div class="col-lg-12">
                         <div style={{ overflow: 'auto' }} id="myTableEnglish">
-                          <table className="table table-bordered"  ref={tableRef}>
+                          <table className="table table-bordered" ref={tableRef}>
                             <thead>
                               <tr id="head1">
                                 <th colspan="2">Teacher/Grade</th>
@@ -27779,7 +27779,7 @@ const AtTimeTable = () => {
                             <li><a
                               className="dropdown-item"
                               onClick={SaveToExGen}
-                            ><img style={{ width: '25px', padding:'5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
+                            ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
                               ថ្នាក់ទូទៅ (Excel)</a></li>
                             <li><a
                               className="dropdown-item"

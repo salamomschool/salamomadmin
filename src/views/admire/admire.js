@@ -1017,8 +1017,6 @@ const MonthScore = () => {
 
     );
   }
-  const g1_t = 'កាន់ លីណា , កែវ ដានី, គឺ វុទ្ធ ';
-  const arrayG1 = g1_t.split(', ');
 
   //Header of the table
   const HeaderTable = () => {
