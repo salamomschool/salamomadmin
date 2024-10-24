@@ -22,6 +22,7 @@ const Students = () => {
   const [usersGrade, setUsersGrade] = useState([]);
   const [usersYear, setUsersYear] = useState([]);
   const [dataStoreAll, setdataStoreAll] = useState([]);
+  const [systemData, setsystemData] = useState([]);
   const [dataStorePrimary, setdataStorePrimary] = useState([]);
   const [dataStoreSecondary, setdataStoreSecondary] = useState([]);
   const [dataStoreHigh, setdataStoreHigh] = useState([]);
@@ -67,6 +68,7 @@ const Students = () => {
   const NameEn = useRef(null);
   const db = getDatabase();
   const dbYear = ref(db, `/SalaMOM/tools/years`);
+  const dataAll = ref(db, `/SalaMOM/`);
 
   const dbPrimary = ref(db, `/SalaMOM/tools/class/${mydbLevel}`);
   const getStd = ref(db, `/SalaMOM/classes/${mydbYear}/${dbGade.replace(/^0+/, '')}/`);
@@ -180,6 +182,10 @@ const Students = () => {
 
 
   useEffect(() => {
+    onValue(dataAll, (data) => {
+      const dataSet = data.val();
+      setsystemData(dataSet)
+    })
     onValue(dbYear, (data) => {
       const dataSet = data.val();
       setdbeGetYear(dataSet ? Object.values(dataSet) : []); // Convert object to array
@@ -356,6 +362,10 @@ const Students = () => {
       const blob = new Blob([JSON.stringify(usersYear, null, 2)], { type: 'application/json' });
       saveAs(blob, `data_${mydbYear}_តាមឆ្នាំ_${currentDate}.json`);
     }
+    if (typeBackup === 'typeDataAll') {
+      const blob = new Blob([JSON.stringify(systemData, null, 2)], { type: 'application/json' });
+      saveAs(blob, `${currentDate}_school_system.json`);
+    }
   };
 
   //Restore data
@@ -397,6 +407,17 @@ const Students = () => {
             }
             if (typeBackup === 'typeYears') {
               const backupRef = ref(db, `/SalaMOM/classes/${mydbYear}/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+
+            if (typeBackup === 'typeDataAll') {
+              const backupRef = ref(db, `/SalaMOM/`);
               set(backupRef, jsonData)
                 .then(() => {
                   console.log('Data uploaded successfully');
@@ -4979,6 +5000,7 @@ line-height: 0;
                     }}
                     id="sle_grade">
                     <option>ជ្រើសរើសប្រភេទ</option>
+                    <option value={'typeDataAll'}>System សាលា</option>
                     <option value={'typeAll'}>ទាំងអស់</option>
                     <option value={'typeYears'}>តាមឆ្នាំ</option>
                     <option value={'typeGrades'}>តាមថ្នាក់</option>

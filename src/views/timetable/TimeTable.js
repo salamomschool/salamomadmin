@@ -13,6 +13,8 @@ import { Container, Row, Col, FormControl } from 'react-bootstrap';
 import jsPDF from 'jspdf';
 import { Document, Page } from 'react-pdf';
 import autoTable from 'jspdf-autotable';
+import { saveAs } from 'file-saver';
+
 const AtTimeTable = () => {
   const db = getDatabase();
 
@@ -51,6 +53,10 @@ const AtTimeTable = () => {
   const [khYear, setkhYear] = useState(localStorage.getItem('outlineKhYear'))
   const [selectTimeTable, setselectTimeTable] = useState(localStorage.getItem('New_Time_Table') || 'default')
   const [selectTimeTableYear, setselectTimeTableYear] = useState(localStorage.getItem('New_Time_Table_Year') || 'default')
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [upgradeYearBackup, setupgradeYearBackup] = useState(localStorage.getItem('upgradeYearBackup') || 'default')
+  const [typeBackup, settypeBackup] = useState(localStorage.getItem('typeBackupTimeTable') || 'default')
+  const [upgradeGradeBackup, setupgradeGradeBackup] = useState(localStorage.getItem('upgradeGradeBackup') || 'default')
 
   const [data, setdata] = useState([])
   const [dbPreview, setdbPreview] = useState([]);
@@ -60,6 +66,9 @@ const AtTimeTable = () => {
   // const pdfRef = useRef(null);
   const [pdfDocument, setPdfDocument] = useState(null);
 
+  const [dbLevelBackup, setdbLevelBackup] = useState([]);
+  const [dbYearBackup, setdbYearBackup] = useState([]);
+  const [dbAllBackup, setdbAllBackup] = useState([]);
 
   const BtnUpdate = useRef('')
   const BtnPush = useRef('')
@@ -71,6 +80,8 @@ const AtTimeTable = () => {
   useEffect(() => {
     const db2 = getDatabase();
     const mainDb = ref(db2, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/` + `${selectTimeTable}`);
+    const allMainDataYear = ref(db2, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/`);
+    const allMainData = ref(db2, `/SalaMOM/tools/timeTable/`);
     const mainTimeTable = ref(db2, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/`);
     const mainDbSecondary = ref(db2, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_teacher/អនុវិទ្យាល័យ/`);
     const mainDbHigh = ref(db2, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_teacher/វិទ្យាល័យ/`);
@@ -80,7 +91,16 @@ const AtTimeTable = () => {
     const mainDatabase = ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_teacher/${selectTimeTable}/`);
     onValue(mainDb, (data) => {
       const dataSet = data.val();
+      setdbLevelBackup(dataSet);
       setmainData(dataSet ? Object.values(dataSet) : []); // Convert object to array
+    })
+    onValue(allMainDataYear, (data) => {
+      const dataSet = data.val();
+      setdbYearBackup(dataSet);
+    })
+    onValue(allMainData, (data) => {
+      const dataSet = data.val();
+      setdbAllBackup(dataSet);
     })
     onValue(enmainDbPrimary, (data) => {
       const dataSet = data.val();
@@ -671,6 +691,92 @@ const AtTimeTable = () => {
     })
 
   }, [])
+
+  //Save data to json file
+  const currentDate = new Date().toLocaleDateString('en-GB');
+  const saveDataAll = () => {
+    if (typeBackup === 'typeAll') {
+      const blob = new Blob([JSON.stringify(dbAllBackup, null, 2)], { type: 'application/json' });
+      saveAs(blob, `${currentDate}_ទាំងអស់_កាលវិភាគ.json`);
+    }
+    if (typeBackup === 'typeLevel') {
+      const blob = new Blob([JSON.stringify(dbLevelBackup, null, 2)], { type: 'application/json' });
+      saveAs(blob, `${currentDate}_data_តាមកម្រិត_${selectTimeTable}_កាលវិភាគ.json`);
+    }
+    if (typeBackup === 'typeYear') {
+      const blob = new Blob([JSON.stringify(dbYearBackup, null, 2)], { type: 'application/json' });
+      saveAs(blob, `${currentDate}_តាមឆ្នាំ_${selectTimeTableYear}_កាលវិភាគ.json`);
+    }
+  };
+
+  //Restore data
+  const uploadFileToFirebase = () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const jsonData = JSON.parse(event.target.result);
+      Swal.fire({
+        title: "តើអ្នកប្រាកដឬ? សូមត្រួពិនិត្យទិន្ន័យឲ្យបានច្បាស់មុននិងបញ្ចូល!!",
+        showCancelButton: true,
+        confirmButtonText: "Restore",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (typeBackup) {
+            if (typeBackup === 'typeAll') {
+              const backupRef = ref(db, `/SalaMOM/classes/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+            if (typeBackup === 'typeLevel') {
+              const backupRef = ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/` + `${selectTimeTable}`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+            if (typeBackup === 'typeYear') {
+              const backupRef = ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/`);
+              set(backupRef, jsonData)
+                .then(() => {
+                  console.log('Data uploaded successfully');
+                })
+                .catch((error) => {
+                  console.error('Error uploading data:', error);
+                });
+            }
+
+            Swal.fire({
+              text: "ព័ត៍មានបានបញ្ចូលត្រឹមត្រូវ!",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2200,
+            });
+          }
+        }
+      });
+
+
+
+    };
+    reader.readAsText(selectedFile);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
 
   function handleImageError(event) {
     // Replace with a placeholder image
@@ -27736,1088 +27842,1154 @@ const AtTimeTable = () => {
 
 
   return (
-    <div className="row">
-      <div className="col-25 grid-margin">
-        <div className="card card-primary card-outline">
-          <div className="card-body">
-            <div className="text-center">
-              <div className="row">
-                <h4 className="card-title">កាលវិភាគបង្រៀនថ្នាក់ <span>{selectTimeTable}</span></h4>
+    <>
+      <div className="row">
+        <div className="col-25 grid-margin">
+          <div className="card card-primary card-outline">
+            <div className="card-body">
+              <div className="text-center">
+                <div className="row">
+                  <h4 className="card-title">កាលវិភាគបង្រៀនថ្នាក់ <span>{selectTimeTable}</span></h4>
 
-                <div className="d-flex justify-content-center">
-                  <Col>
-                    <Row>
-                      <Col>
-                        <LevelSelect />
-                      </Col>
-                      <Col>
-                        <YearSelect />
-                      </Col>
-                      <Col>
-                        <PreviewPrimary />
-                        <PreviewEnglish />
-                        <PreviewBtn />
-                      </Col>
-                      <Col>
-                        <ControlBtn />
-                      </Col>
-                      <Col>
-                        <div>
-                          <button type="button" className="btn btn-danger btn-sm text-center me-3 dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false"
+                  <div className="d-flex justify-content-center">
+                    <Col>
+                      <Row>
+                        <Col>
+                          <LevelSelect />
+                        </Col>
+                        <Col>
+                          <YearSelect />
+                        </Col>
+                        <Col>
+                          <PreviewPrimary />
+                          <PreviewEnglish />
+                          <PreviewBtn />
+                        </Col>
+                        <Col>
+                          <ControlBtn />
+                        </Col>
+                        <Col>
+                          <div>
+                            <button type="button" className="btn btn-danger btn-sm text-center me-3 dropdown-toggle"
+                              data-bs-toggle="dropdown" aria-expanded="false"
+                              style={{
+                                color: "white",
+                                lineHeight: "1",
+                                height: '2.2rem',
+                                fontWeight: 'bold'
+
+                              }}
+                            >
+                              <CIcon icon={cilSave} /> រក្សាទុក
+                            </button>
+                            <ul className="dropdown-menu text-start">
+                              <li><a
+                                className="dropdown-item"
+                                onClick={SaveToExGen}
+                              ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
+                                ថ្នាក់ទូទៅ (Excel)</a></li>
+                              <li><a
+                                className="dropdown-item"
+                                onClick={SaveToExEn}
+                              ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
+                                ភាសាអង់គ្លេស (Excel)</a></li>
+                              <li><a
+                                className="dropdown-item"
+                                onClick={SaveToWordGen}
+                              ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/word.png" />
+                                ថ្នាក់ទូទៅ (DOC)</a></li>
+                              <li><a
+                                className="dropdown-item"
+                                onClick={SaveToWordEn}
+                              ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/word.png" />
+                                ភាសាអង់គ្លេស (DOC)</a></li>
+                            </ul>
+                          </div>
+                        </Col>
+                        <Col>
+                          <PickupDateInput />
+                        </Col>
+                        <Col>
+                          <button
+                            data-bs-toggle="modal" data-bs-target="#add_student_backup"
+                            id="getDataBackup"
                             style={{
-                              color: "white",
-                              lineHeight: "1",
-                              height: '2.2rem',
+                              color: "darkblue",
                               fontWeight: 'bold'
-
                             }}
-                          >
-                            <CIcon icon={cilSave} /> រក្សាទុក
-                          </button>
-                          <ul className="dropdown-menu text-start">
-                            <li><a
-                              className="dropdown-item"
-                              onClick={SaveToExGen}
-                            ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
-                              ថ្នាក់ទូទៅ (Excel)</a></li>
-                            <li><a
-                              className="dropdown-item"
-                              onClick={SaveToExEn}
-                            ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/excel.png" />
-                              ភាសាអង់គ្លេស (Excel)</a></li>
-                            <li><a
-                              className="dropdown-item"
-                              onClick={SaveToWordGen}
-                            ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/word.png" />
-                              ថ្នាក់ទូទៅ (DOC)</a></li>
-                            <li><a
-                              className="dropdown-item"
-                              onClick={SaveToWordEn}
-                            ><img style={{ width: '25px', padding: '5px' }} src="https://res.cloudinary.com/salamomschool/image/upload/v1725028742/icon/word.png" />
-                              ភាសាអង់គ្លេស (DOC)</a></li>
-                          </ul>
-                        </div>
-                      </Col>
-                      <Col>
-                        <PickupDateInput />
-                      </Col>
-                    </Row>
-                  </Col>
-                  <PutTitle />
+                            type="button"
+                            className="btn btn-warning btn-sm me-2"><CIcon icon={cilSave} /> Backup</button>
+
+                        </Col>
+                      </Row>
+                    </Col>
+                    <PutTitle />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="m-3">
-              <div className="content" id="time_tables">
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="card ">
-                        <div className="table-fixed-top-left" id="show_mouse">
-                          <table id="my_table">
-                            <thead>
-                              <tr>
-                                <th rowSpan="3">ល.រ
-                                </th>
-                                <th rowSpan="3">
-                                  ថ្នាក់</th>
-                                <th rowSpan="3">
-                                  បន្ទប់</th>
-                                <td colSpan="8">
-                                  ច័ន្ទ
-                                </td>
-                                <td colSpan="8">
-                                  អង្គារ
-                                </td>
-                                <td colSpan="8">
-                                  ពុធ
-                                </td>
-                                <td colSpan="8">
-                                  ព្រហស្បតិ៍
-                                </td>
-                                <td colSpan="8">
-                                  សុក្រ
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colSpan="4">
-                                  ព្រឹក
-                                </td>
-                                <td colSpan="4">
-                                  ល្ងាច
-                                </td>
-                                <td colSpan="4">
-                                  ព្រឹក
-                                </td>
-                                <td colSpan="4">
-                                  ល្ងាច
-                                </td>
-                                <td colSpan="4">
-                                  ព្រឹក
-                                </td>
-                                <td colSpan="4">
-                                  ល្ងាច
-                                </td>
-                                <td colSpan="4">
-                                  ព្រឹក
-                                </td>
-                                <td colSpan="4">
-                                  ល្ងាច
-                                </td>
-                                <td colSpan="4">
-                                  ព្រឹក
-                                </td>
-                                <td colSpan="4">
-                                  ល្ងាច
-                                </td>
+              <div className="m-3">
+                <div className="content" id="time_tables">
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <div className="card ">
+                          <div className="table-fixed-top-left" id="show_mouse">
+                            <table id="my_table">
+                              <thead>
+                                <tr>
+                                  <th rowSpan="3">ល.រ
+                                  </th>
+                                  <th rowSpan="3">
+                                    ថ្នាក់</th>
+                                  <th rowSpan="3">
+                                    បន្ទប់</th>
+                                  <td colSpan="8">
+                                    ច័ន្ទ
+                                  </td>
+                                  <td colSpan="8">
+                                    អង្គារ
+                                  </td>
+                                  <td colSpan="8">
+                                    ពុធ
+                                  </td>
+                                  <td colSpan="8">
+                                    ព្រហស្បតិ៍
+                                  </td>
+                                  <td colSpan="8">
+                                    សុក្រ
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colSpan="4">
+                                    ព្រឹក
+                                  </td>
+                                  <td colSpan="4">
+                                    ល្ងាច
+                                  </td>
+                                  <td colSpan="4">
+                                    ព្រឹក
+                                  </td>
+                                  <td colSpan="4">
+                                    ល្ងាច
+                                  </td>
+                                  <td colSpan="4">
+                                    ព្រឹក
+                                  </td>
+                                  <td colSpan="4">
+                                    ល្ងាច
+                                  </td>
+                                  <td colSpan="4">
+                                    ព្រឹក
+                                  </td>
+                                  <td colSpan="4">
+                                    ល្ងាច
+                                  </td>
+                                  <td colSpan="4">
+                                    ព្រឹក
+                                  </td>
+                                  <td colSpan="4">
+                                    ល្ងាច
+                                  </td>
 
-                              </tr>
-                              <tr>
-                                <td className="am">1
-                                </td>
-                                <td className="am">2
-                                </td>
-                                <td className="am">3
-                                </td>
-                                <td className="am">4
-                                </td>
-                                <td className="pm">1
-                                </td>
-                                <td className="pm">2
-                                </td>
-                                <td className="pm">3
-                                </td>
-                                <td className="pm">4
-                                </td>
-                                <td className="am">1
-                                </td>
-                                <td className="am">2
-                                </td>
-                                <td className="am">3
-                                </td>
-                                <td className="am">4
-                                </td>
-                                <td className="pm">1
-                                </td>
-                                <td className="pm">2
-                                </td>
-                                <td className="pm">3
-                                </td>
-                                <td className="pm">4
-                                </td>
-                                <td className="am">1
-                                </td>
-                                <td className="am">2
-                                </td>
-                                <td className="am">3
-                                </td>
-                                <td className="am">4
-                                </td>
-                                <td className="pm">1
-                                </td>
-                                <td className="pm">2
-                                </td>
-                                <td className="pm">3
-                                </td>
-                                <td className="pm">4
-                                </td>
-                                <td className="am">1
-                                </td>
-                                <td className="am">2
-                                </td>
-                                <td className="am">3
-                                </td>
-                                <td className="am">4
-                                </td>
-                                <td className="pm">1
-                                </td>
-                                <td className="pm">2
-                                </td>
-                                <td className="pm">3
-                                </td>
-                                <td className="pm">4
-                                </td>
-                                <td className="am">1
-                                </td>
-                                <td className="am">2
-                                </td>
-                                <td className="am">3
-                                </td>
-                                <td className="am">4
-                                </td>
-                                <td className="pm">1
-                                </td>
-                                <td className="pm">2
-                                </td>
-                                <td className="pm">3
-                                </td>
-                                <td className="pm">4
-                                </td>
+                                </tr>
+                                <tr>
+                                  <td className="am">1
+                                  </td>
+                                  <td className="am">2
+                                  </td>
+                                  <td className="am">3
+                                  </td>
+                                  <td className="am">4
+                                  </td>
+                                  <td className="pm">1
+                                  </td>
+                                  <td className="pm">2
+                                  </td>
+                                  <td className="pm">3
+                                  </td>
+                                  <td className="pm">4
+                                  </td>
+                                  <td className="am">1
+                                  </td>
+                                  <td className="am">2
+                                  </td>
+                                  <td className="am">3
+                                  </td>
+                                  <td className="am">4
+                                  </td>
+                                  <td className="pm">1
+                                  </td>
+                                  <td className="pm">2
+                                  </td>
+                                  <td className="pm">3
+                                  </td>
+                                  <td className="pm">4
+                                  </td>
+                                  <td className="am">1
+                                  </td>
+                                  <td className="am">2
+                                  </td>
+                                  <td className="am">3
+                                  </td>
+                                  <td className="am">4
+                                  </td>
+                                  <td className="pm">1
+                                  </td>
+                                  <td className="pm">2
+                                  </td>
+                                  <td className="pm">3
+                                  </td>
+                                  <td className="pm">4
+                                  </td>
+                                  <td className="am">1
+                                  </td>
+                                  <td className="am">2
+                                  </td>
+                                  <td className="am">3
+                                  </td>
+                                  <td className="am">4
+                                  </td>
+                                  <td className="pm">1
+                                  </td>
+                                  <td className="pm">2
+                                  </td>
+                                  <td className="pm">3
+                                  </td>
+                                  <td className="pm">4
+                                  </td>
+                                  <td className="am">1
+                                  </td>
+                                  <td className="am">2
+                                  </td>
+                                  <td className="am">3
+                                  </td>
+                                  <td className="am">4
+                                  </td>
+                                  <td className="pm">1
+                                  </td>
+                                  <td className="pm">2
+                                  </td>
+                                  <td className="pm">3
+                                  </td>
+                                  <td className="pm">4
+                                  </td>
 
-                              </tr>
-                            </thead>
-                            <tbody id="tbody_time_table">
-                              <ShowData />
-                            </tbody>
-                          </table>
+                                </tr>
+                              </thead>
+                              <tbody id="tbody_time_table">
+                                <ShowData />
+                              </tbody>
+                            </table>
 
-                          <div className="modal fade" id="exampleModal" tabindex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div className="modal-dialog">
-                              <div className="modal-content">
+                            <div className="modal fade" id="exampleModal" tabindex="-1"
+                              aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div className="modal-dialog">
+                                <div className="modal-content">
 
-                                <div className="modal-body">
-                                  <div className="input-group mb-3">
-                                    <span className="input-group-text"
-                                      id="basic-addon2">មុខវិជ្ជា</span>
-                                    <select
-                                      className="form-control text-center"
-                                      aria-describedby="basic-addon2"
-                                      style={{ color: "black", lineHeight: "2", height: "2.5rem" }}
-                                      ref={set_user_sub}
-                                      onChange={e => {
-                                        const sbkh = e.target.selectedOptions[0].dataset.kh
-                                        setsubjectChecks(sbkh)
-                                      }}
-                                      id="select_sub">
-                                      <option>ជ្រើសរើសមុខវិជ្ជា
-                                      </option>
-                                      {dataSubject.map((d, index) => {
-
-                                        return <option value={d.subAbr} data-kh={d.id}>{d.id}</option>
-                                      }
-                                      )}
-                                    </select>
-
-                                  </div>
-                                  <p>
+                                  <div className="modal-body">
                                     <div className="input-group mb-3">
-                                      <div className="dropdown"
-                                        style={{ border: "1px solid #0000002d", backgroundColor: "rgba(88, 87, 87, 0.075)" }}>
-                                        <button
-                                          className="btn dropdown-toggle"
-                                          type="button"
-                                          id="dropdownMenuName"
-                                          data-bs-toggle="dropdown"
-                                          aria-expanded="false">
-                                          ឈ្មោះបុគ្គលិក
-                                        </button>
-                                        <ul className="dropdown-menu menu-lg-scroll dropdown-content"
-                                          aria-labelledby="dropdownMenuName"
-                                          id="select_username">
-                                          {dataStaff.map((d, index) => {
-                                            const array1 = d.general_kindergaten.split(" ").filter(item => item);
-                                            const array2 = d.general_primary.split(" ").filter(item => item);
-                                            const array3 = d.general_secondary.split(" ").filter(item => item);
-                                            {/* const stringArray = user_login_subs.split(" ").filter(item => item); */ }
+                                      <span className="input-group-text"
+                                        id="basic-addon2">មុខវិជ្ជា</span>
+                                      <select
+                                        className="form-control text-center"
+                                        aria-describedby="basic-addon2"
+                                        style={{ color: "black", lineHeight: "2", height: "2.5rem" }}
+                                        ref={set_user_sub}
+                                        onChange={e => {
+                                          const sbkh = e.target.selectedOptions[0].dataset.kh
+                                          setsubjectChecks(sbkh)
+                                        }}
+                                        id="select_sub">
+                                        <option>ជ្រើសរើសមុខវិជ្ជា
+                                        </option>
+                                        {dataSubject.map((d, index) => {
 
-                                            const combinedArray = array1.concat(array2, array3)
-                                            if (combinedArray.includes(subjectChecks)) {
-                                              return <li class="dropdown-item"
-                                                data-label={d.id}
-                                                data-t_grade={d.t_grade}
-                                                data-teacher_type={d.teacher_type}
-                                                data-image={d.get_url_pic}
-                                                data-nickname={d.user_short_name}>
-                                                <span className="me-3">{index + 1}.</span>
-                                                {SetPicture(d)}
-                                                {d.id}</li>
+                                          return <option value={d.subAbr} data-kh={d.id}>{d.id}</option>
+                                        }
+                                        )}
+                                      </select>
 
+                                    </div>
+                                    <p>
+                                      <div className="input-group mb-3">
+                                        <div className="dropdown"
+                                          style={{ border: "1px solid #0000002d", backgroundColor: "rgba(88, 87, 87, 0.075)" }}>
+                                          <button
+                                            className="btn dropdown-toggle"
+                                            type="button"
+                                            id="dropdownMenuName"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            ឈ្មោះបុគ្គលិក
+                                          </button>
+                                          <ul className="dropdown-menu menu-lg-scroll dropdown-content"
+                                            aria-labelledby="dropdownMenuName"
+                                            id="select_username">
+                                            {dataStaff.map((d, index) => {
+                                              const array1 = d.general_kindergaten.split(" ").filter(item => item);
+                                              const array2 = d.general_primary.split(" ").filter(item => item);
+                                              const array3 = d.general_secondary.split(" ").filter(item => item);
+                                              {/* const stringArray = user_login_subs.split(" ").filter(item => item); */ }
+
+                                              const combinedArray = array1.concat(array2, array3)
+                                              if (combinedArray.includes(subjectChecks)) {
+                                                return <li class="dropdown-item"
+                                                  data-label={d.id}
+                                                  data-t_grade={d.t_grade}
+                                                  data-teacher_type={d.teacher_type}
+                                                  data-image={d.get_url_pic}
+                                                  data-nickname={d.user_short_name}>
+                                                  <span className="me-3">{index + 1}.</span>
+                                                  {SetPicture(d)}
+                                                  {d.id}</li>
+
+                                              }
                                             }
-                                          }
-                                          )}
-                                        </ul>
+                                            )}
+                                          </ul>
+                                        </div>
+                                        <input className="form-control"
+                                          type="text"
+                                          placeholder="ឈ្មោះបុគ្គលិក"
+                                          onkeyup="this.value = this.value.toLowerCase()"
+                                          id="user_teacher_id"
+                                          ref={user_id}
+                                          aria-describedby="dropdownMenuName" />
                                       </div>
-                                      <input className="form-control"
-                                        type="text"
-                                        placeholder="ឈ្មោះបុគ្គលិក"
-                                        onkeyup="this.value = this.value.toLowerCase()"
-                                        id="user_teacher_id"
-                                        ref={user_id}
-                                        aria-describedby="dropdownMenuName" />
-                                    </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text"
+                                          id="basic-addon2">URL</span>
+                                        <input className="form-control"
+                                          type="text"
+                                          ref={user_img}
+                                          id="user_url" />
+                                      </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text"
+                                          id="basic-addon2">ឈ្មោះកាត់</span>
+                                        <input className="form-control"
+                                          type="text"
+                                          value={user_nick}
+                                          onInput={e => { setuser_nick(e.target.value) }}
+                                          id="user_nickname" />
+                                      </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text"
+                                          id="basic-addon2">លេខលំដាប់</span>
+                                        <input className="form-control"
+                                          type="text"
+                                          value={getT_grade}
+                                          onChange={e => { setgetT_grade(e.target.value) }}
+                                          id="user_t_grade" />
+                                      </div>
+                                      <div className="input-group mb-3">
+                                        <span className="input-group-text"
+                                          id="basic-addon2">ប្រភេទ</span>
+                                        <input className="form-control"
+                                          type="text"
+                                          value={getteacher_type}
+                                          onChange={e => { setgetteacher_type(e.target.value) }}
+                                          id="user_teacher_type" />
+                                      </div>
+
+                                    </p>
                                     <div className="input-group mb-3">
                                       <span className="input-group-text"
-                                        id="basic-addon2">URL</span>
-                                      <input className="form-control"
-                                        type="text"
-                                        ref={user_img}
-                                        id="user_url" />
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span className="input-group-text"
-                                        id="basic-addon2">ឈ្មោះកាត់</span>
-                                      <input className="form-control"
-                                        type="text"
-                                        value={user_nick}
-                                        onInput={e => { setuser_nick(e.target.value) }}
-                                        id="user_nickname" />
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span className="input-group-text"
-                                        id="basic-addon2">លេខលំដាប់</span>
-                                      <input className="form-control"
-                                        type="text"
-                                        value={getT_grade}
-                                        onChange={e => { setgetT_grade(e.target.value) }}
-                                        id="user_t_grade" />
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span className="input-group-text"
-                                        id="basic-addon2">ប្រភេទ</span>
-                                      <input className="form-control"
-                                        type="text"
-                                        value={getteacher_type}
-                                        onChange={e => { setgetteacher_type(e.target.value) }}
-                                        id="user_teacher_type" />
+                                        id="basic-addon2">កម្រិត</span>
+                                      <select
+                                        className="form-control text-center"
+                                        aria-describedby="basic-addon2"
+                                        style={{ color: "black", lineHeight: "2", height: "2.5rem" }}
+                                        value={userType}
+                                        onChange={e => { setuserType(e.target.value) }}
+                                        id="select_sub">
+                                        <option>ជ្រើសរើសកម្រិត
+                                        </option>
+                                        <option value={'yes'}>បឋមសិក្សា</option>
+                                        <option value={'no'}>អនុវិទ្យាល័យ</option>
+                                        <option value={'ok'}>វិទ្យាល័យ</option>
+                                      </select>
+
                                     </div>
 
-                                  </p>
-                                  <div className="input-group mb-3">
-                                    <span className="input-group-text"
-                                      id="basic-addon2">កម្រិត</span>
-                                    <select
-                                      className="form-control text-center"
-                                      aria-describedby="basic-addon2"
-                                      style={{ color: "black", lineHeight: "2", height: "2.5rem" }}
-                                      value={userType}
-                                      onChange={e => { setuserType(e.target.value) }}
-                                      id="select_sub">
-                                      <option>ជ្រើសរើសកម្រិត
-                                      </option>
-                                      <option value={'yes'}>បឋមសិក្សា</option>
-                                      <option value={'no'}>អនុវិទ្យាល័យ</option>
-                                      <option value={'ok'}>វិទ្យាល័យ</option>
-                                    </select>
 
                                   </div>
+                                  <div className="modal-footer">
+                                    <div className="text-center" id="save_btn">
 
+                                      <button type="button" id="btn_save"
+                                        onClick={setTimeTable}
+                                        class="btn btn-success btn-sm">បញ្ចូល</button>
 
-                                </div>
-                                <div className="modal-footer">
-                                  <div className="text-center" id="save_btn">
+                                      <button type="button" id="btn_update"
+                                        onClick={updateTimeTable}
+                                        class="btn btn-warning btn-sm">កែ</button>
+                                      <button type="button" id="btn_del"
+                                        onClick={removeTimeTable}
+                                        class="btn btn-danger btn-sm">លុប</button>
 
-                                    <button type="button" id="btn_save"
-                                      onClick={setTimeTable}
-                                      class="btn btn-success btn-sm">បញ្ចូល</button>
-
-                                    <button type="button" id="btn_update"
-                                      onClick={updateTimeTable}
-                                      class="btn btn-warning btn-sm">កែ</button>
-                                    <button type="button" id="btn_del"
-                                      onClick={removeTimeTable}
-                                      class="btn btn-danger btn-sm">លុប</button>
-
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
 
-                          <div id="subject-menu" className="popup">
-                            <p>Select Subject:</p>
-                            <select id="subject-select">
-                              <option value="">-- Select Subject --</option>
-                              <option value="M">Math</option>
-                              <option value="K">Khmer</option>
-                            </select>
+                            <div id="subject-menu" className="popup">
+                              <p>Select Subject:</p>
+                              <select id="subject-select">
+                                <option value="">-- Select Subject --</option>
+                                <option value="M">Math</option>
+                                <option value="K">Khmer</option>
+                              </select>
+                            </div>
+                            <div id="teacher-menu" className="popup">
+                              <p>Select Grade:</p>
+                              <p id="close">Close</p>
+                              <select id="teacher-select">
+                                <option value="">-- Select Teacher --</option>
+                                <option value="1A">1A</option>
+                                <option value="2A">2A</option>
+                                <option value="3A">3A</option>
+                                <option value="4A">4A</option>
+                                <option value="1B">1B</option>
+                                <option value="2B">2B</option>
+                                <option value="3B">3B</option>
+                                <option value="4B">4B</option>
+                              </select>
+                              <button id="btn_submit">OK</button>
+                            </div>
                           </div>
-                          <div id="teacher-menu" className="popup">
-                            <p>Select Grade:</p>
-                            <p id="close">Close</p>
-                            <select id="teacher-select">
-                              <option value="">-- Select Teacher --</option>
-                              <option value="1A">1A</option>
-                              <option value="2A">2A</option>
-                              <option value="3A">3A</option>
-                              <option value="4A">4A</option>
-                              <option value="1B">1B</option>
-                              <option value="2B">2B</option>
-                              <option value="3B">3B</option>
-                              <option value="4B">4B</option>
-                            </select>
-                            <button id="btn_submit">OK</button>
-                          </div>
+
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="modal fade" id="AddNewSub" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group row">
-                            <label
-                              className="col-sm-3 fw-bold fw-bold">មុខវិជ្ជាជាភាសារខ្មែរ</label>
-                            <div className="col-sm-9">
-                              <input
-                                onChange={(e) => { setmyId(e.target.value) }}
-                                ref={subInKh} type="text" className="form-control" id="subKh" />
+                <div className="modal fade" id="AddNewSub" tabindex="-1"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-xl">
+                    <div className="modal-content">
+                      <div className="modal-body">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-group row">
+                              <label
+                                className="col-sm-3 fw-bold fw-bold">មុខវិជ្ជាជាភាសារខ្មែរ</label>
+                              <div className="col-sm-9">
+                                <input
+                                  onChange={(e) => { setmyId(e.target.value) }}
+                                  ref={subInKh} type="text" className="form-control" id="subKh" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group row">
+                              <label
+                                className="col-sm-3 fw-bold">មុខវិជ្ជាជាភាសារអង់គ្លេស</label>
+                              <div className="col-sm-9">
+                                <input ref={subInEn} type="text" className="form-control" id="subEn" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group row">
+                              <label className="col-sm-3 fw-bold">អក្សរកាត់</label>
+                              <div className="col-sm-9">
+                                <input ref={subInAbr} type="text" className="form-control" id="subAbr" />
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group row">
-                            <label
-                              className="col-sm-3 fw-bold">មុខវិជ្ជាជាភាសារអង់គ្លេស</label>
-                            <div className="col-sm-9">
-                              <input ref={subInEn} type="text" className="form-control" id="subEn" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group row">
-                            <label className="col-sm-3 fw-bold">អក្សរកាត់</label>
-                            <div className="col-sm-9">
-                              <input ref={subInAbr} type="text" className="form-control" id="subAbr" />
-                            </div>
-                          </div>
-                        </div>
+
                       </div>
-
-                    </div>
-                    <div className="modal-footer">
-                      <CButton
-                        ref={BtnPush}
-                        style={{ color: "white" }}
-                        type="button" className="btn btn-success btn-sm">
-                        <CIcon icon={cilArrowThickBottom} />   បញ្ចូល
-                      </CButton>
-                      <CButton
-                        ref={BtnUpdate}
-                        style={{ color: "white" }}
-                        type="button" className="btn btn-warning btn-sm">
-                        <CIcon icon={cilPen} />   កែ
-                      </CButton>
-                      <button
-                        ref={BtnDelete}
-                        style={{ color: 'white' }}
-                        id="btn_upload" type="button" className="btn btn-danger btn-sm">
-                        <CIcon icon={cilTrash} /></button>
+                      <div className="modal-footer">
+                        <CButton
+                          ref={BtnPush}
+                          style={{ color: "white" }}
+                          type="button" className="btn btn-success btn-sm">
+                          <CIcon icon={cilArrowThickBottom} />   បញ្ចូល
+                        </CButton>
+                        <CButton
+                          ref={BtnUpdate}
+                          style={{ color: "white" }}
+                          type="button" className="btn btn-warning btn-sm">
+                          <CIcon icon={cilPen} />   កែ
+                        </CButton>
+                        <button
+                          ref={BtnDelete}
+                          style={{ color: 'white' }}
+                          id="btn_upload" type="button" className="btn btn-danger btn-sm">
+                          <CIcon icon={cilTrash} /></button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              {/* For Preview Printing */}
-              <div className="modal fade" id="forPreview" tabindex="-1" aria-labelledby="forPrinting" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <div className="card-body">
-                        <div className="table-responsive">
-                          <div id="report-grade-time-table" className="report-container ">
+                {/* For Preview Printing */}
+                <div className="modal fade" id="forPreview" tabindex="-1" aria-labelledby="forPrinting" aria-hidden="true">
+                  <div className="modal-dialog modal-xl">
+                    <div className="modal-content">
+                      <div className="modal-body">
+                        <div className="card-body">
+                          <div className="table-responsive">
+                            <div id="report-grade-time-table" className="report-container ">
 
-                            <table className="table table-bordered grade-timetable" id="courseKh">
-                              <tbody>
-                                {/* <tr>
+                              <table className="table table-bordered grade-timetable" id="courseKh">
+                                <tbody>
+                                  {/* <tr>
                                   <th scope="row" colSpan="8" className="text-center time-shit">
                                     ពេលព្រឹក</th>
                                 </tr> */}
 
-                                <tr className="time-header">
-                                  <th scope="col" className="day"></th>
-                                  <th scope="col" className="time-table-time-col time myKhmoul">ម៉ោង</th>
-                                  <th scope="col" className="day myKhmoul">ច័ន្ទ</th>
-                                  <th scope="col" className="day myKhmoul">អង្គារ</th>
-                                  <th scope="col" className="day myKhmoul">ពុធ</th>
-                                  <th scope="col" className="day myKhmoul">ព្រហស្បតិ៍</th>
-                                  <th scope="col" className="day myKhmoul">សុក្រ</th>
-                                </tr>
+                                  <tr className="time-header">
+                                    <th scope="col" className="day"></th>
+                                    <th scope="col" className="time-table-time-col time myKhmoul">ម៉ោង</th>
+                                    <th scope="col" className="day myKhmoul">ច័ន្ទ</th>
+                                    <th scope="col" className="day myKhmoul">អង្គារ</th>
+                                    <th scope="col" className="day myKhmoul">ពុធ</th>
+                                    <th scope="col" className="day myKhmoul">ព្រហស្បតិ៍</th>
+                                    <th scope="col" className="day myKhmoul">សុក្រ</th>
+                                  </tr>
 
-                                <tr >
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:15
-                                  </th>
-                                  <td
-                                    style={{ fontWeight: 'bold' }}
-                                    colSpan="7" className="text-center break-time myKhmoul">
-                                    គោរពទង់ជាតិ
-                                  </td>
-                                </tr>
+                                  <tr >
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:15
+                                    </th>
+                                    <td
+                                      style={{ fontWeight: 'bold' }}
+                                      colSpan="7" className="text-center break-time myKhmoul">
+                                      គោរពទង់ជាតិ
+                                    </td>
+                                  </tr>
 
-                                <tr id="time1">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t1_s"></span>
-                                    <span className="merindiem1"></span> - <span id="t1_e"></span>
-                                    <span className="merindiem2"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_mor_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_mor_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_mor_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_mor_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_mor_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_mor_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_mor_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_mor_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_mor_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_mor_t1" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr id="time1">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t1_s"></span>
+                                      <span className="merindiem1"></span> - <span id="t1_e"></span>
+                                      <span className="merindiem2"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_mor_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_mor_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_mor_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_mor_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_mor_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_mor_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_mor_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_mor_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_mor_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_mor_t1" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                <tr id="time2">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t2_s"></span>
-                                    <span className="merindiem3"></span> - <span id="t2_e"></span>
-                                    <span className="merindiem4"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_mor_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_mor_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_mor_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_mor_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_mor_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_mor_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_mor_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_mor_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_mor_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_mor_t2" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr id="time2">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t2_s"></span>
+                                      <span className="merindiem3"></span> - <span id="t2_e"></span>
+                                      <span className="merindiem4"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_mor_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_mor_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_mor_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_mor_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_mor_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_mor_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_mor_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_mor_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_mor_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_mor_t2" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                <tr id="break1">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:20
-                                  </th>
-                                  <th scope="row" className="time-table-time-col text-center textMiddle"><span
-                                    id="b1_s"></span> <span className="merindiem5"></span> -
-                                    <span id="b1_e"></span> <span className="merindiem6"></span>
-                                  </th>
-                                  <td
-                                    style={{ fontWeight: 'bold' }}
-                                    colSpan="7" className="text-center textMiddle break-time myKhmoul">
+                                  <tr id="break1">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:20
+                                    </th>
+                                    <th scope="row" className="time-table-time-col text-center textMiddle"><span
+                                      id="b1_s"></span> <span className="merindiem5"></span> -
+                                      <span id="b1_e"></span> <span className="merindiem6"></span>
+                                    </th>
+                                    <td
+                                      style={{ fontWeight: 'bold' }}
+                                      colSpan="7" className="text-center textMiddle break-time myKhmoul">
 
-                                    <span id="k1" className="myKhmoul"></span> <span id="minu1" className="myKhmoul"></span> នាទី
-                                  </td>
-                                </tr>
+                                      <span id="k1" className="myKhmoul"></span> <span id="minu1" className="myKhmoul"></span> នាទី
+                                    </td>
+                                  </tr>
 
-                                <tr id="time3">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t3_s"></span>
-                                    <span className="merindiem7"></span> - <span id="t3_e"></span>
-                                    <span className="merindiem8"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_mor_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_mor_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_mor_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_mor_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_mor_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_mor_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_mor_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_mor_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_mor_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_mor_t3" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr id="time3">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t3_s"></span>
+                                      <span className="merindiem7"></span> - <span id="t3_e"></span>
+                                      <span className="merindiem8"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_mor_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_mor_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_mor_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_mor_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_mor_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_mor_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_mor_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_mor_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_mor_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_mor_t3" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                <tr id="time4">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t4_s"></span>
-                                    <span className="merindiem9"></span> - <span id="t4_e"></span>
-                                    <span className="merindiem10"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_mor_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_mor_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_mor_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_mor_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_mor_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_mor_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_mor_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_mor_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_mor_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_mor_t4" className="sb-color"></div>
-                                  </td>
-                                </tr>
-
-
-                                <tr>
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    65mn
-                                  </th>
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    11:15 - 12:20
-                                  </th>
-                                  <th scope="row" colSpan="8" className="text-center textMiddle time-shit myKhmoul">
-                                    ញុាំបាយថ្ងៃត្រង់ និងសម្រាក</th>
-                                </tr>
-
-                                <tr className="time-header">
-                                  <th scope="row" className="time-table-time-col text-center">
-                                  </th>
-                                  <th scope="col" className="time-table-time-col time myKhmoul">ម៉ោង</th>
-                                  <th scope="col" className="day myKhmoul">ច័ន្ទ</th>
-                                  <th scope="col" className="day myKhmoul">អង្គារ</th>
-                                  <th scope="col" className="day myKhmoul">ពុធ</th>
-                                  <th scope="col" className="day myKhmoul">ព្រហស្បតិ៍</th>
-                                  <th scope="col" className="day myKhmoul">សុក្រ</th>
-                                </tr>
+                                  <tr id="time4">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t4_s"></span>
+                                      <span className="merindiem9"></span> - <span id="t4_e"></span>
+                                      <span className="merindiem10"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_mor_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_mor_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_mor_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_mor_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_mor_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_mor_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_mor_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_mor_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_mor_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_mor_t4" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
 
-                                <tr id="time5">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t5_s"></span>
-                                    <span className="merindiem11"></span> - <span id="t5_e"></span>
-                                    <span className="merindiem12"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_aft_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_aft_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_aft_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_aft_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_aft_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_aft_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_aft_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_aft_t1" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_aft_t1" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_aft_t1" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr>
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      65mn
+                                    </th>
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      11:15 - 12:20
+                                    </th>
+                                    <th scope="row" colSpan="8" className="text-center textMiddle time-shit myKhmoul">
+                                      ញុាំបាយថ្ងៃត្រង់ និងសម្រាក</th>
+                                  </tr>
 
-                                <tr id="time6">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t6_s"></span>
-                                    <span className="merindiem13"></span> - <span id="t6_e"></span>
-                                    <span className="merindiem14"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_aft_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_aft_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_aft_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_aft_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_aft_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_aft_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_aft_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_aft_t2" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_aft_t2" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_aft_t2" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr className="time-header">
+                                    <th scope="row" className="time-table-time-col text-center">
+                                    </th>
+                                    <th scope="col" className="time-table-time-col time myKhmoul">ម៉ោង</th>
+                                    <th scope="col" className="day myKhmoul">ច័ន្ទ</th>
+                                    <th scope="col" className="day myKhmoul">អង្គារ</th>
+                                    <th scope="col" className="day myKhmoul">ពុធ</th>
+                                    <th scope="col" className="day myKhmoul">ព្រហស្បតិ៍</th>
+                                    <th scope="col" className="day myKhmoul">សុក្រ</th>
+                                  </tr>
 
-                                <tr id="break2">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:15
-                                  </th>
-                                  <th scope="row" className="time-table-time-col text-center textMiddle"><span
-                                    id="b2_s"></span> <span className="merindiem15"></span> -
-                                    <span id="b2_e"></span> <span className="merindiem16"></span>
-                                  </th>
-                                  <td
-                                    style={{ fontWeight: 'bold' }}
-                                    colSpan="7" className="text-center textMiddle break-time myKhmoul">
 
-                                    <span id="k2" className="myKhmoul"></span> <span id="minu2" className="myKhmoul"></span> នាទី
-                                  </td>
-                                </tr>
+                                  <tr id="time5">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t5_s"></span>
+                                      <span className="merindiem11"></span> - <span id="t5_e"></span>
+                                      <span className="merindiem12"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_aft_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_aft_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_aft_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_aft_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_aft_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_aft_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_aft_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_aft_t1" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_aft_t1" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_aft_t1" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                <tr id="time7">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t7_s"></span>
-                                    <span className="merindiem17"></span> - <span id="t7_e"></span>
-                                    <span className="merindiem18"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_aft_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_aft_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_aft_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_aft_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_aft_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_aft_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_aft_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_aft_t3" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_aft_t3" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_aft_t3" className="sb-color"></div>
-                                  </td>
-                                </tr>
+                                  <tr id="time6">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t6_s"></span>
+                                      <span className="merindiem13"></span> - <span id="t6_e"></span>
+                                      <span className="merindiem14"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_aft_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_aft_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_aft_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_aft_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_aft_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_aft_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_aft_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_aft_t2" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_aft_t2" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_aft_t2" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                <tr id="time8">
-                                  <th scope="row" className="time-table-time-col text-center textMiddle">
-                                    0:45
-                                  </th>
-                                  <th scope="row" className="text-center textMiddle"> <span id="t8_s"></span>
-                                    <span className="merindiem19"></span> - <span id="t8_e"></span>
-                                    <span className="merindiem20"></span>
-                                  </th>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_mon_aft_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_mon_aft_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_tue_aft_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_tue_aft_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_wed_aft_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_wed_aft_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_thu_aft_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_thu_aft_t4" className="sb-color"></div>
-                                  </td>
-                                  <td className="text-center textMiddle">
-                                    <div id="sb_fri_aft_t4" className="sub-color"></div>
-                                    <br />
-                                    <div id="tn_fri_aft_t4" className="sb-color"></div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th scope="row" colSpan="2" className="time-table-time-col text-center">
+                                  <tr id="break2">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:15
+                                    </th>
+                                    <th scope="row" className="time-table-time-col text-center textMiddle"><span
+                                      id="b2_s"></span> <span className="merindiem15"></span> -
+                                      <span id="b2_e"></span> <span className="merindiem16"></span>
+                                    </th>
+                                    <td
+                                      style={{ fontWeight: 'bold' }}
+                                      colSpan="7" className="text-center textMiddle break-time myKhmoul">
 
-                                  </th>
-                                  <th scope="row" colSpan="8" className="time-table-time-col text-center textMiddle myKhmoul">
-                                    ◆ គ្រូបន្ទុកថ្នាក់ <b
-                                      className="ml-1 homeroom-teacher-name myKhmoul">{getHeadTeacher}</b>
-                                  </th>
+                                      <span id="k2" className="myKhmoul"></span> <span id="minu2" className="myKhmoul"></span> នាទី
+                                    </td>
+                                  </tr>
 
-                                </tr>
-                                <tr>
-                                  <th
-                                    scope="row" colSpan="2" className="time-table-time-col text-center textMiddle">
-                                    សំគាល់
-                                  </th>
-                                  <th
-                                    scope="row" colSpan="4" className="time-table-time-col text-center">
-                                    <table style={{
-                                      borderCollapse: 'collapse',
-                                    }}>
-                                      <tbody className="mytr" style={{
-                                        border: 'none',
-                                      }} id="subjectCounts">
-                                      </tbody>
-                                    </table>
-                                  </th>
-                                  <th
-                                    style={{
-                                      lineHeight: '20px',
-                                    }}
-                                    scope="row" className="time-table-time-col text-center">
-                                    សរុបម៉ោង
-                                    <br />
-                                    បង្រៀន
-                                    <br />
-                                    ក្នុងមួយសប្តាហ៍
-                                    <br />
-                                    <span style={{
-                                      color: 'blue'
-                                    }}>
-                                      40 ម៉ោង
-                                    </span>
+                                  <tr id="time7">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t7_s"></span>
+                                      <span className="merindiem17"></span> - <span id="t7_e"></span>
+                                      <span className="merindiem18"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_aft_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_aft_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_aft_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_aft_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_aft_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_aft_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_aft_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_aft_t3" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_aft_t3" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_aft_t3" className="sb-color"></div>
+                                    </td>
+                                  </tr>
 
-                                  </th>
+                                  <tr id="time8">
+                                    <th scope="row" className="time-table-time-col text-center textMiddle">
+                                      0:45
+                                    </th>
+                                    <th scope="row" className="text-center textMiddle"> <span id="t8_s"></span>
+                                      <span className="merindiem19"></span> - <span id="t8_e"></span>
+                                      <span className="merindiem20"></span>
+                                    </th>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_mon_aft_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_mon_aft_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_tue_aft_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_tue_aft_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_wed_aft_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_wed_aft_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_thu_aft_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_thu_aft_t4" className="sb-color"></div>
+                                    </td>
+                                    <td className="text-center textMiddle">
+                                      <div id="sb_fri_aft_t4" className="sub-color"></div>
+                                      <br />
+                                      <div id="tn_fri_aft_t4" className="sb-color"></div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row" colSpan="2" className="time-table-time-col text-center">
 
-                                </tr>
-                              </tbody>
-                            </table>
+                                    </th>
+                                    <th scope="row" colSpan="8" className="time-table-time-col text-center textMiddle myKhmoul">
+                                      ◆ គ្រូបន្ទុកថ្នាក់ <b
+                                        className="ml-1 homeroom-teacher-name myKhmoul">{getHeadTeacher}</b>
+                                    </th>
 
-                            <table className="w-100">
-                              <tbody>
-                                <tr style={{ verticalAlign: "top" }}>
-                                  <td style={{ width: "65%" }}>
-                                    <div className="mb-2">
+                                  </tr>
+                                  <tr>
+                                    <th
+                                      scope="row" colSpan="2" className="time-table-time-col text-center textMiddle">
+                                      សំគាល់
+                                    </th>
+                                    <th
+                                      scope="row" colSpan="4" className="time-table-time-col text-center">
+                                      <table style={{
+                                        borderCollapse: 'collapse',
+                                      }}>
+                                        <tbody className="mytr" style={{
+                                          border: 'none',
+                                        }} id="subjectCounts">
+                                        </tbody>
+                                      </table>
+                                    </th>
+                                    <th
+                                      style={{
+                                        lineHeight: '20px',
+                                      }}
+                                      scope="row" className="time-table-time-col text-center">
+                                      សរុបម៉ោង
+                                      <br />
+                                      បង្រៀន
+                                      <br />
+                                      ក្នុងមួយសប្តាហ៍
+                                      <br />
+                                      <span style={{
+                                        color: 'blue'
+                                      }}>
+                                        40 ម៉ោង
+                                      </span>
 
-                                      <div>
+                                    </th>
 
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                              <table className="w-100">
+                                <tbody>
+                                  <tr style={{ verticalAlign: "top" }}>
+                                    <td style={{ width: "65%" }}>
+                                      <div className="mb-2">
+
+                                        <div>
+
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
 
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="modal-footer">
-                      <input type="date" id="printingDate"></input>
-                      <button
-                        onClick={PrintKh}
-                        type="button" className="btn btn-primary">Printing</button>
+                      <div className="modal-footer">
+                        <input type="date" id="printingDate"></input>
+                        <button
+                          onClick={PrintKh}
+                          type="button" className="btn btn-primary">Printing</button>
+                      </div>
                     </div>
                   </div>
                 </div>
+
               </div>
+              <div className="text-center">
+                <UpgradeCourse />
+                {/* <MyComponentLove /> */}
+                <div className="modal fade" id="forControlUsers" tabindex="-1" aria-labelledby="forPreviewPrimary" aria-hidden="true">
+                  <div className="modal-dialog modal-xl">
+                    <div className="modal-content">
+                      <div className="modal-body">
+                        <div class="content" id="time_tables">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <h4 class="card-title text-center">គ្រប់គ្រងឈ្មោះកម្រិត <span style={{ color: 'darkblue' }}>{selectTimeTable}</span>
+                              </h4>
+                              <div class="col-lg-12">
+                                <div style={{ overflow: 'auto' }} id="show_mouse">
+                                  <table className="table table-bordered" id="myTable" ref={tableRef}>
+                                    <thead>
+                                      <tr>
+                                        <th>ល.រ</th>
+                                        <th>ឈ្មោះគ្រូ</th>
+                                        <th>លំដាប់ទី</th>
+                                        <th>ឈ្មោះអក្សរកាត់</th>
+                                        <th>លុប</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="add_row">
+                                      {data.map((d, index) => {
+                                        let setID = d.id
+                                        let t_grade = d.t_grade
+                                        const clickText = (e) => {
+                                          let data = e.target
+                                          const range = document.createRange();
+                                          range.selectNodeContents(data);
+                                          const selection = window.getSelection();
+                                          selection.removeAllRanges();
+                                          selection.addRange(range);
+                                        }
 
-            </div>
-            <div className="text-center">
-              <UpgradeCourse />
-              {/* <MyComponentLove /> */}
-              <div className="modal fade" id="forControlUsers" tabindex="-1" aria-labelledby="forPreviewPrimary" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <div class="content" id="time_tables">
-                        <div class="container-fluid">
-                          <div class="row">
-                            <h4 class="card-title text-center">គ្រប់គ្រងឈ្មោះកម្រិត <span style={{ color: 'darkblue' }}>{selectTimeTable}</span>
-                            </h4>
-                            <div class="col-lg-12">
-                              <div style={{ overflow: 'auto' }} id="show_mouse">
-                                <table className="table table-bordered" id="myTable" ref={tableRef}>
-                                  <thead>
-                                    <tr>
-                                      <th>ល.រ</th>
-                                      <th>ឈ្មោះគ្រូ</th>
-                                      <th>លំដាប់ទី</th>
-                                      <th>ឈ្មោះអក្សរកាត់</th>
-                                      <th>លុប</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody id="add_row">
-                                    {data.map((d, index) => {
-                                      let setID = d.id
-                                      let t_grade = d.t_grade
-                                      const clickText = (e) => {
-                                        let data = e.target
-                                        const range = document.createRange();
-                                        range.selectNodeContents(data);
-                                        const selection = window.getSelection();
-                                        selection.removeAllRanges();
-                                        selection.addRange(range);
-                                      }
+                                        return (
+                                          <>
+                                            <tr key={d.id}>
+                                              <td>{index + 1}</td>
+                                              <td>{d.id}</td>
+                                              <td
+                                                data-keynumber2={index + 1}
+                                                data-id={d.id}
+                                                contentEditable
+                                                suppressContentEditableWarning
+                                                onBlur={UpdateOrder}
+                                                onClick={clickText}
+                                                dangerouslySetInnerHTML={{ __html: t_grade }}
 
-                                      return (
-                                        <>
-                                          <tr key={d.id}>
-                                            <td>{index + 1}</td>
-                                            <td>{d.id}</td>
-                                            <td
-                                              data-keynumber2={index + 1}
-                                              data-id={d.id}
-                                              contentEditable
-                                              suppressContentEditableWarning
-                                              onBlur={UpdateOrder}
-                                              onClick={clickText}
-                                              dangerouslySetInnerHTML={{ __html: t_grade }}
+                                              ></td>
+                                              <td>{d.nickname}</td>
+                                              <td
+                                                onClick={deleteDataKh}
+                                                data-id={d.id}
+                                              ><CIcon style={{ color: 'red' }} icon={cilTrash} /></td>
+                                            </tr>
+                                          </>
+                                        )
+                                      })}
+                                    </tbody>
+                                  </table>
+                                </div>
 
-                                            ></td>
-                                            <td>{d.nickname}</td>
-                                            <td
-                                              onClick={deleteDataKh}
-                                              data-id={d.id}
-                                            ><CIcon style={{ color: 'red' }} icon={cilTrash} /></td>
-                                          </tr>
-                                        </>
-                                      )
-                                    })}
-                                  </tbody>
-                                </table>
                               </div>
-
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                    </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-primary">Printing</button>
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-primary">Printing</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="modal fade" id="forControlEnglish" tabindex="-1" aria-labelledby="forPreviewPrimary" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <div class="content" id="time_tables">
-                        <div class="container-fluid">
-                          <div class="row">
-                            <h4 class="card-title text-center">គ្រប់គ្រងឈ្មោះកម្រិត <span style={{ color: 'darkblue' }}>ភាសាអង់គ្លេស</span>
-                            </h4>
-                            <div class="col-lg-12">
-                              <div style={{ overflow: 'auto' }} id="show_mouse">
-                                <table className="table table-bordered" id="myTable" ref={tableRef}>
-                                  <thead>
-                                    <tr>
-                                      <th>ល.រ</th>
-                                      <th>ឈ្មោះគ្រូ</th>
-                                      <th>លេខលំដាប់</th>
-                                      <th>ឈ្មោះអក្សរកាត់</th>
-                                      <th>លុប</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody id="add_row">
-                                    {dataEn.map((d, index) => {
-                                      let setID = d.id
-                                      let t_grade = d.t_grade
-                                      const clickText = (e) => {
-                                        let data = e.target
-                                        const range = document.createRange();
-                                        range.selectNodeContents(data);
-                                        const selection = window.getSelection();
-                                        selection.removeAllRanges();
-                                        selection.addRange(range);
-                                      }
+                <div className="modal fade" id="forControlEnglish" tabindex="-1" aria-labelledby="forPreviewPrimary" aria-hidden="true">
+                  <div className="modal-dialog modal-xl">
+                    <div className="modal-content">
+                      <div className="modal-body">
+                        <div class="content" id="time_tables">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <h4 class="card-title text-center">គ្រប់គ្រងឈ្មោះកម្រិត <span style={{ color: 'darkblue' }}>ភាសាអង់គ្លេស</span>
+                              </h4>
+                              <div class="col-lg-12">
+                                <div style={{ overflow: 'auto' }} id="show_mouse">
+                                  <table className="table table-bordered" id="myTable" ref={tableRef}>
+                                    <thead>
+                                      <tr>
+                                        <th>ល.រ</th>
+                                        <th>ឈ្មោះគ្រូ</th>
+                                        <th>លេខលំដាប់</th>
+                                        <th>ឈ្មោះអក្សរកាត់</th>
+                                        <th>លុប</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="add_row">
+                                      {dataEn.map((d, index) => {
+                                        let setID = d.id
+                                        let t_grade = d.t_grade
+                                        const clickText = (e) => {
+                                          let data = e.target
+                                          const range = document.createRange();
+                                          range.selectNodeContents(data);
+                                          const selection = window.getSelection();
+                                          selection.removeAllRanges();
+                                          selection.addRange(range);
+                                        }
 
-                                      return (
-                                        <>
-                                          <tr>
-                                            <td>{index + 1}</td>
-                                            <td>{d.id}</td>
-                                            <td
-                                              data-keynumber2={index + 1}
-                                              data-id={d.id}
-                                              contentEditable
-                                              suppressContentEditableWarning
-                                              onBlur={UpdateOrderEn}
-                                              onClick={clickText}
-                                              dangerouslySetInnerHTML={{ __html: t_grade }}
-                                            ></td>
-                                            <td>{d.nickname}</td>
-                                            <td
-                                              onClick={deleteDataEn}
-                                              data-id={d.id}
-                                            ><CIcon style={{ color: 'red' }} icon={cilTrash} /></td>
-                                          </tr>
+                                        return (
+                                          <>
+                                            <tr>
+                                              <td>{index + 1}</td>
+                                              <td>{d.id}</td>
+                                              <td
+                                                data-keynumber2={index + 1}
+                                                data-id={d.id}
+                                                contentEditable
+                                                suppressContentEditableWarning
+                                                onBlur={UpdateOrderEn}
+                                                onClick={clickText}
+                                                dangerouslySetInnerHTML={{ __html: t_grade }}
+                                              ></td>
+                                              <td>{d.nickname}</td>
+                                              <td
+                                                onClick={deleteDataEn}
+                                                data-id={d.id}
+                                              ><CIcon style={{ color: 'red' }} icon={cilTrash} /></td>
+                                            </tr>
 
-                                        </>
-                                      )
-                                    })}
-                                  </tbody>
-                                </table>
+                                          </>
+                                        )
+                                      })}
+                                    </tbody>
+                                  </table>
+                                </div>
+
                               </div>
-
                             </div>
                           </div>
                         </div>
+
                       </div>
+                      <div className="modal-footer">
 
-                    </div>
-                    <div className="modal-footer">
-
-                      <button type="button" className="btn btn-primary">Printing</button>
+                        <button type="button" className="btn btn-primary">Printing</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="modal fade" id="add_student_backup" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header text-center">
+              <select className="text-center"
+                value={typeBackup}
+                onChange={e => {
+                  localStorage.setItem('typeBackupTimeTable', e.target.value)
+                  settypeBackup(e.target.value)
+                }}
+                style={{
+                  color: "#23074d",
+                  lineHeight: "1",
+                  borderRight: "0",
+                  borderLeft: "0",
+                  borderTop: "0",
+                  borderBottom: "2px solid #005AA7",
+                  fontWeight: "bold",
+                  background: "transparent",
+                  width: "6rem"
+                }}
+                id="sle_grade">
+                <option>ជ្រើសរើសប្រភេទ</option>
+                <option value={'typeAll'}>ទាំងអស់</option>
+                <option value={'typeLevel'}>តាមកម្រិត</option>
+                <option value={'typeYear'}>តាមឆ្នាំ</option>
 
+              </select>
+
+            </div>
+            <div className="modal-body">
+              <label for="formFile" class="form-label">សូមជ្រើសរើសទិន្ន័យជា (.json)</label>
+              <input class="form-control" type="file" accept=".json" onChange={handleFileChange} />
+            </div>
+            <div className="modal-footer">
+              <button id="btnUpgrade"
+                style={{
+                  color: 'white'
+                }}
+                onClick={saveDataAll}
+                className="btn btn-success btn-rounded btn-fw btn-sm">Backup</button>
+              <button id="btnUpgrade"
+                style={{
+                  color: 'darkblue'
+                }}
+                onClick={uploadFileToFirebase}
+                className="btn btn-warning btn-rounded btn-fw btn-sm">Restore</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </>
   )
 }
 
