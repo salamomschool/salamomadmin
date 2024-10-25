@@ -84,6 +84,7 @@ const MonthScore = () => {
         { value: 'secondSemester', label: 'ឆមាសទី២' },
         { value: 'fourmonths1', label: 'ពិន្ទុ៤ខែឆមាសទី១' },
         { value: 'fourmonths2', label: 'ពិន្ទុ២ខែឆមាសទី២' },
+        { value: 'allSemesters', label: 'តារាងមុខវិជ្ជាប្រចាំឆ្នាំ' },
       ];
     } else {
       month = [
