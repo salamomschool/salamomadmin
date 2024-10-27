@@ -166,6 +166,8 @@ export default function HighSchoolData() {
     'fourmonths1',
     'fourmonths2',
     'AnnualYear',
+    'allSemesters',
+
   ];
 
   //Get array months for database using
@@ -1022,6 +1024,136 @@ export default function HighSchoolData() {
 
                     var showRank_m1semester = d[`showRank_m1semester`];
                     var showRank_m2semester = d[`showRank_m2semester`];
+
+                    //Result Report
+                    var report_k_ = d[`report_k_`];
+                    var report_mo_ = d[`report_mo_`];
+                    var report_hist_ = d[`report_hist_`];
+                    var report_geor_ = d[`report_geor_`];
+                    var report_math_ = d[`report_math_`];
+                    var report_phy_ = d[`report_phy_`];
+                    var report_chem_ = d[`report_chem_`];
+                    var report_bio_ = d[`report_bio_`];
+                    var report_earth_ = d[`report_earth_`];
+                    var report_e_ = d[`report_e_`];
+                    //Result Report Rank
+                    var report_k_Rank = d[`report_k_Rank`];
+                    var report_mo_Rank = d[`report_mo_Rank`];
+                    var report_hist_Rank = d[`report_hist_Rank`];
+                    var report_geor_Rank = d[`report_geor_Rank`];
+                    var report_math_Rank = d[`report_math_Rank`];
+                    var report_phy_Rank = d[`report_phy_Rank`];
+                    var report_chem_Rank = d[`report_chem_Rank`];
+                    var report_bio_Rank = d[`report_bio_Rank`];
+                    var report_earth_Rank = d[`report_earth_Rank`];
+                    var report_e_Rank = d[`report_e_Rank`];
+
+                    //All Reports 1
+                    var k_report1 = d[`k_m1semester`];
+                    var k_dic_report1 = d[`k_dic_m1semester`];
+                    var k_wri_report1 = d[`k_wri_m1semester`];
+
+                    var math_report1 = d[`math_m1semester`];
+                    var hist_report1 = d[`hist_m1semester`];
+                    var ict_report1 = d[`ict_m1semester`];
+                    var mo_report1 = d[`mo_m1semester`];
+                    var e_report1 = d[`e_m1semester`];
+                    var pe_report1 = d[`pe_m1semester`];
+                    var earth_report1 = d[`earth_m1semester`];
+                    var geor_report1 = d[`geor_m1semester`];
+                    var phy_report1 = d[`phy_m1semester`];
+                    var chem_report1 = d[`chem_m1semester`];
+                    var hom_report1 = d[`hom_m1semester`];
+                    var eco_report1 = d[`eco_m1semester`];
+                    var bio_report1 = d[`bio_m1semester`];
+
+                    //All Reports 2
+                    var k_report2 = d[`k_m2semester`];
+                    var k_dic_report2 = d[`k_dic_m2semester`];
+                    var k_wri_report2 = d[`k_wri_m2semester`];
+
+                    var math_report2 = d[`math_m2semester`];
+                    var hist_report2 = d[`hist_m2semester`];
+                    var ict_report2 = d[`ict_m2semester`];
+                    var mo_report2 = d[`mo_m2semester`];
+                    var e_report2 = d[`e_m2semester`];
+                    var pe_report2 = d[`pe_m2semester`];
+                    var earth_report2 = d[`earth_m2semester`];
+                    var geor_report2 = d[`geor_m2semester`];
+                    var phy_report2 = d[`phy_m2semester`];
+                    var chem_report2 = d[`chem_m2semester`];
+                    var hom_report2 = d[`hom_m2semester`];
+                    var eco_report2 = d[`eco_m2semester`];
+                    var bio_report2 = d[`bio_m2semester`];
+
+                    //Ranks Semeter 1 and 2
+                    var k_m1semesterRank = d[`k_m1semesterRank`];
+                    var math_m1semesterRank = d[`math_m1semesterRank`];
+                    var hist_m1semesterRank = d[`hist_m1semesterRank`];
+                    var mo_m1semesterRank = d[`mo_m1semesterRank`];
+                    var e_m1semesterRank = d[`e_m1semesterRank`];
+                    var earth_m1semesterRank = d[`earth_m1semesterRank`];
+                    var geor_m1semesterRank = d[`geor_m1semesterRank`];
+                    var phy_m1semesterRank = d[`phy_m1semesterRank`];
+                    var chem_m1semesterRank = d[`chem_m1semesterRank`];
+                    var bio_m1semesterRank = d[`bio_m1semesterRank`];
+
+                    var k_m2semesterRank = d[`k_m2semesterRank`];
+                    var math_m2semesterRank = d[`math_m2semesterRank`];
+                    var hist_m2semesterRank = d[`hist_m2semesterRank`];
+                    var mo_m2semesterRank = d[`mo_m2semesterRank`];
+                    var e_m2semesterRank = d[`e_m2semesterRank`];
+                    var earth_m2semesterRank = d[`earth_m2semesterRank`];
+                    var geor_m2semesterRank = d[`geor_m2semesterRank`];
+                    var phy_m2semesterRank = d[`phy_m2semesterRank`];
+                    var chem_m2semesterRank = d[`chem_m2semesterRank`];
+                    var bio_m2semesterRank = d[`bio_m2semesterRank`];
+
+                    if (!k_report1) { k_report1 = '0' };
+                    if (!k_dic_report1) { k_dic_report1 = '0' };
+                    if (!k_wri_report1) { k_wri_report1 = '0' };
+                    if (!math_report1) { math_report1 = '0' };
+                    if (!hist_report1) { hist_report1 = '0' };
+                    if (!ict_report1) { ict_report1 = '0' };
+                    if (!mo_report1) { mo_report1 = '0' };
+                    if (!e_report1) { e_report1 = '0' };
+                    if (!pe_report1) { pe_report1 = '0' };
+                    if (!earth_report1) { earth_report1 = '0' };
+                    if (!geor_report1) { geor_report1 = '0' };
+                    if (!phy_report1) { phy_report1 = '0' };
+                    if (!chem_report1) { chem_report1 = '0' };
+                    if (!hom_report1) { hom_report1 = '0' };
+                    if (!eco_report1) { eco_report1 = '0' };
+                    if (!bio_report1) { bio_report1 = '0' };
+
+                    if (!k_report2) { k_report2 = '0' };
+                    if (!k_dic_report2) { k_dic_report2 = '0' };
+                    if (!k_wri_report2) { k_wri_report2 = '0' };
+                    if (!math_report2) { math_report2 = '0' };
+                    if (!hist_report2) { hist_report2 = '0' };
+                    if (!ict_report2) { ict_report2 = '0' };
+                    if (!mo_report2) { mo_report2 = '0' };
+                    if (!e_report2) { e_report2 = '0' };
+                    if (!pe_report2) { pe_report2 = '0' };
+                    if (!earth_report2) { earth_report2 = '0' };
+                    if (!geor_report2) { geor_report2 = '0' };
+                    if (!phy_report2) { phy_report2 = '0' };
+                    if (!chem_report2) { chem_report2 = '0' };
+                    if (!hom_report2) { hom_report2 = '0' };
+                    if (!eco_report2) { eco_report2 = '0' };
+                    if (!bio_report2) { bio_report2 = '0' };
+
+                    if (!report_k_) { report_k_ = '0' };
+                    if (!report_mo_) { report_mo_ = '0' };
+                    if (!report_hist_) { report_hist_ = '0' };
+                    if (!report_geor_) { report_geor_ = '0' };
+                    if (!report_math_) { report_math_ = '0' };
+                    if (!report_phy_) { report_phy_ = '0' };
+                    if (!report_chem_) { report_chem_ = '0' };
+                    if (!report_bio_) { report_bio_ = '0' };
+                    if (!report_earth_) { report_earth_ = '0' };
+                    if (!report_e_) { report_e_ = '0' };
+
                     if (!av_seme_result1) { av_seme_result1 = 0 };
                     if (!getAverage_ALL1) { getAverage_ALL1 = 0 };
                     if (!getAverage_ALL2) { getAverage_ALL2 = 0 };
@@ -2078,6 +2210,210 @@ export default function HighSchoolData() {
                         }
                       }
                     }
+                    if (['allSemesters'].includes(dbMonths)) {
+                      return (
+                        <>
+                          <tr key={d.id}>
+                            <td>{index + 1}</td>
+                            <td className="text-start textStart">{fullname}</td>
+                            <td>{gender}</td>
+                            <td
+                              dangerouslySetInnerHTML={{ __html: k_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: k_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: k_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: k_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_k_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_k_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: mo_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: mo_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: mo_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: mo_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_mo_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_mo_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: hist_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: hist_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: hist_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: hist_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_hist_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_hist_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: geor_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: geor_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: geor_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: geor_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_geor_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_geor_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: math_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: math_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: math_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: math_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_math_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_math_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: phy_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: phy_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: phy_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: phy_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_phy_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_phy_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: chem_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: chem_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: chem_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: chem_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_chem_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_chem_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: bio_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: bio_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: bio_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: bio_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_bio_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_bio_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: earth_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: earth_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: earth_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: earth_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_earth_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_earth_Rank }}
+                            ></td>
+
+                            <td
+                              dangerouslySetInnerHTML={{ __html: e_report1 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: e_m1semesterRank }}
+                            ></td>
+                            <td style={{ color: 'black' }}
+                              dangerouslySetInnerHTML={{ __html: e_report2 }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: e_m2semesterRank }}
+                            ></td>
+                            <td style={{ color: 'blue' }}
+                              dangerouslySetInnerHTML={{ __html: report_e_ }}
+                            ></td>
+                            <td style={{ color: 'red' }}
+                              dangerouslySetInnerHTML={{ __html: report_e_Rank }}
+                            ></td>
+
+
+                          </tr>
+                        </>
+                      )
+
+                    }
+
                     if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
                       if (dbMonths === 'firstSemester') {
                         return (
@@ -3309,6 +3645,17 @@ export default function HighSchoolData() {
   //Push rank
   useEffect(() => {
     const dbPreviewData = [...dataStd]
+    const dbPreviewDatareport_e_ = [...dataStd]
+    const dbPreviewDatareport_earth_ = [...dataStd]
+    const dbPreviewDatareport_bio_ = [...dataStd]
+    const dbPreviewDatareport_chem_ = [...dataStd]
+    const dbPreviewDatareport_phy_ = [...dataStd]
+    const dbPreviewDatareport_math_ = [...dataStd]
+    const dbPreviewDatareport_geor_ = [...dataStd]
+    const dbPreviewDatareport_hist_ = [...dataStd]
+    const dbPreviewDatareport_mo_ = [...dataStd]
+    const dbPreviewDatareport_k_ = [...dataStd]
+
     //Push total score and average to firebase
     dataStd.map((d) => {
       if (primary_g_p1.includes(dbGrade)) {
@@ -3373,6 +3720,157 @@ export default function HighSchoolData() {
 
         var getAverage_ALL1 = d[`getAverage_fourmonths1`];
         var getAverage_ALL2 = d[`getAverage_fourmonths2`];
+
+        //Result Report
+        var report_k_ = d[`report_k_`];
+        var report_mo_ = d[`report_mo_`];
+        var report_hist_ = d[`report_hist_`];
+        var report_geor_ = d[`report_geor_`];
+        var report_math_ = d[`report_math_`];
+        var report_phy_ = d[`report_phy_`];
+        var report_chem_ = d[`report_chem_`];
+        var report_bio_ = d[`report_bio_`];
+        var report_earth_ = d[`report_earth_`];
+        var report_e_ = d[`report_e_`];
+
+        //All Reports 1
+        var k_report1 = d[`k_m1semester`];
+        var k_dic_report1 = d[`k_dic_m1semester`];
+        var k_wri_report1 = d[`k_wri_m1semester`];
+
+        var math_report1 = d[`math_m1semester`];
+        var hist_report1 = d[`hist_m1semester`];
+        var ict_report1 = d[`ict_m1semester`];
+        var mo_report1 = d[`mo_m1semester`];
+        var e_report1 = d[`e_m1semester`];
+        var pe_report1 = d[`pe_m1semester`];
+        var earth_report1 = d[`earth_m1semester`];
+        var geor_report1 = d[`geor_m1semester`];
+        var phy_report1 = d[`phy_m1semester`];
+        var chem_report1 = d[`chem_m1semester`];
+        var hom_report1 = d[`hom_m1semester`];
+        var eco_report1 = d[`eco_m1semester`];
+        var bio_report1 = d[`bio_m1semester`];
+
+        //All Reports 2
+        var k_report2 = d[`k_m2semester`];
+        var k_dic_report2 = d[`k_dic_m2semester`];
+        var k_wri_report2 = d[`k_wri_m2semester`];
+
+        var math_report2 = d[`math_m2semester`];
+        var hist_report2 = d[`hist_m2semester`];
+        var ict_report2 = d[`ict_m2semester`];
+        var mo_report2 = d[`mo_m2semester`];
+        var e_report2 = d[`e_m2semester`];
+        var pe_report2 = d[`pe_m2semester`];
+        var earth_report2 = d[`earth_m2semester`];
+        var geor_report2 = d[`geor_m2semester`];
+        var phy_report2 = d[`phy_m2semester`];
+        var chem_report2 = d[`chem_m2semester`];
+        var hom_report2 = d[`hom_m2semester`];
+        var eco_report2 = d[`eco_m2semester`];
+        var bio_report2 = d[`bio_m2semester`];
+
+        if (!k_report1) { k_report1 = '0' };
+        if (!k_dic_report1) { k_dic_report1 = '0' };
+        if (!k_wri_report1) { k_wri_report1 = '0' };
+        if (!math_report1) { math_report1 = '0' };
+        if (!hist_report1) { hist_report1 = '0' };
+        if (!ict_report1) { ict_report1 = '0' };
+        if (!mo_report1) { mo_report1 = '0' };
+        if (!e_report1) { e_report1 = '0' };
+        if (!pe_report1) { pe_report1 = '0' };
+        if (!earth_report1) { earth_report1 = '0' };
+        if (!geor_report1) { geor_report1 = '0' };
+        if (!phy_report1) { phy_report1 = '0' };
+        if (!chem_report1) { chem_report1 = '0' };
+        if (!hom_report1) { hom_report1 = '0' };
+        if (!eco_report1) { eco_report1 = '0' };
+        if (!bio_report1) { bio_report1 = '0' };
+
+        if (!k_report2) { k_report2 = '0' };
+        if (!k_dic_report2) { k_dic_report2 = '0' };
+        if (!k_wri_report2) { k_wri_report2 = '0' };
+        if (!math_report2) { math_report2 = '0' };
+        if (!hist_report2) { hist_report2 = '0' };
+        if (!ict_report2) { ict_report2 = '0' };
+        if (!mo_report2) { mo_report2 = '0' };
+        if (!e_report2) { e_report2 = '0' };
+        if (!pe_report2) { pe_report2 = '0' };
+        if (!earth_report2) { earth_report2 = '0' };
+        if (!geor_report2) { geor_report2 = '0' };
+        if (!phy_report2) { phy_report2 = '0' };
+        if (!chem_report2) { chem_report2 = '0' };
+        if (!hom_report2) { hom_report2 = '0' };
+        if (!eco_report2) { eco_report2 = '0' };
+        if (!bio_report2) { bio_report2 = '0' };
+
+        if (!report_k_) { report_k_ = '0' };
+        if (!report_mo_) { report_mo_ = '0' };
+        if (!report_hist_) { report_hist_ = '0' };
+        if (!report_geor_) { report_geor_ = '0' };
+        if (!report_math_) { report_math_ = '0' };
+        if (!report_phy_) { report_phy_ = '0' };
+        if (!report_chem_) { report_chem_ = '0' };
+        if (!report_bio_) { report_bio_ = '0' };
+        if (!report_earth_) { report_earth_ = '0' };
+        if (!report_e_) { report_e_ = '0' };
+        //Sum all report
+        if (['allSemesters'].includes(dbMonths)) {
+          //Total Report 1
+          var k_ = (parseFloat(k_report1) + parseFloat(k_report2)) / 2;
+          k_ = k_.toFixed(2);
+
+          var mo_ = (parseFloat(mo_report1) + parseFloat(mo_report2)) / 2;
+          mo_ = mo_.toFixed(2);
+
+          var hist_ = (parseFloat(hist_report1) + parseFloat(hist_report2)) / 2;
+          hist_ = hist_.toFixed(2);
+
+          var geor_ = (parseFloat(geor_report1) + parseFloat(geor_report2)) / 2;
+          geor_ = geor_.toFixed(2);
+
+          var math_ = (parseFloat(math_report1) + parseFloat(math_report2)) / 2;
+          math_ = math_.toFixed(2);
+
+          var phy_ = (parseFloat(phy_report1) + parseFloat(phy_report2)) / 2;
+          phy_ = phy_.toFixed(2);
+
+          var chem_ = (parseFloat(chem_report1) + parseFloat(chem_report2)) / 2;
+          chem_ = chem_.toFixed(2);
+
+          var bio_ = (parseFloat(bio_report1) + parseFloat(bio_report2)) / 2;
+          bio_ = bio_.toFixed(2);
+
+          var earth_ = (parseFloat(earth_report1) + parseFloat(earth_report2)) / 2;
+          earth_ = earth_.toFixed(2);
+
+          var e_ = (parseFloat(e_report1) + parseFloat(e_report2)) / 2;
+          e_ = e_.toFixed(2);
+
+          if (id) {
+            let aar = {}
+            aar[`report_k_`] = k_
+            aar[`report_mo_`] = mo_
+            aar[`report_hist_`] = hist_
+            aar[`report_geor_`] = geor_
+            aar[`report_math_`] = math_
+            aar[`report_phy_`] = phy_
+            aar[`report_chem_`] = chem_
+            aar[`report_bio_`] = bio_
+            aar[`report_earth_`] = earth_
+            aar[`report_e_`] = e_
+            try {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            } catch (error) {
+              console.log(error);
+
+            }
+          }
+
+
+
+        }
 
         if (!check_) { check_ = '0' };
         if (!getAverage_ALL1) { getAverage_ALL1 = '0' };
@@ -3862,6 +4360,305 @@ export default function HighSchoolData() {
       }
 
     }
+    if (['allSemesters'].includes(dbMonths)) {
+      //Set Report Rank
+      dbPreviewDatareport_k_.sort(function (a, b) { return b[`report_k_`] - a[`report_k_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_k_.length; i++) {
+        let avg = dbPreviewDatareport_k_[i][`report_k_`];
+        let studentsWithRank = dbPreviewDatareport_k_.filter(
+          (student) => student[`report_k_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_k_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_k_.map((d) => {
+        let rank = d[`rank_report_k_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_k_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+      dbPreviewDatareport_mo_.sort(function (a, b) { return b[`report_mo_`] - a[`report_mo_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_mo_.length; i++) {
+        let avg = dbPreviewDatareport_mo_[i][`report_mo_`];
+        let studentsWithRank = dbPreviewDatareport_mo_.filter(
+          (student) => student[`report_mo_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_mo_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_mo_.map((d) => {
+        let rank = d[`rank_report_mo_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_mo_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+      dbPreviewDatareport_hist_.sort(function (a, b) { return b[`report_hist_`] - a[`report_hist_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_hist_.length; i++) {
+        let avg = dbPreviewDatareport_hist_[i][`report_hist_`];
+        let studentsWithRank = dbPreviewDatareport_hist_.filter(
+          (student) => student[`report_hist_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_hist_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_hist_.map((d) => {
+        let rank = d[`rank_report_hist_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_hist_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_geor_.sort(function (a, b) { return b[`report_geor_`] - a[`report_geor_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_geor_.length; i++) {
+        let avg = dbPreviewDatareport_geor_[i][`report_geor_`];
+        let studentsWithRank = dbPreviewDatareport_geor_.filter(
+          (student) => student[`report_geor_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_geor_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_geor_.map((d) => {
+        let rank = d[`rank_report_geor_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_geor_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_math_.sort(function (a, b) { return b[`report_math_`] - a[`report_math_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_math_.length; i++) {
+        let avg = dbPreviewDatareport_math_[i][`report_math_`];
+        let studentsWithRank = dbPreviewDatareport_math_.filter(
+          (student) => student[`report_math_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_math_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_math_.map((d) => {
+        let rank = d[`rank_report_math_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_math_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_phy_.sort(function (a, b) { return b[`report_phy_`] - a[`report_phy_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_phy_.length; i++) {
+        let avg = dbPreviewDatareport_phy_[i][`report_phy_`];
+        let studentsWithRank = dbPreviewDatareport_phy_.filter(
+          (student) => student[`report_phy_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_phy_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_phy_.map((d) => {
+        let rank = d[`rank_report_phy_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_phy_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_chem_.sort(function (a, b) { return b[`report_chem_`] - a[`report_chem_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_chem_.length; i++) {
+        let avg = dbPreviewDatareport_chem_[i][`report_chem_`];
+        let studentsWithRank = dbPreviewDatareport_chem_.filter(
+          (student) => student[`report_chem_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_chem_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_chem_.map((d) => {
+        let rank = d[`rank_report_chem_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_chem_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_bio_.sort(function (a, b) { return b[`report_bio_`] - a[`report_bio_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_bio_.length; i++) {
+        let avg = dbPreviewDatareport_bio_[i][`report_bio_`];
+        let studentsWithRank = dbPreviewDatareport_bio_.filter(
+          (student) => student[`report_bio_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_bio_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_bio_.map((d) => {
+        let rank = d[`rank_report_bio_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_bio_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_earth_.sort(function (a, b) { return b[`report_earth_`] - a[`report_earth_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_earth_.length; i++) {
+        let avg = dbPreviewDatareport_earth_[i][`report_earth_`];
+        let studentsWithRank = dbPreviewDatareport_earth_.filter(
+          (student) => student[`report_earth_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_earth_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_earth_.map((d) => {
+        let rank = d[`rank_report_earth_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_earth_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+
+
+
+      dbPreviewDatareport_e_.sort(function (a, b) { return b[`report_e_`] - a[`report_e_`] });
+
+      for (let i = 0; i < dbPreviewDatareport_e_.length; i++) {
+        let avg = dbPreviewDatareport_e_[i][`report_e_`];
+        let studentsWithRank = dbPreviewDatareport_e_.filter(
+          (student) => student[`report_e_`] === avg
+        );
+        for (let student of studentsWithRank) {
+          student[`rank_report_e_`] = i + 1;
+        }
+        i += studentsWithRank.length - 1;
+      }
+      dbPreviewDatareport_e_.map((d) => {
+        let rank = d[`rank_report_e_`]
+        let id = d.id
+        try {
+          if (id) {
+            let aar = {}
+            aar[`report_e_Rank`] = rank
+            if (id) {
+              update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
+            }
+          }
+        } catch (error) {
+          console.log('Error:', error);
+        }
+      })
+    }
+
   }, [dataStd])
 
   //Get rank for 1st and 2nd semester
@@ -5014,6 +5811,104 @@ export default function HighSchoolData() {
   //Header of table preview
   const HeaderTable = () => {
     if (primary_g_p1.includes(dbGrade)) {
+      if (['allSemesters'].includes(dbMonths)) {
+        return (
+          <>
+            <thead>
+              <tr className="frezze">
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ល.រ</th>
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ឈ្មោះ</th>
+                <th rowSpan={2} style={{ backgroundColor: '#f5f0ae', color: 'black' }}>ភេទ</th>
+                <th colSpan={6} style={{ backgroundColor: '#85f56c', color: 'black' }}>ភាសាខ្មែរ</th>
+                <th colSpan={6} style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>សីលធម៌</th>
+                <th colSpan={6} style={{ backgroundColor: '#F5E16CFF', color: 'black' }}>ប្រវត្តិវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#756CF5FF', color: 'black' }}>ភូមិវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>គណិតវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#CE6CF5FF', color: 'black' }}>រូបវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#77F56CFF', color: 'black' }}>គីមីវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#F56C95FF', color: 'black' }}>ជីវវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#FFFD72FF', color: 'black' }}>ផែនដីវិទ្យា</th>
+                <th colSpan={6} style={{ backgroundColor: '#6cf5f3', color: 'black' }}>អង់គ្លេស</th>
+              </tr>
+              <tr id="show_hearder" className="frezze">
+                <th style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#85f56c', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#85f56c', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#85f56c', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#85f56c', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#85f56c', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#F5E16CFF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#756CF5FF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#756CF5FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#756CF5FF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#756CF5FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#756CF5FF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#756CF5FF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#F56C6CFF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#CE6CF5FF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#77F56CFF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#77F56CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#77F56CFF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#77F56CFF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#77F56CFF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#77F56CFF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#F56C95FF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#F56C95FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C95FF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#F56C95FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#F56C95FF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#F56C95FF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#FFFD72FF', color: 'red' }}>ចំ</th>
+
+                <th style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាស១</th>
+                <th style={{ backgroundColor: '#6cf5f3', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#6cf5f3', color: 'black' }}>ឆមាស២</th>
+                <th style={{ backgroundColor: '#6cf5f3', color: 'red' }}>ចំ</th>
+                <th style={{ backgroundColor: '#6cf5f3', color: 'black' }}>សរុប</th>
+                <th style={{ backgroundColor: '#6cf5f3', color: 'red' }}>ចំ</th>
+
+
+              </tr>
+            </thead>
+          </>
+        )
+
+      }
+
       if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
         if (dbMonths === 'firstSemester') {
           return (
