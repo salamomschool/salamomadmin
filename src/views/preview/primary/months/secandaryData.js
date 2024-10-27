@@ -397,7 +397,7 @@ export default function SecondaryData() {
   //Database
   const dataAll = ref(db, `/SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}`);
   const dbAllGrade = ref(db, `/SalaMOM/tools/class/` + dbLevel);
-
+  //Check pass and fail students
   useEffect(() => {
     onValue(dataAll, (data) => {
       const dataSet = data.val();
@@ -3625,21 +3625,6 @@ export default function SecondaryData() {
       </>
     )
   }
-  //Print Result
-  const HeaderPrintResult = () => {
-    return (
-      <>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ល.រ</th>
-        <th className="border-dark" style={{ width: '15vh', verticalAlign: 'middle' }}>គោត្តនាម-នាម</th>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ភេទ</th>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ពិន្ទុសរុប</th>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>មធ្យមភាគ</th>
-        <th className="border-dark" style={{ width: '8vh', verticalAlign: 'middle' }}>ចំណាត់ថ្នាក់</th>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>និទ្ទេស</th>
-        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ផ្សេងៗ</th>
-      </>
-    )
-  }
   const [dbPreviewPrint, setdbPreviewPrint] = useState([])
 
   //Push rank
@@ -4655,133 +4640,12 @@ export default function SecondaryData() {
       })
     }
 
-
-
-
   }, [dataStd])
 
   //Get rank for 1st and 2nd semester
   const GetRankSemester = () => {
     const dbSemester = [...dataStd]
     if (primary_g_p1.includes(dbGrade)) {
-      // useEffect(() => {
-      //   if (['fourmonths1', 'fourmonths2'].includes(dbMonths)) {
-      //     dbSemester.sort(function (a, b) { return b[`getAverage_${arrMonths}`] - a[`getAverage_${arrMonths}`] });
-      //     for (let i = 0; i < dbSemester.length; i++) {
-      //       let avg = dbSemester[i][`getAverage_${arrMonths}`];
-      //       let studentsWithRank = dbSemester.filter(
-      //         (student) => student[`getAverage_${arrMonths}`] === avg
-      //       );
-      //       for (let student of studentsWithRank) {
-      //         student[`getAverage_${arrMonths}Rank`] = i + 1;
-      //       }
-      //       i += studentsWithRank.length - 1;
-      //     }
-      //     {
-      //       dbSemester.map((d) => {
-      //         var id = d.id
-      //         var rank = d[`getAverage_${arrMonths}Rank`]
-      //         if (!rank) {
-      //           rank = '0.00'
-      //         }
-      //         let aar = {}
-      //         aar[`getAverage_${arrMonths}Rank`] = rank
-      //         if (id) {
-      //           update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-      //         }
-      //       })
-      //     }
-      //   }
-      // }, [dbSemester])
-      // useEffect(() => {
-      //   if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
-      //     if (dbMonths === 'firstSemester') {
-      //       dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
-      //       for (let i = 0; i < dbSemester.length; i++) {
-      //         let avg = dbSemester[i][`average_result${arrMonths}se1`];
-      //         let studentsWithRank = dbSemester.filter(
-      //           (student) => student[`average_result${arrMonths}se1`] === avg
-      //         );
-      //         for (let student of studentsWithRank) {
-      //           student[`average_result${arrMonths}se1Rank`] = i + 1;
-      //         }
-      //         i += studentsWithRank.length - 1;
-      //       }
-      //       {
-      //         dbSemester.map((d) => {
-      //           var id = d.id
-      //           var rank = d[`average_result${arrMonths}se1Rank`]
-      //           if (!rank) {
-      //             rank = '0.00'
-      //           }
-      //           let aar = {}
-      //           aar[`average_result${arrMonths}se1Rank`] = rank
-      //           if (id) {
-      //             update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-      //           }
-      //         })
-      //       }
-
-      //     }
-      //     if (dbMonths === 'secondSemester') {
-      //       dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se2`] - a[`average_result${arrMonths}se2`] });
-      //       for (let i = 0; i < dbSemester.length; i++) {
-      //         let avg = dbSemester[i][`average_result${arrMonths}se2`];
-      //         let studentsWithRank = dbSemester.filter(
-      //           (student) => student[`average_result${arrMonths}se2`] === avg
-      //         );
-      //         for (let student of studentsWithRank) {
-      //           student[`average_result${arrMonths}se2Rank`] = i + 1;
-      //         }
-      //         i += studentsWithRank.length - 1;
-      //       }
-      //       {
-      //         dbSemester.map((d) => {
-      //           var id = d.id
-      //           var rank = d[`average_result${arrMonths}se2Rank`]
-      //           if (!rank) {
-      //             rank = '0.00'
-      //           }
-      //           let aar = {}
-      //           aar[`average_result${arrMonths}se2Rank`] = rank
-      //           if (id) {
-      //             update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-      //           }
-      //         })
-      //       }
-
-      //     }
-      //   }
-      // }, [dbSemester])
-      // useEffect(() => {
-      //   if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
-      //     dbSemester.sort(function (a, b) { return b[`average_result${arrMonths}se1`] - a[`average_result${arrMonths}se1`] });
-      //     for (let i = 0; i < dbSemester.length; i++) {
-      //       let avg = dbSemester[i][`average_result${arrMonths}se1`];
-      //       let studentsWithRank = dbSemester.filter(
-      //         (student) => student[`average_result${arrMonths}se1`] === avg
-      //       );
-      //       for (let student of studentsWithRank) {
-      //         student[`average_result${arrMonths}se1Rank`] = i + 1;
-      //       }
-      //       i += studentsWithRank.length - 1;
-      //     }
-      //     {
-      //       dbSemester.map((d) => {
-      //         var id = d.id
-      //         var rank = d[`average_result${arrMonths}se1Rank`]
-      //         if (!rank) {
-      //           rank = '0.00'
-      //         }
-      //         let aar = {}
-      //         aar[`k_${arrMonths}Rank`] = rank
-      //         if (id) {
-      //           update(ref(db, `SalaMOM/classes/` + `${dbYears}/` + `${dbGrade.replace(/^0+/, '')}/` + id), aar);
-      //         }
-      //       })
-      //     }
-      //   }
-      // }, [dbSemester])
       useEffect(() => {
         if (['firstSemester', 'secondSemester'].includes(dbMonths)) {
           dbSemester.sort(function (a, b) { return b[`k_${arrMonths}`] - a[`k_${arrMonths}`] });
@@ -5276,10 +5140,23 @@ export default function SecondaryData() {
         }
       }, [dbSemester])
 
-
     }
   }
-
+  //Print Result
+  const HeaderPrintResult = () => {
+    return (
+      <>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ល.រ</th>
+        <th className="border-dark" style={{ width: '15vh', verticalAlign: 'middle' }}>គោត្តនាម-នាម</th>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ភេទ</th>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ពិន្ទុសរុប</th>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>មធ្យមភាគ</th>
+        <th className="border-dark" style={{ width: '8vh', verticalAlign: 'middle' }}>ចំណាត់ថ្នាក់</th>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>និទ្ទេស</th>
+        <th className="border-dark" style={{ verticalAlign: 'middle' }}>ផ្សេងៗ</th>
+      </>
+    )
+  }
 
   const ViewPrint = () => {
     return (
@@ -6376,7 +6253,7 @@ export default function SecondaryData() {
         </div>
         {dataAverage ?
           (<>
-            <div style={{ display: 'none' }}>
+            <div style={{ display: 'block' }}>
               <ViewPrint />
 
             </div>
