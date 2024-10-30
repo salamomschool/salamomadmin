@@ -58,6 +58,7 @@ const AtTimeTable = () => {
   const [typeBackup, settypeBackup] = useState(localStorage.getItem('typeBackupTimeTable') || 'default')
   const [upgradeGradeBackup, setupgradeGradeBackup] = useState(localStorage.getItem('upgradeGradeBackup') || 'default')
 
+
   const [data, setdata] = useState([])
   const [dbPreview, setdbPreview] = useState([]);
 
@@ -229,55 +230,163 @@ const AtTimeTable = () => {
                 Encount5++;
               }
             });
-            if (EntdElements1) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
-                total_time1: Encount1,
-                teacher_type: t_type,
-                permission: permission,
-                t_grade: t_grade,
-                nickname: nickname,
-              });
-            }
-            if (EntdElements2) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
-                total_time2: Encount2,
-                teacher_type: t_type,
-                permission: permission,
-                t_grade: t_grade,
-                nickname: nickname,
+            if (selectTimeTable === 'បឋមសិក្សា') {
+              if (EntdElements1) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time1: Encount1,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+                });
+              }
+              if (EntdElements2) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time2: Encount2,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
 
-              });
-            }
-            if (EntdElements3) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
-                total_time3: Encount3,
-                teacher_type: t_type,
-                permission: permission,
-                t_grade: t_grade,
-                nickname: nickname,
+                });
+              }
+              if (EntdElements3) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time3: Encount3,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
 
-              });
-            }
-            if (EntdElements4) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
-                total_time4: Encount4,
-                teacher_type: t_type,
-                permission: permission,
-                t_grade: t_grade,
-                nickname: nickname,
+                });
+              }
+              if (EntdElements4) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time4: Encount4,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
 
-              });
-            }
-            if (EntdElements5) {
-              update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
-                total_time5: Encount5,
-                teacher_type: t_type,
-                permission: permission,
-                t_grade: t_grade,
-                nickname: nickname,
+                });
+              }
+              if (EntdElements5) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time5: Encount5,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
 
-              });
+                });
+              }
+
             }
+            if (selectTimeTable === 'អនុវិទ្យាល័យ') {
+              if (EntdElements1) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time1: Encount1,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+                });
+              }
+              if (EntdElements2) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time2: Encount2,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements3) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time3: Encount3,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements4) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time4: Encount4,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements5) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time5: Encount5,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+
+            }
+            if (selectTimeTable === 'វិទ្យាល័យ') {
+              if (EntdElements1) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time1: Encount1,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+                });
+              }
+              if (EntdElements2) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time2: Encount2,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements3) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time3: Encount3,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements4) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time4: Encount4,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+              if (EntdElements5) {
+                update(ref(db, `/SalaMOM/tools/timeTable/${selectTimeTableYear}/by_english/` + name), {
+                  total_time5: Encount5,
+                  teacher_type: t_type,
+                  permission: permission,
+                  t_grade: t_grade,
+                  nickname: nickname,
+
+                });
+              }
+
+            }
+
           }, 1000);
         }
 
