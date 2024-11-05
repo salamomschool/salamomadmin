@@ -809,7 +809,7 @@ const MonthScore = () => {
                     </tr>
                     <tr>
                         <th class="text-start"></th>
-                        <th>ផ្នែក..........................(សប្តាហ៍ទី.....)</th>
+                        <th>ផ្នែក ខិតខំរៀនសូត្រ (ខែ..............)<th>
                     </tr>
                 </thead>
             </table>
@@ -1044,12 +1044,35 @@ const MonthScore = () => {
     return (
       <>
         <tr>
-          <th >ល.រ</th>
-          <th>ឈ្មោះពេញ</th>
-          <th>ភេទ</th>
-          <th>ថ្នាក់</th>
-          <th>{arrayHeaderEn}</th>
-
+          <th rowspan="4">ល.រ</th>
+          <th rowspan="4">ឈ្មោះពេញ</th>
+          <th rowspan="4">ភេទ</th>
+          <th rowspan="4">ថ្នាក់</th>
+          <th colspan="12">{arrayHeaderEn}</th>
+        </tr>
+        <tr>
+          <th colspan="4">វិន័យ បទបញ្ជាផ្ទៃក្នុង</th>
+          <th colspan="4">សីលធម៌</th>
+          <th colspan="4">ខិតខំរៀនសូត្រ</th>
+        </tr>
+        <tr>
+          <th colspan="4">សប្តាហ៍</th>
+          <th colspan="4">សប្តាហ៍</th>
+          <th colspan="4">សប្តាហ៍</th>
+        </tr>
+        <tr>
+          <th>ទី១</th>
+          <th>ទី២</th>
+          <th>ទី៣</th>
+          <th>ទី៤</th>
+          <th>ទី១</th>
+          <th>ទី២</th>
+          <th>ទី៣</th>
+          <th>ទី៤</th>
+          <th>ទី១</th>
+          <th>ទី២</th>
+          <th>ទី៣</th>
+          <th>ទី៤</th>
         </tr>
       </>
     )
@@ -1140,6 +1163,17 @@ const MonthScore = () => {
                               <td className="text-start">{d.fullname}</td>
                               <td>{d.gender}</td>
                               <td>{d.user_grade}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td></td>
 
                             </tr>
