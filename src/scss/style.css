@@ -138,6 +138,12 @@ tbody {
   width: 100%;
   border-collapse: collapse;
 }
+.myTable2 {
+  width: 100%;
+}
+.myTable3 {
+  width: 100%;
+}
 
 .myTable th,
 td {
