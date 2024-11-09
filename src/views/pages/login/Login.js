@@ -40,6 +40,7 @@ const Login = () => {
         const user_url = e.val().user_url;
         const user_year = e.val().user_teacher_year;
         const user_role = e.val().user_role;
+        const fullname = e.val().fullname;
         // setGetUsername(user_username);
         // setGetPassword(user_password);
         // setuser_subs(user_subs);
@@ -72,7 +73,7 @@ const Login = () => {
                   localStorage.setItem('user_role', user_role)
                   localStorage.setItem('currentPage', '/dashboard')
                   localStorage.setItem('user_img', user_url)
-                  localStorage.setItem('user_name', user_username)
+                  localStorage.setItem('user_name', fullname)
                   localStorage.setItem('user_year', user_year)
                   // window.location.reload();
                 }
@@ -80,7 +81,20 @@ const Login = () => {
                   localStorage.setItem('currentPage', '/students')
                   localStorage.setItem('user_role', user_role)
                   localStorage.setItem('user_img', user_url)
-                  localStorage.setItem('user_name', user_username)
+                  localStorage.setItem('user_name', fullname)
+                  localStorage.setItem('setSubs', user_subs);
+                  localStorage.setItem('user_year', user_year)
+
+                  navigate('/students'); // Redirect to the main page
+                  window.location.reload();
+                  // window.location.href = 'https://salamom-school.firebaseapp.com/pages/tools/uer-input-score.html'
+
+                }
+                if (user_role == 'is_teacher') {
+                  localStorage.setItem('currentPage', '/students')
+                  localStorage.setItem('user_role', user_role)
+                  localStorage.setItem('user_img', user_url)
+                  localStorage.setItem('user_name', fullname)
                   localStorage.setItem('setSubs', user_subs);
                   localStorage.setItem('user_year', user_year)
 

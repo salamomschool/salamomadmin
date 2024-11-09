@@ -9,7 +9,7 @@ import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowThickBottom, cilDataTransferDown, cilPen, cilPlus, cilSearch, cilTrash, cilUser } from "@coreui/icons";
 import { CButton, CModal, CModalBody, CModalFooter, CTable, CTableBody, CTableDataCell, CTableHead, CTableRow } from "@coreui/react";
 import { Table } from "react-bootstrap";
-
+import HeaderTable1 from "./headerRecord1";
 const MonthScore = () => {
   //Array
   const [dataPrimary, setdataPrimary] = useState([])
@@ -35,6 +35,7 @@ const MonthScore = () => {
   const dbPrimaryClass = ref(db, `/SalaMOM/tools/class/បឋមសិក្សា`);
   const dbSecondaryClass = ref(db, `/SalaMOM/tools/class/អនុវិទ្យាល័យ`);
   const dbHighClass = ref(db, `/SalaMOM/tools/class/វិទ្យាល័យ`);
+  const currentCellRef = useRef(null);
 
   useEffect(() => {
     onValue(dbMonthAllowed, (data) => {
@@ -53,13 +54,27 @@ const MonthScore = () => {
       const dataSet = data.val();
       setdataHigh(dataSet ? Object.values(dataSet) : []); // Convert object to array
     })
-  }, [])
-  //Select Subjects
 
-  useEffect(() => {
     const stringArray = user_login_subs.split(" ").filter(item => item);
     setarraySub(stringArray)
+
+    const dbStudents = ref(db, `/SalaMOM/classes/` + `${userYear}/` + selectClass);
+    onValue(dbStudents, (data) => {
+      const dataSet = data.val();
+      setTableData(dataSet || {});
+      // setdataStudents(dataSet ? Object.values(dataSet) : []);
+      let dataAllGrades = dataSet ? Object.values(dataSet) : []; // Convert object to array
+
+      dataAllGrades.sort((a, b) => {
+        if (a.fullname < b.fullname) return -1;
+        if (a.fullname > b.fullname) return 1;
+        return 0;
+      });
+      setdataStudents(dataAllGrades)
+    })
+
   }, [])
+
   useEffect(() => {
     localStorage.setItem('user_class', selectClass);
     setselectClass(localStorage.getItem('user_classEn') || 'default')
@@ -81,14 +96,6 @@ const MonthScore = () => {
     setselectMonthShow(localStorage.getItem('user_month') || 'default')
   }, [selectMonthShow])
 
-  useEffect(() => {
-    const dbStudents = ref(db, `/SalaMOM/classes/` + `${userYear}/` + selectClass);
-    onValue(dbStudents, (data) => {
-      const dataSet = data.val();
-      setTableData(dataSet || {});
-      setdataStudents(dataSet ? Object.values(dataSet) : []);
-    })
-  }, [])
   //Data grade and subjects together and divide it
   const DataValueSub = (e) => {
     const getValue = e.target.value
@@ -156,8 +163,8 @@ const MonthScore = () => {
       localStorage.setItem('user_subsKh', 'សេដ្ឋកិច្ច')
     }
     if (subs == 'K') {
-      setselectSubsKh('អក្សរសាស្ត្រខ្មែរ')
-      localStorage.setItem('user_subsKh', 'អក្សរសាស្ត្រខ្មែរ')
+      setselectSubsKh('ភាសាខ្មែរ')
+      localStorage.setItem('user_subsKh', 'ភាសាខ្មែរ')
     }
     if (subs == 'Sci') {
       setselectSubsKh('វិទ្យាសាស្ត្រ')
@@ -174,6 +181,75 @@ const MonthScore = () => {
     setselectSubs(subs)
     window.location.reload()
   }
+  const grade1 = [
+    '1A',
+    '2A',
+    '3A',
+    '1B',
+    '2B',
+    '3B',
+    '1C',
+    '2C',
+    '3C',
+  ]
+  const grade2 = [
+    '4A',
+    '5A',
+    '6A',
+    '4B',
+    '5B',
+    '6B',
+    '4C',
+    '5C',
+    '6C',
+  ]
+  const grade3 = [
+    '7A',
+    '8A',
+    '9A',
+    '10A',
+    '11A',
+    '12A',
+    '7B',
+    '8B',
+    '9B',
+    '10B',
+    '11B',
+    '12B',
+    '7C',
+    '8C',
+    '9C',
+    '10C',
+    '11C',
+    '12C',
+  ]
+  //Get array months for database using
+  function arrayMonths(getArMonths) {
+    const khmerDigits = {
+      October: "moct",
+      November: "mnov",
+      December: "mdec",
+      January: "mjan",
+      February: "mfeb",
+      March: "mmarch",
+      AprilMay: "mapma",
+      June: "mjun",
+      July: "mjul",
+      firstSemester: "m1semester",
+      secondSemester: "m2semester",
+      firstSemesterResult: "firstSemesterResult",
+      secondSemesterResult: "secondSemesterResult",
+      fourmonths1: "fourmonths1",
+      fourmonths2: "fourmonths2",
+      AnnualYear: "AnnualYear",
+    };
+
+    if (getArMonths) {
+      return khmerDigits[getArMonths]; // Use dictionary for single digits
+    }
+  }
+  const aM = arrayMonths(selectMonthShow)
+
   //Show months which are avaliable to use
   const ShowMonth = (e) => {
     const data = e.target.value
@@ -196,211 +272,258 @@ const MonthScore = () => {
   }
   //Header of the table
   const HeaderTable = () => {
-    if (selectSubs === 'E') {
-      return (
-        <>
-          <thead>
-            <tr className="frezze">
-              <th
-                style={{
-                  backgroundColor: "rgb(23, 116, 153)",
-                  color: "white"
-                }}
-                className="border-dark text-center">ល.រ</th>
-              <th
-                style={{
-                  backgroundColor: "rgb(23, 116, 153)",
-                  color: "white"
-                }}
-                className="border-dark text-center">ឈ្មោះពេញ</th>
-              <th
-                style={{
-                  backgroundColor: "rgb(23, 116, 153)",
-                  color: "white"
-                }}
-                className="border-dark text-center">ភេទ</th>
-              <th
-                style={{
-                  backgroundColor: "rgb(23, 116, 153)",
-                  color: "white"
-                }}
-                className="border-dark text-center">{selectSubsKh}</th>
-              <th
-                style={{
-                  backgroundColor: "rgb(23, 116, 153)",
-                  color: "white"
-                }}
-                className="border-dark text-center">កិ.{selectSubsKh}</th>
+    return (
+      <>
+        <thead>
+          <tr className="frezze">
+            <th
+              style={{
+                backgroundColor: "rgb(23, 116, 153)",
+                color: "white"
+              }}
+              className="border-dark text-center">{
+                HeaderTable1.map((d, index) => {
+                  return (
+                    <>
+                      {grade2.includes(selectClass) && selectSubs == 'M' && d.sub == 'M' ? <span>{d.n0}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'Sci' && d.sub == 'Sci' ? <span>{d.n0}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'E' && d.sub == 'E' ? <span>{d.n0}</span> : null}
+                      {grade1.includes(selectClass) && selectSubs == 'K' && d.sub == 'K' ? <span>{d.n0}</span> : null}
+                    </>
+                  )
+                })
+              }</th>
+            <th
+              style={{
+                backgroundColor: "rgb(23, 116, 153)",
+                color: "white"
+              }}
+              className="border-dark text-center">
+              {
+                HeaderTable1.map((d, index) => {
+                  return (
+                    <>
+                      {grade2.includes(selectClass) && selectSubs == 'M' && d.sub == 'M' ? <span>{d.name}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'Sci' && d.sub == 'Sci' ? <span>{d.name}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'E' && d.sub == 'E' ? <span>{d.name}</span> : null}
+                      {grade1.includes(selectClass) && selectSubs == 'K' && d.sub == 'K' ? <span>{d.name}</span> : null}
+                    </>
+                  )
+                })
+              }
+            </th>
+            <th
+              style={{
+                backgroundColor: "rgb(23, 116, 153)",
+                color: "white"
+              }}
+              className="border-dark text-center">
+              {
+                HeaderTable1.map((d, index) => {
+                  return (
+                    <>
+                      {grade2.includes(selectClass) && selectSubs == 'M' && d.sub == 'M' ? <span>{d.gender}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'Sci' && d.sub == 'Sci' ? <span>{d.gender}</span> : null}
+                      {grade2.includes(selectClass) && selectSubs == 'E' && d.sub == 'E' ? <span>{d.gender}</span> : null}
+                      {grade1.includes(selectClass) && selectSubs == 'K' && d.sub == 'K' ? <span>{d.gender}</span> : null}
+                    </>
+                  )
+                })
+              }
+            </th>
+            {
+              HeaderTable1.map((d, index) => {
+                const subjects = d.subjects;
+                return (
+                  <>
+                    {grade2.includes(selectClass) && selectSubs == 'M' && d.sub == 'M' ? subjects.map((sub, index) => {
+                      return (
+                        <>
+                          <th
+                            style={{
+                              backgroundColor: "rgb(23, 116, 153)",
+                              color: "white"
+                            }}
+                            className="border-dark text-center">
+                            {sub}
+                          </th>
+                        </>
+                      )
+                    }) : null}
+                    {grade2.includes(selectClass) && selectSubs == 'Sci' && d.sub == 'Sci' ? subjects.map((sub, index) => {
+                      return (
+                        <>
+                          <th
+                            style={{
+                              backgroundColor: "rgb(23, 116, 153)",
+                              color: "white"
+                            }}
+                            className="border-dark text-center">
+                            {sub}
+                          </th>
+                        </>
+                      )
+                    }) : null}
+                    {grade2.includes(selectClass) && selectSubs == 'E' && d.sub == 'E' ? subjects.map((sub, index) => {
+                      return (
+                        <>
+                          <th
+                            style={{
+                              backgroundColor: "rgb(23, 116, 153)",
+                              color: "white"
+                            }}
+                            className="border-dark text-center">
+                            {sub}
+                          </th>
+                        </>
+                      )
+                    }) : null}
+                    {grade1.includes(selectClass) && selectSubs == 'K' && d.sub == 'K' ? subjects.map((sub, index) => {
+                      return (
+                        <>
+                          <th
+                            style={{
+                              backgroundColor: "rgb(23, 116, 153)",
+                              color: "white"
+                            }}
+                            className="border-dark text-center">
+                            {sub}
+                          </th>
+                        </>
+                      )
+                    }) : null}
+                  </>
+                )
+              })
+            }
 
-            </tr>
-          </thead>
-        </>
-      )
-    }
+
+          </tr>
+        </thead>
+      </>
+    )
+
   }
-  //Select data in cell
-  function SelectText(element) {
+
+  const keyNext = (event) => {
+
+    if (event.key === 'Enter' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const currentCell = event.target;
+      const currentIndex = parseInt(currentCell.dataset.keynumber);
+
+      let nextCell;
+      if (event.key === 'Enter' || event.key === 'ArrowDown') {
+        nextCell = document.querySelector(`[data-keynumber="${currentIndex + 1}"]`);
+      } else if (event.key === 'ArrowUp') {
+        nextCell = document.querySelector(`[data-keynumber="${currentIndex - 1}"]`);
+      }
+      if (nextCell) {
+        currentCellRef.current = nextCell.focus()
+      }
+    }
+  };
+
+  const editData = (e) => {
+    const setID = e.target.dataset.id;
+    const data = e.target.innerHTML;
+    try {
+      let aar = {};
+      aar[`k_listen_${aM}`] = data;
+
+      if (setID) {
+        update(ref(db, `SalaMOM/classes/${userYear}/${selectClass}/${setID}`), aar);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const selectText = (element) => {
     const range = document.createRange();
-    range.selectNodeContents(element.target);
+    range.selectNodeContents(element);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-  }
-
-  function EditableCell({ initialValue, databasePath }) {
-    const [value, setValue] = useState(initialValue || '');
-    const cellRef = useRef(null);
-
-    const handleBlur = () => {
-      // update(ref(database, databasePath), { value });
-      update(ref(db, databasePath), {
-        e_moct: value,
-      });
-      console.log(databasePath, value);
-    };
+  };
+  const renderCell = (data, index, id) => {
     return (
       <td
-        ref={cellRef}
+        data-id={id}
+        key={index}
+        data-keynumber={index}
+        tabIndex={0}
+        onKeyDown={keyNext}
+        onFocus={(e) => selectText(e.target)}
         contentEditable
         suppressContentEditableWarning
-        onBlur={handleBlur}
-        dangerouslySetInnerHTML={{ __html: value }}
-      />
+        // onBlur={editData}
+        onInput={e => {
+          // const setID = e.target.dataset.id;
+          const data = e.target.innerHTML;
+          try {
+            let aar = {};
+            aar[`k_listen_${aM}`] = data;
+
+            if (id) {
+              setTimeout(() => {
+                update(ref(db, `SalaMOM/classes/${userYear}/${selectClass}/${id}`), aar);
+
+              }, 500);
+
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+        dangerouslySetInnerHTML={{ __html: data }}
+      ></td>
     );
-  }
-
-  function App() {
-    console.log(tableData);
-    return (
-      <div>
-        <table>
-          {/* Map over your table data to create rows and cells */}
-          {Object.entries(tableData).map(([rowId, rowData]) => (
-            <tr key={rowId}>
-              {Object.entries(rowData).map(([cellId, cellValue]) => (
-                <td key={cellId}>
-                  <EditableCell
-                  // initialValue={cellValue}
-                  // databasePath={`table-data/${rowId}/${cellId}`}
-                  />
-                </td>
-              ))}
-            </tr>
-          ))}
-        </table>
-      </div>
-    );
-  }
-
-
+  };
   const ScoreTable = () => {
-    const dbF = getDatabase();
-    const [value, setValue] = useState('');
-    const cellRef = useRef(null);
-    if (cellRef.current) {
-      setValue(cellRef.current.value)
-
-    }
-
-    const handleBlur = (e) => {
-      const setID = e.target.dataset.id
-      const data = e.target.innerHTML
-
-      update(ref(dbF, `/SalaMOM/classes/${userYear}/${selectClass}/` + setID), {
-        e_moct: data,
-      });
-
-      console.log(e.target.dataset.id);
-      console.log(e.target.innerHTML);
-    };
-
-    if (selectMonthShow === 'October') {
-      if (selectSubs === 'E') {
-
-        // useEffect(() => {
-        //     update(ref(dbF, `/SalaMOM/classes/${userYear}/${selectClass}/` + getId), {
-        //       e_moct: getData,
-        //     });
-        // }, [])
-
-        const DataStudentArray = dataStudents.map((d, index) => {
+    return (
+      <>
+        {dataStudents.map((d, index) => {
           const id = d.id
           const gender = d.gender
-          var e_moct = d.e_moct;
-          var e_h_moct = d.e_h_moct;
-          if (!e_moct) { e_moct = 0 }
-          if (!e_h_moct) { e_h_moct = 0 }
-          // if (getId) {
-          //   console.log(getId,getData);
-          //   update(ref(dbF, `/SalaMOM/classes/${userYear}/${selectClass}/` + getId), {
-          //     e_moct: getData,
-          //   });
-          // }
-          const editScore = (e) => {
-            const setID = e.target.dataset.id
-            const data = e.target.textContent
-            setTimeout(() => {
-              update(ref(dbF, `/SalaMOM/classes/${userYear}/${selectClass}/` + setID), {
-                e_moct: data,
-              });
-            }, 2000);
-          }
-          const editScore2 = (e) => {
-            const setID = e.target.dataset.id
-            const data = e.target.textContent
-            setTimeout(() => {
-              update(ref(dbF, `/SalaMOM/classes/${userYear}/${selectClass}/` + setID), {
-                e_h_moct: data,
-              });
-            }, 2000);
-          }
+          var k_listen_ = d[`k_listen_${aM}`];
+          var k_speak_ = d[`k_speak_${aM}`];
+          var k_reading_ = d[`k_reading_${aM}`];
+          var k_dictation_ = d[`k_dictation_${aM}`];
+          var k_writing_ = d[`k_writing_${aM}`];
+          var k_grammar_ = d[`k_grammar_${aM}`];
+          var k_homework_ = d[`k_homework_${aM}`];
+
+          if (!k_listen_) { k_listen_ = 0 }
+          if (!k_speak_) { k_speak_ = 0 }
+          if (!k_reading_) { k_reading_ = 0 }
+          if (!k_dictation_) { k_dictation_ = 0 }
+          if (!k_writing_) { k_writing_ = 0 }
+          if (!k_grammar_) { k_grammar_ = 0 }
+          if (!k_homework_) { k_homework_ = 0 }
+
           return (
             <>
-              <tr key={d.id}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{d.id}</td>
-                <td className="text-center">{d.gender}</td>
-                <td className="text-center" data-e_moct1={index + 1}
-                  onKeyDown={e => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      const currentCell = e.target;
-                      const currentIndex = parseInt(currentCell.dataset.e_moct1);
-                      const nextCell = document.querySelector(`[data-e_moct1="${currentIndex + 1}"]`);
-                      const focusedCell = document.activeElement;
-                      if (focusedCell && focusedCell.tagName === "TD") {
-                        const text = focusedCell.textContent;
+              {
+                grade1.includes(selectClass) && selectSubs == 'K' ?
+                  <tr key={d.id}>
+                    <td className="text-center">{index + 1}</td>
+                    <td className="text-start">{d.fullname}</td>
+                    <td className="text-center">{d.gender}</td>
+                    {renderCell(d[`k_listen_${aM}`] || 0, index + 1, d.id)}
 
-                      }
-                      if (nextCell) {
-                        const range = document.createRange();
-                        range.selectNodeContents(currentCell);
-                        const selection = window.getSelection();
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                        nextCell.focus();
-                      }
-                    }
-                  }}
-                  onClick={e => { SelectText(e) }}
-                  data-id={d.id}
-                  // onInput={editScore}
-                  ref={cellRef}
-                  contentEditable
-                  suppressContentEditableWarning
-                  onBlur={handleBlur}
-                  dangerouslySetInnerHTML={{ __html: d.e_moct }}
-                >
-                </td>
-                <td contentEditable className="text-center" onClick={e => { SelectText(e) }} data-id={d.id} onInput={editScore2}>{d.e_h_moct}</td>
-              </tr>
+                  </tr>
+                  : null
+              }
             </>
           )
         })
-        return DataStudentArray;
 
-      }
-    }
+        }
+
+
+      </>
+    )
 
   }
 
@@ -584,7 +707,6 @@ const MonthScore = () => {
                 <HeaderTable />
                 <tbody>
                   <ScoreTable />
-                  {/* <App /> */}
 
                 </tbody>
               </Table>

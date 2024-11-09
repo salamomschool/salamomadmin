@@ -20,6 +20,7 @@ import { sygnet } from 'src/assets/brand/sygnet'
 // sidebar nav config
 import navigation from '../_nav'
 import navigation2 from '../_nav_teacher'
+import navigation3 from '../_nav_staff'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -32,6 +33,9 @@ const AppSidebar = () => {
       setuseNav(navigation)
     } else if (getuserRole === 'assistant') {
       setuseNav(navigation2)
+    }
+    else if (getuserRole === 'is_teacher') {
+      setuseNav(navigation3)
     }
   }, [])
   return (
