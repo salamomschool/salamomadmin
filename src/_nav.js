@@ -119,6 +119,11 @@ const _nav = [
         name: 'បង្កើតម៉ោងសិក្សា',
         to: '/newTimeTable',
       },
+      {
+        component: CNavItem,
+        name: 'កាលវិភាគប្រឡង',
+        to: '/examdate',
+      },
     ],
   },
   // {

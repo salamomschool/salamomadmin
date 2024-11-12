@@ -18,6 +18,7 @@ const TimeTableAugust = React.lazy(() => import('./views/timetableaugust/TimeTab
 const OfficeTimeTableAugust = React.lazy(() => import('./views/officeTimeTableAugust/OfficeTimeTableAugust'))
 const OfficeTimeTableAugustView = React.lazy(() => import('./views/officeTimeTableAugust/OfficeTimeTableAugust'))
 const InputScore = React.lazy(() => import('./views/record/InputScore'))
+const ExamDate = React.lazy(() => import('./views/examDate/ExamDate'))
 const AdmireList = React.lazy(() => import('./views/admire/admire'))
 const RecordScore = React.lazy(() => import('./views/recordscore/RecordScore'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -90,6 +91,7 @@ const routes = [
   { path: '/OfficeTimeTableView', name: 'កាលវិភាគបង្រៀន', element: OfficeTimeTableView },
   { path: '/OfficeTimeTableAugustView', name: 'កាលវិភាគខែសីហា', element: OfficeTimeTableAugustView },
   { path: '/recordscore', name: 'បញ្ជូលពិន្ទុ', element: RecordScore },
+  { path: '/examdate', name: 'កាលវិភាគប្រឡង', element: ExamDate },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
